@@ -1,5 +1,8 @@
+import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/ui/themes";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -10,7 +13,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       className={cn("antialiased", "font-sans")}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ClerkProvider appearance={{ theme: shadcn }}>
+          <ThemeProvider>
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
