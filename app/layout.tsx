@@ -13,7 +13,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       className={cn("antialiased", "font-sans")}
     >
       <body>
-        <ClerkProvider appearance={{ theme: shadcn }}>
+        <ClerkProvider
+          appearance={{ theme: shadcn }}
+          taskUrls={{ "choose-organization": "/choose-organization" }}
+        >
           <ThemeProvider>
             {children}
             <Toaster />
