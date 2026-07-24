@@ -3,6 +3,7 @@ import { shadcn } from "@clerk/ui/themes";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
@@ -18,7 +19,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           taskUrls={{ "choose-organization": "/choose-organization" }}
         >
           <ThemeProvider>
-            {children}
+            <TooltipProvider>{children}</TooltipProvider>
             <Toaster />
           </ThemeProvider>
         </ClerkProvider>
