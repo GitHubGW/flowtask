@@ -1,5 +1,5 @@
 {
-  "id": "ac440e00-291c-41b2-8833-1ce829b5ee45",
+  "id": "1742bd17-8178-4006-b302-2afde376e30a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -26,6 +26,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "graph": {
+          "name": "graph",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
