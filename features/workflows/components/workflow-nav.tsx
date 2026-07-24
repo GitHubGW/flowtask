@@ -17,25 +17,28 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { WorkflowType } from "@/libs/db/schema";
+import { useTransition } from "react";
+import { getRandomSlug } from "@/features/workflows/libs/getRandomSlug";
 
-const workflows = [
-  "dominant-wasp",
-  "honest-reindeer",
-  "expected-llama",
-  "essential-ocelot",
-  "creepy-echidna",
-  "eastern-silkworm",
-  "cultural-lion",
-  "proud-weasel",
-  "regional-bonobo",
-] as const;
+interface WorkflowNavProps {
+  workflows: WorkflowType[];
+  onCreateWorkflow: (name: string) => Promise<never>;
+}
 
-const handleNewWorkflow = () => {
-  // TODO: open create workflow flow
-};
-
-export const WorkflowNav = () => {
+export const WorkflowNav = ({
+  workflows,
+  onCreateWorkflow,
+}: WorkflowNavProps) => {
   const { state } = useSidebar();
+  const [isPending, startTransition] = useTransition();
+
+  const handleCreateWorkflow = () => {
+    startTransition(async () => {
+      const randomSlug = getRandomSlug();
+      await onCreateWorkflow(randomSlug);
+    });
+  };
 
   if (state === "collapsed") {
     return (
@@ -46,9 +49,10 @@ export const WorkflowNav = () => {
               <Popover>
                 <PopoverTrigger asChild>
                   <SidebarMenuButton
-                    tooltip="Workflows"
                     isActive
+                    tooltip="Workflows"
                     aria-label="Workflows"
+                    disabled={isPending}
                   >
                     <Workflow />
                   </SidebarMenuButton>
@@ -61,7 +65,8 @@ export const WorkflowNav = () => {
                 >
                   <button
                     type="button"
-                    onClick={handleNewWorkflow}
+                    disabled={isPending}
+                    onClick={handleCreateWorkflow}
                     aria-label="New workflow"
                     className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
@@ -71,7 +76,7 @@ export const WorkflowNav = () => {
                   <div className="my-1 border-t" />
                   <ul className="flex max-h-80 flex-col overflow-y-auto">
                     {workflows.map((workflow, index) => (
-                      <li key={workflow}>
+                      <li key={workflow.id}>
                         <button
                           type="button"
                           className={cn(
@@ -80,7 +85,7 @@ export const WorkflowNav = () => {
                               "bg-accent font-medium text-accent-foreground"
                           )}
                         >
-                          {workflow}
+                          {workflow.name}
                         </button>
                       </li>
                     ))}
@@ -100,16 +105,17 @@ export const WorkflowNav = () => {
       <SidebarGroupAction
         aria-label="New workflow"
         title="New workflow"
-        onClick={handleNewWorkflow}
+        onClick={handleCreateWorkflow}
+        disabled={isPending}
       >
         <Plus />
       </SidebarGroupAction>
       <SidebarGroupContent>
         <SidebarMenu>
           {workflows.map((workflow, index) => (
-            <SidebarMenuItem key={workflow}>
+            <SidebarMenuItem key={workflow.id}>
               <SidebarMenuButton isActive={index === 0}>
-                <span>{workflow}</span>
+                <span>{workflow.name}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

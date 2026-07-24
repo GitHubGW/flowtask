@@ -7,8 +7,14 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { WorkflowNav } from "@/features/workflows/components/workflow-nav";
+import { auth } from "@clerk/nextjs/server";
+import { getWorkflows } from "@/features/workflows/data";
+import { createWorkflowAction } from "@/features/workflows/actions";
 
-export const AppSidebar = () => {
+export const AppSidebar = async () => {
+  const { orgId } = await auth();
+  const workflows = orgId ? await getWorkflows(orgId) : [];
+
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
@@ -29,7 +35,10 @@ export const AppSidebar = () => {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <WorkflowNav />
+        <WorkflowNav
+          workflows={workflows}
+          onCreateWorkflow={createWorkflowAction}
+        />
       </SidebarContent>
       <SidebarFooter className="group-data-[collapsible=icon]:items-center">
         <UserButton
