@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Plus, Workflow } from "lucide-react";
 import { cn } from "@/libs/utils";
 import {
@@ -30,8 +32,13 @@ export const WorkflowNav = ({
   workflows,
   onCreateWorkflow,
 }: WorkflowNavProps) => {
+  const pathname = usePathname();
   const { state } = useSidebar();
   const [isPending, startTransition] = useTransition();
+
+  const isWorkflowActive = (id: string) => {
+    return pathname === `/workflows/${id}`;
+  };
 
   const handleCreateWorkflow = () => {
     startTransition(async () => {
@@ -49,7 +56,7 @@ export const WorkflowNav = ({
               <Popover>
                 <PopoverTrigger asChild>
                   <SidebarMenuButton
-                    isActive
+                    isActive={pathname.startsWith("/workflows/")}
                     tooltip="Workflows"
                     aria-label="Workflows"
                     disabled={isPending}
@@ -75,18 +82,21 @@ export const WorkflowNav = ({
                   </button>
                   <div className="my-1 border-t" />
                   <ul className="flex max-h-80 flex-col overflow-y-auto">
-                    {workflows.map((workflow, index) => (
+                    {workflows.map((workflow) => (
                       <li key={workflow.id}>
-                        <button
-                          type="button"
+                        <Link
+                          href={`/workflows/${workflow.id}`}
                           className={cn(
                             "flex w-full items-center truncate rounded-md px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
-                            index === 0 &&
+                            isWorkflowActive(workflow.id) &&
                               "bg-accent font-medium text-accent-foreground"
                           )}
+                          aria-current={
+                            isWorkflowActive(workflow.id) ? "page" : undefined
+                          }
                         >
                           {workflow.name}
-                        </button>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -112,10 +122,20 @@ export const WorkflowNav = ({
       </SidebarGroupAction>
       <SidebarGroupContent>
         <SidebarMenu>
-          {workflows.map((workflow, index) => (
+          {workflows.map((workflow) => (
             <SidebarMenuItem key={workflow.id}>
-              <SidebarMenuButton isActive={index === 0}>
-                <span>{workflow.name}</span>
+              <SidebarMenuButton
+                asChild
+                isActive={isWorkflowActive(workflow.id)}
+              >
+                <Link
+                  href={`/workflows/${workflow.id}`}
+                  aria-current={
+                    isWorkflowActive(workflow.id) ? "page" : undefined
+                  }
+                >
+                  <span>{workflow.name}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
