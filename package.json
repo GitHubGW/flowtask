@@ -64,5 +64,8 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "npm@11.16.0"
+  "packageManager": "npm@11.16.0",
+  "engines": {
+    "node": "24.x"
+  }
 }
