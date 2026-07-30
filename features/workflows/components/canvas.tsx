@@ -43,19 +43,12 @@ export const Canvas = () => {
   );
   const colorMode = mounted && resolvedTheme === "dark" ? "dark" : "light";
 
-  const {
-    nodes,
-    edges,
-    onNodesChange,
-    onEdgesChange,
-    onConnect,
-    onDelete,
-    isLoading,
-  } = useLiveblocksFlow({
-    suspense: true,
-    nodes: { initial: initialNodes },
-    edges: { initial: initialEdges },
-  });
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onDelete } =
+    useLiveblocksFlow({
+      suspense: true,
+      nodes: { initial: initialNodes },
+      edges: { initial: initialEdges },
+    });
 
   return (
     <div className="size-full min-h-0">
