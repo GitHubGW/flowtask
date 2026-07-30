@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import {
   ReactFlow,
@@ -11,80 +11,52 @@ import {
   useNodesState,
   useEdgesState,
   ConnectionLineType,
-  type Node,
   type Edge,
-  type OnConnect,
-  type ColorMode,
+  type Connection,
 } from "@xyflow/react";
+import { StepNode } from "@/features/workflows/components/step-node";
+import type { StepNodeType } from "@/features/workflows/nodes/node-registry";
 
-const initialNodes: Node[] = [
+const initialNodes: StepNodeType[] = [
   {
-    id: "n1",
-    type: "input",
+    id: "start",
+    type: "step",
     position: { x: 0, y: 0 },
-    data: { label: "Node 1" },
+    data: { type: "start", kind: "trigger", title: "Start", values: {} },
   },
   {
-    id: "n2",
+    id: "open-url",
+    type: "step",
     position: { x: 0, y: 100 },
-    data: { label: "Node 2" },
-  },
-  {
-    id: "n3",
-    position: { x: 0, y: 200 },
-    data: { label: "Node 3" },
+    data: { type: "open-url", kind: "action", title: "Open URL", values: {} },
   },
 ];
 
 const initialEdges: Edge[] = [
-  {
-    id: "n1-n2",
-    source: "n1",
-    target: "n2",
-  },
-  {
-    id: "n1-n3",
-    source: "n1",
-    target: "n3",
-  },
+  { id: "n1-n2", source: "n1", target: "n2" },
+  { id: "n1-n3", source: "n1", target: "n3" },
 ];
 
-const emptySubscribe = () => () => {};
-
-const useIsMounted = () => {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
-};
-
 export const Canvas = () => {
-  const mounted = useIsMounted();
   const { resolvedTheme } = useTheme();
   const [nodes, setNodes, handleNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, handleEdgesChange] = useEdgesState(initialEdges);
-
-  console.log("nodes", nodes);
-  console.log("edges", edges);
-
-  const colorMode: ColorMode = !mounted
-    ? "light"
-    : resolvedTheme === "dark"
-      ? "dark"
-      : "light";
-
-  const handleConnect: OnConnect = useCallback(
-    (connection) => {
-      setEdges((edgesSnapshot) => addEdge(connection, edgesSnapshot));
-    },
-    [setEdges]
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
   );
+  const colorMode = mounted && resolvedTheme === "dark" ? "dark" : "light";
+
+  const handleConnect = (connection: Connection) => {
+    setEdges((edges) => addEdge(connection, edges));
+  };
 
   return (
     <div className="size-full min-h-0">
       <ReactFlow
         fitView
+        nodeTypes={{ step: StepNode }}
         colorMode={colorMode}
         nodes={nodes}
         edges={edges}
