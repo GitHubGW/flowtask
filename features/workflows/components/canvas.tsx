@@ -7,15 +7,12 @@ import {
   Background,
   Controls,
   MiniMap,
-  addEdge,
-  useNodesState,
-  useEdgesState,
   ConnectionLineType,
   type Edge,
-  type Connection,
 } from "@xyflow/react";
 import { StepNode } from "@/features/workflows/components/step-node";
 import type { StepNodeType } from "@/features/workflows/nodes/node-registry";
+import { useLiveblocksFlow, Cursors } from "@liveblocks/react-flow";
 
 const initialNodes: StepNodeType[] = [
   {
@@ -39,8 +36,6 @@ const initialEdges: Edge[] = [
 
 export const Canvas = () => {
   const { resolvedTheme } = useTheme();
-  const [nodes, setNodes, handleNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, handleEdgesChange] = useEdgesState(initialEdges);
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -48,9 +43,19 @@ export const Canvas = () => {
   );
   const colorMode = mounted && resolvedTheme === "dark" ? "dark" : "light";
 
-  const handleConnect = (connection: Connection) => {
-    setEdges((edges) => addEdge(connection, edges));
-  };
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onDelete,
+    isLoading,
+  } = useLiveblocksFlow({
+    suspense: true,
+    nodes: { initial: initialNodes },
+    edges: { initial: initialEdges },
+  });
 
   return (
     <div className="size-full min-h-0">
@@ -60,9 +65,10 @@ export const Canvas = () => {
         colorMode={colorMode}
         nodes={nodes}
         edges={edges}
-        onNodesChange={handleNodesChange}
-        onEdgesChange={handleEdgesChange}
-        onConnect={handleConnect}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onDelete={onDelete}
         connectionLineType={ConnectionLineType.SmoothStep}
         connectionLineStyle={{ stroke: "var(--border)" }}
         defaultEdgeOptions={{
@@ -70,6 +76,7 @@ export const Canvas = () => {
           style: { stroke: "var(--border)" },
         }}
       >
+        <Cursors />
         <Background />
         <Controls />
         <MiniMap />
