@@ -11,9 +11,9 @@ interface WorkflowDetailPageProps {
 
 const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
   const { id } = await params;
-  const { orgId } = await auth();
+  const { userId, orgId } = await auth();
 
-  if (!orgId) {
+  if (!userId || !orgId) {
     notFound();
   }
 

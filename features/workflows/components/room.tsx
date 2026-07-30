@@ -17,7 +17,24 @@ const authEndpoint = "/api/liveblocks-auth";
 
 export const Room = ({ roomId, children }: RoomProps) => {
   return (
-    <LiveblocksProvider throttle={throttle} authEndpoint={authEndpoint}>
+    <LiveblocksProvider
+      throttle={throttle}
+      authEndpoint={authEndpoint}
+      resolveUsers={async ({ userIds }) => {
+        if (userIds.length === 0) {
+          return [];
+        }
+
+        const encodedUserIds = encodeURIComponent(userIds.join(","));
+        const response = await fetch(`/api/user?userIds=${encodedUserIds}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user list");
+        }
+
+        return response.json();
+      }}
+    >
       <RoomProvider id={roomId}>
         <ClientSideSuspense
           fallback={

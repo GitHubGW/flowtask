@@ -8,11 +8,13 @@ import {
   Controls,
   MiniMap,
   ConnectionLineType,
+  Panel,
   type Edge,
 } from "@xyflow/react";
 import { StepNode } from "@/features/workflows/components/step-node";
 import type { StepNodeType } from "@/features/workflows/nodes/node-registry";
 import { useLiveblocksFlow, Cursors } from "@liveblocks/react-flow";
+import { AvatarStack } from "@liveblocks/react-ui";
 
 const initialNodes: StepNodeType[] = [
   {
@@ -73,6 +75,9 @@ export const Canvas = () => {
         <Background />
         <Controls />
         <MiniMap />
+        <Panel position="top-right">
+          <AvatarStack size={30} max={5} />
+        </Panel>
       </ReactFlow>
     </div>
   );
