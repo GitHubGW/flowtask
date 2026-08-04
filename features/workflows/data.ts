@@ -2,6 +2,12 @@ import { db } from "@/libs/db";
 import { workflows } from "@/libs/db/schema";
 import { and, asc, eq } from "drizzle-orm";
 
+/**
+ * 조직에 속한 워크플로우 목록 조회
+ *
+ * @param organizationId - 조직 id
+ * @returns 워크플로우 목록
+ */
 export const getWorkflows = (organizationId: string) => {
   return db
     .select()
@@ -10,6 +16,13 @@ export const getWorkflows = (organizationId: string) => {
     .orderBy(asc(workflows.createdAt));
 };
 
+/**
+ * 조직에 속한 워크플로우 조회
+ *
+ * @param id - 워크플로우 id
+ * @param organizationId - 조직 id
+ * @returns 워크플로우
+ */
 export const getWorkflow = async (id: string, organizationId: string) => {
   const [foundWorkflow] = await db
     .select()
@@ -21,6 +34,13 @@ export const getWorkflow = async (id: string, organizationId: string) => {
   return foundWorkflow;
 };
 
+/**
+ * 새로운 워크플로우 생성
+ *
+ * @param name - 워크플로우 이름
+ * @param organizationId - 조직 id
+ * @returns 생성된 워크플로우
+ */
 export const createWorkflow = async (name: string, organizationId: string) => {
   const [createdWorkflow] = await db
     .insert(workflows)
