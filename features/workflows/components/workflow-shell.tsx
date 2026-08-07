@@ -28,7 +28,7 @@ export const WorkflowShell = ({ workflowId }: WorkflowShellProps) => {
               className="min-h-0"
             >
               <div className="flex size-full items-center justify-center text-sm text-muted-foreground">
-                Logs
+                로그
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>

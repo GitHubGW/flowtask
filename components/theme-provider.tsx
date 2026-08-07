@@ -3,25 +3,7 @@
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 
-const ThemeProvider = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) => {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-      {...props}
-    >
-      <ThemeHotkey />
-      {children}
-    </NextThemesProvider>
-  );
-};
-
-function isTypingTarget(target: EventTarget | null) {
+const isTypingTarget = (target: EventTarget | null) => {
   if (!(target instanceof HTMLElement)) {
     return false;
   }
@@ -32,7 +14,7 @@ function isTypingTarget(target: EventTarget | null) {
     target.tagName === "TEXTAREA" ||
     target.tagName === "SELECT"
   );
-}
+};
 
 const ThemeHotkey = () => {
   const { resolvedTheme, setTheme } = useTheme();
@@ -68,4 +50,20 @@ const ThemeHotkey = () => {
   return null;
 };
 
-export { ThemeProvider };
+export const ThemeProvider = ({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) => {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      {...props}
+    >
+      <ThemeHotkey />
+      {children}
+    </NextThemesProvider>
+  );
+};

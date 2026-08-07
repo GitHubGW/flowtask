@@ -5,7 +5,7 @@ export const RunButton = () => {
   return (
     <Button size="sm" variant="secondary" onClick={() => {}}>
       <Play fill="primary" />
-      Run
+      실행
     </Button>
   );
 };

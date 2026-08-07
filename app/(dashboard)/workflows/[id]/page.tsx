@@ -1,9 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
-import { getWorkflow } from "@/features/workflows/data";
+import { getWorkflow } from "@/features/workflows/queries";
 import { WorkflowShell } from "@/features/workflows/components/workflow-shell";
 import { Room } from "@/features/workflows/components/room";
-import { liveblocks } from "@/libs/liveblocks";
+import { ReactFlowProvider } from "@xyflow/react";
 
 interface WorkflowDetailPageProps {
   params: Promise<{ id: string }>;
@@ -23,17 +23,12 @@ const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
     notFound();
   }
 
-  await liveblocks.getOrCreateRoom(id, {
-    organizationId: orgId,
-    defaultAccesses: [],
-    groupsAccesses: { [orgId]: ["room:write"] },
-    metadata: { title: foundWorkflow.name },
-  });
-
   return (
-    <Room roomId={id}>
-      <WorkflowShell workflowId={id} />
-    </Room>
+    <ReactFlowProvider>
+      <Room roomId={id}>
+        <WorkflowShell workflowId={id} />
+      </Room>
+    </ReactFlowProvider>
   );
 };
 

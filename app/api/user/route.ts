@@ -1,4 +1,3 @@
-import { formatUserName } from "@/libs/clerk/format";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
 export const GET = async (request: Request) => {
@@ -27,10 +26,13 @@ export const GET = async (request: Request) => {
     const user = usersById.get(userId);
 
     if (!user) {
-      return { name: "Unknown", avatar: "" };
+      return { name: "익명", avatar: "" };
     }
 
-    return { name: formatUserName(user), avatar: user.imageUrl };
+    const name = user.firstName ?? user.lastName ?? user.username ?? "익명";
+    const avatar = user.imageUrl;
+
+    return { name, avatar };
   });
 
   return Response.json(resolvedUsers);

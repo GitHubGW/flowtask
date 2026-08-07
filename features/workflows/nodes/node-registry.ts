@@ -1,31 +1,35 @@
 import type { Node } from "@xyflow/react";
 import { Globe, MousePointerClick, type LucideIcon } from "lucide-react";
 
-type StepNodeKind = "trigger" | "action";
+export type StepNodeKind = "trigger" | "action";
 
-interface NodeField {
+export type NodeField = {
   key: string;
   label: string;
   placeholder?: string;
-}
+  multiline?: boolean;
+  required?: boolean;
+};
 
-interface NodeDefinition {
+export type NodeDefinition = {
   type: string;
   kind: StepNodeKind;
   label: string;
   icon: LucideIcon;
   accent: string;
   fields: NodeField[];
-}
+};
 
-type StepNodeData = {
-  type: keyof typeof nodeRegistry;
+export type StepNodeData = {
+  type: NodeType;
   kind: StepNodeKind;
   title: string;
   values: Record<string, string>;
 };
 
 export type StepNodeType = Node<StepNodeData, "step">;
+
+export type NodeType = keyof typeof nodeRegistry;
 
 export const nodeRegistry = {
   start: {
@@ -42,6 +46,13 @@ export const nodeRegistry = {
     label: "Open URL",
     icon: Globe,
     accent: "bg-emerald-500 text-white",
-    fields: [{ key: "url", label: "URL", placeholder: "https://youtube.com" }],
+    fields: [
+      {
+        key: "url",
+        label: "URL",
+        placeholder: "https://youtube.com",
+        required: true,
+      },
+    ],
   },
 } satisfies Record<string, NodeDefinition>;

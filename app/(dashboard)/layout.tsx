@@ -1,10 +1,14 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { DashboardSidebar } from "@/features/workflows/components/dashboard-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+}
+
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <SidebarProvider className="h-svh">
-      <AppSidebar />
+      <DashboardSidebar />
       <SidebarInset className="min-h-0 overflow-hidden border shadow-none">
         {children}
       </SidebarInset>

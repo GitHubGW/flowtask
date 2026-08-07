@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { WorkflowType } from "@/libs/db/schema";
 import { useTransition } from "react";
-import { getRandomSlug } from "@/features/workflows/libs/getRandomSlug";
+import { getRandomSlug } from "@/features/workflows/libs/get-random-slug";
 
 interface WorkflowNavProps {
   workflows: WorkflowType[];
@@ -57,8 +57,8 @@ export const WorkflowNav = ({
                 <PopoverTrigger asChild>
                   <SidebarMenuButton
                     isActive={pathname.startsWith("/workflows/")}
-                    tooltip="Workflows"
-                    aria-label="Workflows"
+                    tooltip="워크플로우"
+                    aria-label="워크플로우"
                     disabled={isPending}
                   >
                     <Workflow />
@@ -74,11 +74,11 @@ export const WorkflowNav = ({
                     type="button"
                     disabled={isPending}
                     onClick={handleCreateWorkflow}
-                    aria-label="New workflow"
+                    aria-label="새 워크플로우"
                     className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    <Plus className="size-4 shrink-0" aria-hidden />
-                    New workflow
+                    <Plus className="size-4 shrink-0" aria-hidden />새
+                    워크플로우
                   </button>
                   <div className="my-1 border-t" />
                   <ul className="flex max-h-80 flex-col overflow-y-auto">
@@ -111,10 +111,10 @@ export const WorkflowNav = ({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Workflows</SidebarGroupLabel>
+      <SidebarGroupLabel>워크플로우</SidebarGroupLabel>
       <SidebarGroupAction
-        aria-label="New workflow"
-        title="New workflow"
+        aria-label="새 워크플로우"
+        title="새 워크플로우"
         onClick={handleCreateWorkflow}
         disabled={isPending}
       >

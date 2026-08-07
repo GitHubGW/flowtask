@@ -1,6 +1,6 @@
 "use server";
 
-import { createWorkflow, deleteWorkflow } from "@/features/workflows/data";
+import { createWorkflow, deleteWorkflow } from "@/features/workflows/queries";
 import { liveblocks } from "@/libs/liveblocks";
 import type { helloWorldTask } from "@/trigger/example";
 import { auth } from "@clerk/nextjs/server";
@@ -16,6 +16,13 @@ export const createWorkflowAction = async (name: string) => {
   }
 
   const createdWorkflow = await createWorkflow(name, orgId);
+  await liveblocks.createRoom(createdWorkflow.id, {
+    organizationId: orgId,
+    defaultAccesses: [],
+    groupsAccesses: { [orgId]: ["room:write"] },
+    metadata: { title: createdWorkflow.name },
+  });
+
   revalidatePath("/workflows", "layout");
   redirect(`/workflows/${createdWorkflow.id}`);
 };
@@ -41,12 +48,7 @@ export const deleteWorkflowAction = async (workflowId: string) => {
     throw new Error("No organization found");
   }
 
-  const deletedWorkflow = await deleteWorkflow(workflowId, orgId);
-
-  if (!deletedWorkflow) {
-    throw new Error("Failed to delete workflow");
-  }
-
+  await deleteWorkflow(workflowId, orgId);
   await liveblocks.deleteRoom(workflowId);
 
   revalidatePath("/workflows", "layout");

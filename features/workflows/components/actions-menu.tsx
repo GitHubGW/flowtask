@@ -37,7 +37,7 @@ export const ActionsMenu = ({ workflowId }: ActionsMenuProps) => {
           onSelect={handleDeleteWorkflow}
         >
           <Trash2 />
-          Delete workflow
+          워크플로우 삭제
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

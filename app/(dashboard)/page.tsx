@@ -11,10 +11,8 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 
-const HomePage = () => {
-  const handleNewWorkflow = () => {
-    // TODO: open create workflow flow
-  };
+const DashboardPage = () => {
+  const handleCreateWorkflow = () => {};
 
   return (
     <div className="flex min-h-svh flex-col">
@@ -25,21 +23,19 @@ const HomePage = () => {
               <Workflow aria-hidden />
             </EmptyMedia>
             <EmptyTitle className="text-base font-semibold">
-              No workflow selected
+              워크플로우를 선택하세요
             </EmptyTitle>
             <EmptyDescription>
-              Select a workflow from the sidebar or create a new one to get
-              started.
+              워크플로우를 선택하거나 새로 생성하세요.
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
             <Button
-              onClick={handleNewWorkflow}
-              aria-label="New workflow"
+              onClick={handleCreateWorkflow}
+              aria-label="새 워크플로우"
               className="gap-1.5"
             >
-              <Plus data-icon="inline-start" aria-hidden />
-              New workflow
+              <Plus data-icon="inline-start" aria-hidden />새 워크플로우
             </Button>
           </EmptyContent>
         </Empty>
@@ -48,4 +44,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default DashboardPage;
