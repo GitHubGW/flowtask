@@ -8,12 +8,13 @@ import {
 } from "@/components/ui/sidebar";
 import { WorkflowNav } from "@/features/workflows/components/workflow-nav";
 import { auth } from "@clerk/nextjs/server";
-import { getWorkflows } from "@/features/workflows/data";
+import { getWorkflows } from "@/features/workflows/queries";
 import { createWorkflowAction } from "@/features/workflows/actions";
+import { ROUTES } from "@/constants/routes";
 
-export const AppSidebar = async () => {
+export const DashboardSidebar = async () => {
   const { orgId } = await auth();
-  const workflows = orgId ? await getWorkflows(orgId) : [];
+  const foundWorkflows = orgId ? await getWorkflows(orgId) : [];
 
   return (
     <Sidebar variant="inset" collapsible="icon">
@@ -21,10 +22,10 @@ export const AppSidebar = async () => {
         <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]:justify-center">
           <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
             <OrganizationSwitcher
-              afterCreateOrganizationUrl="/"
-              afterLeaveOrganizationUrl="/"
-              afterSelectOrganizationUrl="/"
               hidePersonal
+              afterCreateOrganizationUrl={ROUTES.DASHBOARD}
+              afterLeaveOrganizationUrl={ROUTES.DASHBOARD}
+              afterSelectOrganizationUrl={ROUTES.DASHBOARD}
               appearance={{
                 elements: {
                   rootBox: "flex min-w-0 w-full",
@@ -39,7 +40,7 @@ export const AppSidebar = async () => {
       </SidebarHeader>
       <SidebarContent>
         <WorkflowNav
-          workflows={workflows}
+          workflows={foundWorkflows}
           onCreateWorkflow={createWorkflowAction}
         />
       </SidebarContent>

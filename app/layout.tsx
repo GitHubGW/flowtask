@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/libs/utils";
+import { ROUTES } from "@/constants/routes";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <body>
         <ClerkProvider
           appearance={{ theme: shadcn }}
-          taskUrls={{ "choose-organization": "/choose-organization" }}
+          taskUrls={{ "choose-organization": ROUTES.CHOOSE_ORGANIZATION }}
         >
           <ThemeProvider>
             <TooltipProvider>{children}</TooltipProvider>

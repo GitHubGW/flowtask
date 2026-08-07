@@ -22,6 +22,7 @@ import {
 import { WorkflowType } from "@/libs/db/schema";
 import { useTransition } from "react";
 import { getRandomSlug } from "@/features/workflows/libs/get-random-slug";
+import { ROUTES } from "@/constants/routes";
 
 interface WorkflowNavProps {
   workflows: WorkflowType[];
@@ -37,7 +38,7 @@ export const WorkflowNav = ({
   const [isPending, startTransition] = useTransition();
 
   const isWorkflowActive = (id: string) => {
-    return pathname === `/workflows/${id}`;
+    return pathname === ROUTES.WORKFLOWS.DETAIL(id);
   };
 
   const handleCreateWorkflow = () => {
@@ -56,7 +57,7 @@ export const WorkflowNav = ({
               <Popover>
                 <PopoverTrigger asChild>
                   <SidebarMenuButton
-                    isActive={pathname.startsWith("/workflows/")}
+                    isActive={pathname.startsWith(ROUTES.WORKFLOWS.INDEX)}
                     tooltip="워크플로우"
                     aria-label="워크플로우"
                     disabled={isPending}
@@ -85,7 +86,7 @@ export const WorkflowNav = ({
                     {workflows.map((workflow) => (
                       <li key={workflow.id}>
                         <Link
-                          href={`/workflows/${workflow.id}`}
+                          href={ROUTES.WORKFLOWS.DETAIL(workflow.id)}
                           className={cn(
                             "flex w-full items-center truncate rounded-md px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
                             isWorkflowActive(workflow.id) &&
@@ -129,7 +130,7 @@ export const WorkflowNav = ({
                 isActive={isWorkflowActive(workflow.id)}
               >
                 <Link
-                  href={`/workflows/${workflow.id}`}
+                  href={ROUTES.WORKFLOWS.DETAIL(workflow.id)}
                   aria-current={
                     isWorkflowActive(workflow.id) ? "page" : undefined
                   }

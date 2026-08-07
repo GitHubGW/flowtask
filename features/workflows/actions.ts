@@ -1,5 +1,6 @@
 "use server";
 
+import { ROUTES } from "@/constants/routes";
 import { createWorkflow, deleteWorkflow } from "@/features/workflows/queries";
 import { liveblocks } from "@/libs/liveblocks";
 import type { helloWorldTask } from "@/trigger/example";
@@ -23,8 +24,8 @@ export const createWorkflowAction = async (name: string) => {
     metadata: { title: createdWorkflow.name },
   });
 
-  revalidatePath("/workflows", "layout");
-  redirect(`/workflows/${createdWorkflow.id}`);
+  revalidatePath(ROUTES.WORKFLOWS.INDEX, "layout");
+  redirect(ROUTES.WORKFLOWS.DETAIL(createdWorkflow.id));
 };
 
 export const runWorkflowAction = async (workflowId: string) => {
@@ -51,6 +52,6 @@ export const deleteWorkflowAction = async (workflowId: string) => {
   await deleteWorkflow(workflowId, orgId);
   await liveblocks.deleteRoom(workflowId);
 
-  revalidatePath("/workflows", "layout");
-  redirect("/");
+  revalidatePath(ROUTES.WORKFLOWS.INDEX, "layout");
+  redirect(ROUTES.DASHBOARD);
 };

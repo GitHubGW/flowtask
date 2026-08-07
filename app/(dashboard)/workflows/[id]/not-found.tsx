@@ -9,6 +9,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { ROUTES } from "@/constants/routes";
 
 const NotFound = () => {
   return (
@@ -20,19 +21,22 @@ const NotFound = () => {
               <Workflow aria-hidden />
             </EmptyMedia>
             <EmptyTitle className="text-base font-semibold">
-              Workflow not found
+              워크플로우를 찾을 수 없습니다
             </EmptyTitle>
             <EmptyDescription>
-              The workflow you are looking for does not exist or may have been
-              deleted. Select another workflow from the sidebar or create a new
-              one.
+              워크플로우를 찾을 수 없습니다. 다른 워크플로우를 선택하거나 새로
+              생성하세요.
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button asChild className="gap-1.5" aria-label="Back to home">
-              <Link href="/">
+            <Button
+              asChild
+              className="gap-1.5"
+              aria-label="대시보드로 돌아가기"
+            >
+              <Link href={ROUTES.DASHBOARD}>
                 <ArrowLeft data-icon="inline-start" aria-hidden />
-                Back to home
+                대시보드로 돌아가기
               </Link>
             </Button>
           </EmptyContent>
