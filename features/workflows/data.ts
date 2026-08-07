@@ -48,3 +48,20 @@ export const createWorkflow = async (name: string, organizationId: string) => {
     .returning();
   return createdWorkflow;
 };
+
+/**
+ * 워크플로우 삭제
+ *
+ * @param id - 워크플로우 id
+ * @param organizationId - 조직 id
+ * @returns 삭제된 워크플로우
+ */
+export const deleteWorkflow = async (id: string, organizationId: string) => {
+  const [deletedWorkflow] = await db
+    .delete(workflows)
+    .where(
+      and(eq(workflows.id, id), eq(workflows.organizationId, organizationId))
+    )
+    .returning();
+  return deletedWorkflow;
+};
