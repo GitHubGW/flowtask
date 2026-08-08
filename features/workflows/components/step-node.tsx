@@ -14,6 +14,9 @@ const StepNodeComponent = ({ data, selected }: StepNodeComponentProps) => {
   const nodeDefinition = nodeRegistry[data.type];
   const Icon = nodeDefinition.icon;
   const hasTarget = data.kind !== "trigger";
+  const filteredNodeFields = nodeDefinition.fields.filter(
+    (field) => data.values[field.key]
+  );
 
   return (
     <div
@@ -42,6 +45,27 @@ const StepNodeComponent = ({ data, selected }: StepNodeComponentProps) => {
         </div>
         <span className="text-sm font-semibold">{data.title}</span>
       </div>
+
+      {filteredNodeFields.length > 0 && (
+        <>
+          <div className="border-t border-border" />
+          <div className="flex flex-col gap-1.5 px-3 py-2.5">
+            {filteredNodeFields.map((field) => (
+              <div
+                key={field.key}
+                className="flex items-center justify-between gap-4 text-xs"
+              >
+                <span className="shrink-0 text-muted-foreground">
+                  {field.label}
+                </span>
+                <span className="truncate font-medium">
+                  {data.values[field.key]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       <Handle
         type="source"

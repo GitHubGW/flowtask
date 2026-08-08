@@ -1,10 +1,16 @@
 import { pgTable, text, timestamp, uuid, jsonb } from "drizzle-orm/pg-core";
+import type { Edge } from "@xyflow/react";
+import type { StepNodeType } from "@/features/workflows/nodes/node-registry";
+
+export type WorkflowGraph = { nodes: StepNodeType[]; edges: Edge[] };
+
+export type WorkflowType = typeof workflows.$inferSelect;
 
 export const workflows = pgTable("workflows", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   organizationId: text("organization_id").notNull(),
-  graph: jsonb("graph"),
+  graph: jsonb("graph").$type<WorkflowGraph>(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -12,5 +18,3 @@ export const workflows = pgTable("workflows", {
     .defaultNow()
     .notNull(),
 });
-
-export type WorkflowType = typeof workflows.$inferSelect;

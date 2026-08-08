@@ -1,70 +1,68 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { PlayIcon } from "lucide-react";
-import { useRealtimeRun } from "@trigger.dev/react-hooks";
-import { Button } from "@/components/ui/button";
-import { runWorkflowAction } from "@/features/workflows/actions";
-import type { helloWorldTask } from "@/trigger/example";
+import { useState } from "react";
+import { ResizablePanel } from "@/components/ui/resizable";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { type StepNodeType } from "@/features/workflows/nodes/node-registry";
+import { useStore } from "@xyflow/react";
+import { Inspector } from "@/features/workflows/components/inspector";
+import { ActionsMenu } from "@/features/workflows/components/actions-menu";
+import { RunButton } from "@/features/workflows/components/run-button";
+import { Palette } from "@/features/workflows/components/palette";
 
 interface RightSidebarProps {
   workflowId: string;
 }
 
 export const RightSidebar = ({ workflowId }: RightSidebarProps) => {
-  const [isPending, startTransition] = useTransition();
-  const [runId, setRunId] = useState<string | undefined>();
-  const [accessToken, setAccessToken] = useState<string | undefined>();
+  const [tab, setTab] = useState("toolbar");
 
-  const { run, error } = useRealtimeRun<typeof helloWorldTask>(runId, {
-    accessToken,
-    enabled: !!runId && !!accessToken,
-    skipColumns: ["payload"],
-  });
+  const nodes = useStore((state) => state.nodes);
 
-  const handleRun = () => {
-    startTransition(async () => {
-      const handle = await runWorkflowAction(workflowId);
-      setRunId(handle.id);
-      setAccessToken(handle.publicAccessToken);
-    });
-  };
+  const selectedNode = nodes.find((node) => node.selected) as
+    StepNodeType | undefined;
+
+  const [prevSelectedId, setPrevSelectedId] = useState(selectedNode?.id);
+
+  if (selectedNode && selectedNode.id !== prevSelectedId) {
+    setPrevSelectedId(selectedNode.id);
+    setTab("editor");
+  }
 
   return (
-    <div className="flex size-full flex-col gap-3 p-3">
-      <Button
-        type="button"
-        aria-label="Run workflow"
-        disabled={isPending}
-        onClick={handleRun}
-      >
-        <PlayIcon data-icon="inline-start" aria-hidden />
-        {isPending ? "Starting..." : "Run"}
-      </Button>
-
-      {(run || error) && (
-        <div
-          className="flex flex-col gap-1 rounded-lg border border-border p-3 text-sm"
-          aria-live="polite"
-        >
-          {error ? (
-            <p className="text-destructive">{error.message}</p>
-          ) : (
-            <>
-              <p>
-                <span className="text-muted-foreground">Status: </span>
-                {run?.status}
-              </p>
-              {run?.output?.message ? (
-                <p>
-                  <span className="text-muted-foreground">Result: </span>
-                  {run.output.message}
-                </p>
-              ) : null}
-            </>
-          )}
+    <ResizablePanel
+      className="bg-background"
+      defaultSize="16rem"
+      minSize="14rem"
+      maxSize="36rem"
+      groupResizeBehavior="preserve-pixel-size"
+    >
+      <Tabs value={tab} onValueChange={setTab} className="size-full gap-0">
+        <div className="flex items-center justify-between border-b border-border p-2">
+          <ActionsMenu workflowId={workflowId} />
+          <RunButton workflowId={workflowId} />
         </div>
-      )}
-    </div>
+        <TabsList className="m-2 w-fit bg-background">
+          <TabsTrigger
+            value="toolbar"
+            className="flex-none rounded-sm data-active:bg-accent! data-active:text-accent-foreground! data-active:shadow-none! dark:data-active:border-transparent!"
+          >
+            툴바
+          </TabsTrigger>
+          <TabsTrigger
+            value="editor"
+            className="flex-none rounded-sm data-active:bg-accent! data-active:text-accent-foreground! data-active:shadow-none! dark:data-active:border-transparent!"
+          >
+            에디터
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="toolbar" className="flex min-h-0 flex-col">
+          <Palette />
+        </TabsContent>
+        <TabsContent value="editor" className="flex min-h-0 flex-col">
+          <Inspector selectedNode={selectedNode} />
+        </TabsContent>
+      </Tabs>
+    </ResizablePanel>
   );
 };

@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { type NodeField } from "@/features/workflows/nodes/node-registry";
+import type { NodeField } from "@/features/workflows/types";
 
 interface FieldProps {
   field: NodeField;

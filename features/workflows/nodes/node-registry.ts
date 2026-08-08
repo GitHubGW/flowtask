@@ -1,24 +1,8 @@
+import { Globe, MousePointerClick } from "lucide-react";
 import type { Node } from "@xyflow/react";
-import { Globe, MousePointerClick, type LucideIcon } from "lucide-react";
+import type { StepNodeKind, NodeDefinition } from "@/features/workflows/types";
 
-export type StepNodeKind = "trigger" | "action";
-
-export type NodeField = {
-  key: string;
-  label: string;
-  placeholder?: string;
-  multiline?: boolean;
-  required?: boolean;
-};
-
-export type NodeDefinition = {
-  type: string;
-  kind: StepNodeKind;
-  label: string;
-  icon: LucideIcon;
-  accent: string;
-  fields: NodeField[];
-};
+export type NodeType = keyof typeof nodeRegistry;
 
 export type StepNodeData = {
   type: NodeType;
@@ -29,7 +13,11 @@ export type StepNodeData = {
 
 export type StepNodeType = Node<StepNodeData, "step">;
 
-export type NodeType = keyof typeof nodeRegistry;
+export type ActionNodeType = {
+  [K in NodeType]: (typeof nodeRegistry)[K]["kind"] extends "action"
+    ? K
+    : never;
+}[NodeType];
 
 export const nodeRegistry = {
   start: {

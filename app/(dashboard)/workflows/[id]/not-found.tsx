@@ -24,8 +24,7 @@ const NotFound = () => {
               워크플로우를 찾을 수 없습니다
             </EmptyTitle>
             <EmptyDescription>
-              워크플로우를 찾을 수 없습니다. 다른 워크플로우를 선택하거나 새로
-              생성하세요.
+              다른 워크플로우를 선택하거나 새로 생성하세요.
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>

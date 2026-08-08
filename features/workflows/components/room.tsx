@@ -1,6 +1,9 @@
 "use client";
 
 import { Spinner } from "@/components/ui/spinner";
+import { API } from "@/constants/api";
+import { ERROR_MESSAGES } from "@/constants/error-messages";
+import type { ResolveUsersArgs } from "@liveblocks/node";
 import {
   LiveblocksProvider,
   RoomProvider,
@@ -13,27 +16,28 @@ interface RoomProps {
 }
 
 const throttle = 16;
-const authEndpoint = "/api/liveblocks-auth";
+
+const resolveUsers = async ({ userIds }: ResolveUsersArgs) => {
+  if (userIds.length === 0) {
+    return [];
+  }
+
+  const encodedUserIds = encodeURIComponent(userIds.join(","));
+  const response = await fetch(`${API.USER}?userIds=${encodedUserIds}`);
+
+  if (!response.ok) {
+    throw new Error(ERROR_MESSAGES.NO_USER_FOUND);
+  }
+
+  return response.json();
+};
 
 export const Room = ({ roomId, children }: RoomProps) => {
   return (
     <LiveblocksProvider
+      authEndpoint={API.LIVEBLOCKS_AUTH}
       throttle={throttle}
-      authEndpoint={authEndpoint}
-      resolveUsers={async ({ userIds }) => {
-        if (userIds.length === 0) {
-          return [];
-        }
-
-        const encodedUserIds = encodeURIComponent(userIds.join(","));
-        const response = await fetch(`/api/user?userIds=${encodedUserIds}`);
-
-        if (!response.ok) {
-          throw new Error("사용자 목록 조회 실패");
-        }
-
-        return response.json();
-      }}
+      resolveUsers={resolveUsers}
     >
       <RoomProvider id={roomId}>
         <ClientSideSuspense
