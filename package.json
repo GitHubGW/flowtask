@@ -14,6 +14,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push"
+    "trigger:dev": "trigger dev"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -26,8 +27,8 @@
     "@liveblocks/react-ui": "^3.23.0",
     "@neondatabase/serverless": "^1.1.0",
     "@shadcn/react": "^0.2.1",
-    "@trigger.dev/react-hooks": "^4.5.7",
-    "@trigger.dev/sdk": "^4.5.7",
+    "@trigger.dev/react-hooks": "4.5.10",
+    "@trigger.dev/sdk": "4.5.10",
     "@xyflow/react": "^12.11.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -56,7 +57,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@trigger.dev/build": "^4.5.7",
+    "@trigger.dev/build": "4.5.10",
     "@types/node": "^20",
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
