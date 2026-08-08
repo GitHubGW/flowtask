@@ -10,9 +10,19 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { useTransition } from "react";
+import { getRandomSlug } from "@/features/workflows/libs/get-random-slug";
+import { createWorkflowAction } from "@/features/workflows/actions";
 
 const DashboardPage = () => {
-  const handleCreateWorkflow = () => {};
+  const [isPending, startTransition] = useTransition();
+
+  const handleCreateWorkflow = () => {
+    startTransition(async () => {
+      const randomSlug = getRandomSlug();
+      await createWorkflowAction(randomSlug);
+    });
+  };
 
   return (
     <div className="flex min-h-svh flex-col">
@@ -31,6 +41,7 @@ const DashboardPage = () => {
           </EmptyHeader>
           <EmptyContent>
             <Button
+              disabled={isPending}
               onClick={handleCreateWorkflow}
               aria-label="새 워크플로우"
               className="gap-1.5"
