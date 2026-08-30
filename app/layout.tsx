@@ -6,13 +6,23 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/libs/utils";
 import { ROUTES } from "@/constants/routes";
+import type { Metadata } from "next";
 import localFont from "next/font/local";
+
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
   display: "swap",
   weight: "45 920",
   variable: "--font-pretendard",
 });
+
+export const metadata: Metadata = {
+  title: {
+    default: "Browser Automation Agent",
+    template: "%s | Browser Automation Agent",
+  },
+  description: "Browser Automation Agent",
+};
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -21,7 +31,7 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html
-      lang="en"
+      lang="ko"
       suppressHydrationWarning
       className={cn("antialiased", pretendard.variable)}
     >
