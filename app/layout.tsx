@@ -6,6 +6,13 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/libs/utils";
 import { ROUTES } from "@/constants/routes";
+import localFont from "next/font/local";
+const pretendard = localFont({
+  src: "./fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
+});
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -16,7 +23,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", "font-sans")}
+      className={cn("antialiased", pretendard.variable)}
     >
       <body>
         <ClerkProvider
