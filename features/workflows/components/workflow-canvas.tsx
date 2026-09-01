@@ -1,6 +1,5 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import {
   ReactFlow,
@@ -11,40 +10,18 @@ import {
   Panel,
   type Edge,
 } from "@xyflow/react";
-import { StepNode } from "@/features/workflows/components/step-node";
+import { WorkflowStepNode } from "@/features/workflows/components/workflow-step-node";
 import type { StepNodeType } from "@/features/workflows/nodes/node-registry";
 import { useLiveblocksFlow, Cursors } from "@liveblocks/react-flow";
 import { AvatarStack } from "@liveblocks/react-ui";
 
-const initialNodes: StepNodeType[] = [
-  {
-    id: "start",
-    type: "step",
-    position: { x: 0, y: 0 },
-    data: { type: "start", kind: "trigger", title: "Start", values: {} },
-  },
-  {
-    id: "open-url",
-    type: "step",
-    position: { x: 0, y: 100 },
-    data: { type: "open-url", kind: "action", title: "Open URL", values: {} },
-  },
-];
+const initialNodes: StepNodeType[] = [];
 
-const initialEdges: Edge[] = [
-  { id: "n1-n2", source: "n1", target: "n2" },
-  { id: "n1-n3", source: "n1", target: "n3" },
-];
+const initialEdges: Edge[] = [];
 
-export const Canvas = () => {
+export const WorkflowCanvas = () => {
   const { resolvedTheme } = useTheme();
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false
-  );
-  const colorMode = mounted && resolvedTheme === "dark" ? "dark" : "light";
-
+  const colorMode = resolvedTheme === "dark" ? "dark" : "light";
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onDelete } =
     useLiveblocksFlow({
       suspense: true,
@@ -56,7 +33,7 @@ export const Canvas = () => {
     <div className="size-full min-h-0">
       <ReactFlow
         fitView
-        nodeTypes={{ step: StepNode }}
+        nodeTypes={{ step: WorkflowStepNode }}
         colorMode={colorMode}
         nodes={nodes}
         edges={edges}

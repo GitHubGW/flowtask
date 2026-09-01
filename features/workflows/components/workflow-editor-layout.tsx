@@ -5,21 +5,17 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Canvas } from "@/features/workflows/components/canvas";
-import { RightSidebar } from "@/features/workflows/components/right-sidebar";
+import { WorkflowCanvas } from "@/features/workflows/components/workflow-canvas";
+import { WorkflowEditorSidebar } from "@/features/workflows/components/workflow-editor-sidebar";
 
-interface WorkflowShellProps {
-  workflowId: string;
-}
-
-export const WorkflowShell = ({ workflowId }: WorkflowShellProps) => {
+export const WorkflowEditorLayout = () => {
   return (
-    <div className="size-full min-h-0" data-workflow-id={workflowId}>
+    <div className="size-full min-h-0">
       <ResizablePanelGroup orientation="horizontal" className="size-full">
         <ResizablePanel minSize="30rem" className="min-h-0">
           <ResizablePanelGroup orientation="vertical" className="size-full">
             <ResizablePanel minSize="18rem" className="min-h-0">
-              <Canvas />
+              <WorkflowCanvas />
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel
@@ -38,9 +34,10 @@ export const WorkflowShell = ({ workflowId }: WorkflowShellProps) => {
           defaultSize="16rem"
           minSize="14rem"
           maxSize="36rem"
-          className="min-h-0"
+          groupResizeBehavior="preserve-pixel-size"
+          className="min-h-0 bg-background"
         >
-          <RightSidebar workflowId={workflowId} />
+          <WorkflowEditorSidebar />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

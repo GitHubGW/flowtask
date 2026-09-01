@@ -6,14 +6,13 @@ import {
 } from "@/features/workflows/nodes/node-registry";
 import { cn } from "@/libs/utils";
 
-interface StepNodeComponentProps extends NodeProps<StepNodeType> {
-  selected: boolean;
-}
-
-const StepNodeComponent = ({ data, selected }: StepNodeComponentProps) => {
+const WorkflowStepNodeComponent = ({
+  data,
+  selected,
+}: NodeProps<StepNodeType>) => {
   const nodeDefinition = nodeRegistry[data.type];
   const Icon = nodeDefinition.icon;
-  const hasTarget = data.kind !== "trigger";
+  const showsTargetHandle = data.kind !== "trigger";
   const filteredNodeFields = nodeDefinition.fields.filter(
     (field) => data.values[field.key]
   );
@@ -25,7 +24,7 @@ const StepNodeComponent = ({ data, selected }: StepNodeComponentProps) => {
         selected && "ring-2 ring-ring ring-offset-2 ring-offset-background"
       )}
     >
-      {hasTarget && (
+      {showsTargetHandle && (
         <Handle
           type="target"
           position={Position.Left}
@@ -77,4 +76,4 @@ const StepNodeComponent = ({ data, selected }: StepNodeComponentProps) => {
   );
 };
 
-export const StepNode = memo(StepNodeComponent);
+export const WorkflowStepNode = memo(WorkflowStepNodeComponent);

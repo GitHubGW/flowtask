@@ -9,13 +9,13 @@ import {
   RoomProvider,
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
+import { useParams } from "next/navigation";
 
-interface RoomProps {
-  roomId: string;
+interface WorkflowRoomProviderProps {
   children: React.ReactNode;
 }
 
-const throttle = 16;
+const LIVEBLOCKS_THROTTLE_MS = 16;
 
 const resolveUsers = async ({ userIds }: ResolveUsersArgs) => {
   if (userIds.length === 0) {
@@ -32,14 +32,18 @@ const resolveUsers = async ({ userIds }: ResolveUsersArgs) => {
   return response.json();
 };
 
-export const Room = ({ roomId, children }: RoomProps) => {
+export const WorkflowRoomProvider = ({
+  children,
+}: WorkflowRoomProviderProps) => {
+  const { id } = useParams<{ id: string }>();
+
   return (
     <LiveblocksProvider
       authEndpoint={API.LIVEBLOCKS_AUTH}
-      throttle={throttle}
+      throttle={LIVEBLOCKS_THROTTLE_MS}
       resolveUsers={resolveUsers}
     >
-      <RoomProvider id={roomId}>
+      <RoomProvider id={id}>
         <ClientSideSuspense
           fallback={
             <div className="flex min-h-svh w-full items-center justify-center">

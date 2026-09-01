@@ -1,15 +1,18 @@
 import { cn } from "@/libs/utils";
 import {
   nodeRegistry,
-  type NodeType,
+  type WorkflowNodeType,
 } from "@/features/workflows/nodes/node-registry";
 
-interface NodeIconProps {
-  type: NodeType;
+interface WorkflowNodeIconProps {
+  type: WorkflowNodeType;
   className?: string;
 }
 
-export const NodeIcon = ({ type, className }: NodeIconProps) => {
+export const WorkflowNodeIcon = ({
+  type,
+  className,
+}: WorkflowNodeIconProps) => {
   const nodeDefinition = nodeRegistry[type];
   const Icon = nodeDefinition.icon;
 

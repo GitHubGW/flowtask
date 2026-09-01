@@ -19,32 +19,29 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { WorkflowType } from "@/libs/db/schema";
+import { type WorkflowRow } from "@/libs/db/schema";
 import { useTransition } from "react";
-import { getRandomSlug } from "@/features/workflows/libs/get-random-slug";
 import { ROUTES } from "@/constants/routes";
+import { createWorkflowAction } from "@/features/workflows/actions";
 
-interface WorkflowNavProps {
-  workflows: WorkflowType[];
-  onCreateWorkflow: (name: string) => Promise<never>;
+interface WorkflowSidebarSectionProps {
+  workflows: Pick<WorkflowRow, "id" | "name">[];
 }
 
-export const WorkflowNav = ({
+export const WorkflowSidebarSection = ({
   workflows,
-  onCreateWorkflow,
-}: WorkflowNavProps) => {
+}: WorkflowSidebarSectionProps) => {
   const pathname = usePathname();
   const { state } = useSidebar();
   const [isPending, startTransition] = useTransition();
 
-  const isWorkflowActive = (id: string) => {
-    return pathname === ROUTES.WORKFLOWS.DETAIL(id);
+  const isWorkflowActive = (workflowId: string) => {
+    return pathname === ROUTES.WORKFLOWS.DETAIL(workflowId);
   };
 
   const handleCreateWorkflow = () => {
     startTransition(async () => {
-      const randomSlug = getRandomSlug();
-      await onCreateWorkflow(randomSlug);
+      await createWorkflowAction();
     });
   };
 
@@ -75,11 +72,10 @@ export const WorkflowNav = ({
                     type="button"
                     disabled={isPending}
                     onClick={handleCreateWorkflow}
-                    aria-label="새 워크플로우"
                     className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    <Plus className="size-4 shrink-0" aria-hidden />새
-                    워크플로우
+                    <Plus className="size-4 shrink-0" aria-hidden />
+                    워크플로우 추가
                   </button>
                   <div className="my-1 border-t" />
                   <ul className="flex max-h-80 flex-col overflow-y-auto">
@@ -114,8 +110,7 @@ export const WorkflowNav = ({
     <SidebarGroup>
       <SidebarGroupLabel>워크플로우</SidebarGroupLabel>
       <SidebarGroupAction
-        aria-label="새 워크플로우"
-        title="새 워크플로우"
+        title="워크플로우 추가"
         onClick={handleCreateWorkflow}
         disabled={isPending}
       >

@@ -1,36 +1,39 @@
 import { Label } from "@/components/ui/label";
-import { Field } from "@/features/workflows/components/field";
-import { NodeIcon } from "@/features/workflows/components/node-icon";
-import { Section } from "@/features/workflows/components/section";
+import { NodeFieldControl } from "@/features/workflows/components/node-field-control";
+import { WorkflowNodeIcon } from "@/features/workflows/components/workflow-node-icon";
+import { WorkflowPanelSection } from "@/features/workflows/components/workflow-panel-section";
 import {
   nodeRegistry,
   type StepNodeType,
 } from "@/features/workflows/nodes/node-registry";
-import type { NodeDefinition } from "@/features/workflows/types";
 import { useReactFlow } from "@xyflow/react";
 
-interface InspectorProps {
+interface WorkflowNodeInspectorProps {
   selectedNode: StepNodeType | undefined;
+  onFieldFocus?: (fieldKey: string) => void;
 }
 
-export const Inspector = ({ selectedNode }: InspectorProps) => {
+export const WorkflowNodeInspector = ({
+  selectedNode,
+  onFieldFocus,
+}: WorkflowNodeInspectorProps) => {
   const { updateNodeData } = useReactFlow<StepNodeType>();
 
   if (!selectedNode) {
     return (
-      <Section title="에디터">
+      <WorkflowPanelSection title="에디터">
         <p className="p-3 text-sm text-muted-foreground">
           선택된 노드가 없습니다
         </p>
-      </Section>
+      </WorkflowPanelSection>
     );
   }
 
   const { type, title, values } = selectedNode.data;
-  const nodeDefinition: NodeDefinition = nodeRegistry[type];
+  const nodeDefinition = nodeRegistry[type];
 
   return (
-    <Section title={title} icon={<NodeIcon type={type} />}>
+    <WorkflowPanelSection title={title} icon={<WorkflowNodeIcon type={type} />}>
       <div className="flex flex-col gap-3 p-3">
         {nodeDefinition.fields.length === 0 ? (
           <p className="text-xs text-muted-foreground">속성이 없습니다</p>
@@ -41,19 +44,20 @@ export const Inspector = ({ selectedNode }: InspectorProps) => {
                 {field.label}
                 {field.required && <span className="text-red-500">*</span>}
               </Label>
-              <Field
+              <NodeFieldControl
                 field={field}
                 value={values[field.key] ?? ""}
                 onChange={(value) => {
-                  updateNodeData(selectedNode.id, {
-                    values: { ...values, [field.key]: value },
-                  });
+                  updateNodeData(selectedNode.id, (node) => ({
+                    values: { ...node.data.values, [field.key]: value },
+                  }));
                 }}
+                onFocus={() => onFieldFocus?.(field.key)}
               />
             </div>
           ))
         )}
       </div>
-    </Section>
+    </WorkflowPanelSection>
   );
 };
