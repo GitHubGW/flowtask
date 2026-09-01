@@ -1,33 +1,38 @@
 import { auth } from "@clerk/nextjs/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getWorkflow } from "@/features/workflows/queries";
-import { WorkflowShell } from "@/features/workflows/components/workflow-shell";
-import { Room } from "@/features/workflows/components/room";
 import { ReactFlowProvider } from "@xyflow/react";
+import { ROUTES } from "@/constants/routes";
+import { WorkflowRoomProvider } from "@/features/workflows/components/workflow-room-provider";
+import { WorkflowEditorLayout } from "@/features/workflows/components/workflow-editor-layout";
 
 interface WorkflowDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
 const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
-  const { id } = await params;
-  const { userId, orgId } = await auth();
+  const [{ id }, { isAuthenticated, orgId, redirectToSignIn }] =
+    await Promise.all([params, auth()]);
 
-  if (!userId || !orgId) {
-    notFound();
+  if (!isAuthenticated) {
+    redirectToSignIn({ returnBackUrl: ROUTES.WORKFLOWS.DETAIL(id) });
   }
 
-  const foundWorkflow = orgId ? await getWorkflow(id, orgId) : null;
+  if (!orgId) {
+    redirect(ROUTES.CHOOSE_ORGANIZATION);
+  }
 
-  if (!foundWorkflow) {
+  const workflow = await getWorkflow(id, orgId);
+
+  if (!workflow) {
     notFound();
   }
 
   return (
     <ReactFlowProvider>
-      <Room roomId={id}>
-        <WorkflowShell workflowId={id} />
-      </Room>
+      <WorkflowRoomProvider>
+        <WorkflowEditorLayout />
+      </WorkflowRoomProvider>
     </ReactFlowProvider>
   );
 };

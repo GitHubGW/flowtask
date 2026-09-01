@@ -4,10 +4,20 @@ import { getClerkAvatar, getClerkDisplayName } from "@/libs/clerk/user";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
 export const GET = async (request: Request) => {
-  const { orgId } = await auth();
+  const { isAuthenticated, orgId } = await auth();
+
+  if (!isAuthenticated) {
+    return Response.json(
+      { error: ERROR_MESSAGES.UNAUTHORIZED },
+      { status: 401 }
+    );
+  }
 
   if (!orgId) {
-    return new Response(ERROR_MESSAGES.UNAUTHORIZED, { status: 401 });
+    return Response.json(
+      { error: ERROR_MESSAGES.NO_ORGANIZATION_FOUND },
+      { status: 403 }
+    );
   }
 
   const userIds = new URL(request.url).searchParams.get("userIds");
@@ -30,7 +40,10 @@ export const GET = async (request: Request) => {
     const user = usersById.get(userId);
 
     if (!user) {
-      return { name: "익명", avatar: ASSETS.DEFAULT_AVATAR };
+      return {
+        name: "익명",
+        avatar: ASSETS.DEFAULT_AVATAR,
+      };
     }
 
     return {

@@ -4,16 +4,29 @@ import { liveblocks } from "@/libs/liveblocks";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
 export const POST = async () => {
-  const { userId, orgId } = await auth();
+  const { isAuthenticated, userId, orgId } = await auth();
 
-  if (!userId || !orgId) {
-    return new Response(ERROR_MESSAGES.UNAUTHORIZED, { status: 401 });
+  if (!isAuthenticated || !userId) {
+    return Response.json(
+      { error: ERROR_MESSAGES.UNAUTHORIZED },
+      { status: 401 }
+    );
+  }
+
+  if (!orgId) {
+    return Response.json(
+      { error: ERROR_MESSAGES.NO_ORGANIZATION_FOUND },
+      { status: 403 }
+    );
   }
 
   const user = await currentUser();
 
   if (!user) {
-    return new Response(ERROR_MESSAGES.UNAUTHORIZED, { status: 401 });
+    return Response.json(
+      { error: ERROR_MESSAGES.UNAUTHORIZED },
+      { status: 401 }
+    );
   }
 
   const { status, body } = await liveblocks.identifyUser(

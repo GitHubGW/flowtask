@@ -1,7 +1,9 @@
 "use server";
 
 import { ERROR_MESSAGES } from "@/constants/error-messages";
+import { REVALIDATION_PATHS } from "@/constants/revalidation-paths";
 import { ROUTES } from "@/constants/routes";
+import { createWorkflowName } from "@/features/workflows/libs/create-workflow-name";
 import {
   createWorkflow,
   deleteWorkflow,
@@ -17,17 +19,16 @@ import { redirect } from "next/navigation";
 
 /**
  * 워크플로우 생성
- *
- * @param name 워크플로우 이름
  */
-export const createWorkflowAction = async (name: string) => {
+export const createWorkflowAction = async () => {
   const { orgId } = await auth();
 
   if (!orgId) {
     throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
   }
 
-  const createdWorkflow = await createWorkflow(name, orgId);
+  const workflowName = createWorkflowName();
+  const createdWorkflow = await createWorkflow(workflowName, orgId);
   await liveblocks.createRoom(createdWorkflow.id, {
     organizationId: orgId,
     defaultAccesses: [],
@@ -35,7 +36,7 @@ export const createWorkflowAction = async (name: string) => {
     metadata: { title: createdWorkflow.name },
   });
 
-  revalidatePath(ROUTES.WORKFLOWS.INDEX, "layout");
+  revalidatePath(REVALIDATION_PATHS.DASHBOARD_LAYOUT, "layout");
   redirect(ROUTES.WORKFLOWS.DETAIL(createdWorkflow.id));
 };
 
@@ -51,10 +52,15 @@ export const deleteWorkflowAction = async (workflowId: string) => {
     throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
   }
 
-  await deleteWorkflow(workflowId, orgId);
-  await liveblocks.deleteRoom(workflowId);
+  const deletedWorkflow = await deleteWorkflow(workflowId, orgId);
 
-  revalidatePath(ROUTES.WORKFLOWS.INDEX, "layout");
+  if (!deletedWorkflow) {
+    throw new Error(ERROR_MESSAGES.NO_WORKFLOW_FOUND);
+  }
+
+  await liveblocks.deleteRoom(deletedWorkflow.id);
+
+  revalidatePath(REVALIDATION_PATHS.DASHBOARD_LAYOUT, "layout");
   redirect(ROUTES.DASHBOARD);
 };
 
@@ -74,11 +80,19 @@ export const runWorkflowAction = async (
     throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
   }
 
-  await updateWorkflowGraph({ id: workflowId, organizationId: orgId, graph });
+  const updatedWorkflow = await updateWorkflowGraph({
+    id: workflowId,
+    organizationId: orgId,
+    graph,
+  });
+
+  if (!updatedWorkflow) {
+    throw new Error(ERROR_MESSAGES.NO_WORKFLOW_FOUND);
+  }
 
   const handle = await tasks.trigger<typeof runWorkflowTask>(
     "run-workflow",
-    { workflowId, organizationId: orgId },
+    { workflowId, organizationId: orgId, graph },
     { tags: [`workflow:${workflowId}`] }
   );
 

@@ -1,11 +1,20 @@
 import { DashboardSidebar } from "@/features/workflows/components/dashboard-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { ROUTES } from "@/constants/routes";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
+  const { isAuthenticated } = await auth();
+
+  if (!isAuthenticated) {
+    redirect(ROUTES.SIGN_IN);
+  }
+
   return (
     <SidebarProvider className="h-svh">
       <DashboardSidebar />

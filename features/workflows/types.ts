@@ -11,10 +11,16 @@ export interface NodeField {
 }
 
 export interface NodeDefinition {
-  type: string;
+  type: "start" | "open-url";
   kind: StepNodeKind;
   label: string;
   icon: LucideIcon;
   accent: string;
   fields: NodeField[];
+  outputs: NodeOutput[];
+}
+
+export interface NodeOutput {
+  path: string;
+  label: string;
 }

@@ -6,10 +6,8 @@ interface OpenUrlParams {
 }
 
 export const openUrl = async ({ url, stagehand }: OpenUrlParams) => {
-  const pages = await stagehand.context.pages();
-  const page = pages[0];
-
+  const [page] = stagehand.context.pages();
   await page.goto(url, { waitUntil: "load", timeoutMs: 30_000 });
 
-  return { url: page.url(), title: await page.title() };
+  return { title: await page.title(), url: page.url() };
 };

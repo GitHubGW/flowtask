@@ -1,4 +1,4 @@
-import { validateGraph } from "@/features/workflows/libs/validate-graph";
+import { validateWorkflowGraph } from "@/features/workflows/libs/validate-workflow-graph";
 import { db } from "@/libs/db";
 import { WorkflowGraph, workflows } from "@/libs/db/schema";
 import { and, asc, eq } from "drizzle-orm";
@@ -11,7 +11,7 @@ import { and, asc, eq } from "drizzle-orm";
  */
 export const getWorkflows = (organizationId: string) => {
   return db
-    .select()
+    .select({ id: workflows.id, name: workflows.name })
     .from(workflows)
     .where(eq(workflows.organizationId, organizationId))
     .orderBy(asc(workflows.createdAt));
@@ -25,14 +25,14 @@ export const getWorkflows = (organizationId: string) => {
  * @returns 워크플로우
  */
 export const getWorkflow = async (id: string, organizationId: string) => {
-  const [foundWorkflow] = await db
+  const [workflow] = await db
     .select()
     .from(workflows)
     .where(
       and(eq(workflows.id, id), eq(workflows.organizationId, organizationId))
     )
     .limit(1);
-  return foundWorkflow;
+  return workflow;
 };
 
 /**
@@ -63,7 +63,7 @@ export const deleteWorkflow = async (id: string, organizationId: string) => {
     .where(
       and(eq(workflows.id, id), eq(workflows.organizationId, organizationId))
     )
-    .returning();
+    .returning({ id: workflows.id });
   return deletedWorkflow;
 };
 
@@ -85,17 +85,20 @@ export const updateWorkflowGraph = async ({
   organizationId,
   graph,
 }: UpdateWorkflowGraphParams) => {
-  const problems = validateGraph(graph);
+  const errors = validateWorkflowGraph(graph);
 
-  if (problems.length > 0) {
-    const errorMessage = problems.join(" ");
+  if (errors.length > 0) {
+    const errorMessage = errors.join("\n");
     throw new Error(errorMessage);
   }
 
-  await db
+  const [updatedWorkflow] = await db
     .update(workflows)
     .set({ graph, updatedAt: new Date() })
     .where(
       and(eq(workflows.id, id), eq(workflows.organizationId, organizationId))
-    );
+    )
+    .returning({ id: workflows.id });
+
+  return updatedWorkflow;
 };

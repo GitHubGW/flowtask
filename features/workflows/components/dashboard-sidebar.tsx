@@ -6,15 +6,14 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { WorkflowNav } from "@/features/workflows/components/workflow-nav";
 import { auth } from "@clerk/nextjs/server";
 import { getWorkflows } from "@/features/workflows/queries";
-import { createWorkflowAction } from "@/features/workflows/actions";
 import { ROUTES } from "@/constants/routes";
+import { WorkflowSidebarSection } from "@/features/workflows/components/workflow-sidebar-section";
 
 export const DashboardSidebar = async () => {
   const { orgId } = await auth();
-  const foundWorkflows = orgId ? await getWorkflows(orgId) : [];
+  const workflows = orgId ? await getWorkflows(orgId) : [];
 
   return (
     <Sidebar variant="inset" collapsible="icon">
@@ -39,10 +38,7 @@ export const DashboardSidebar = async () => {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <WorkflowNav
-          workflows={foundWorkflows}
-          onCreateWorkflow={createWorkflowAction}
-        />
+        <WorkflowSidebarSection workflows={workflows} />
       </SidebarContent>
       <SidebarFooter className="group-data-[collapsible=icon]:items-center">
         <UserButton

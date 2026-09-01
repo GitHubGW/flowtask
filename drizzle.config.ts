@@ -3,17 +3,17 @@ import { defineConfig } from "drizzle-kit";
 
 config({ path: ".env.local" });
 
-const databaseUrl =
-  process.env.DATABASE_URL_UNPOLLED ?? process.env.DATABASE_URL;
+const DATABASE_URL =
+  process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL;
 
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL_UNPOOLED or DATABASE_URL is not set");
+if (!DATABASE_URL) {
+  throw new Error("DATABASE_URL이 설정되지 않았습니다.");
 }
 
 export default defineConfig({
   schema: "./libs/db/schema.ts",
   out: "./libs/db/migrations",
   dialect: "postgresql",
-  dbCredentials: { url: databaseUrl },
+  dbCredentials: { url: DATABASE_URL },
   strict: true,
 });

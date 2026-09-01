@@ -13,8 +13,8 @@ import { ROUTES } from "@/constants/routes";
 
 const NotFound = () => {
   return (
-    <div className="flex min-h-svh flex-col">
-      <main className="flex flex-1 items-center justify-center p-6">
+    <section className="flex min-h-svh flex-col">
+      <div className="flex flex-1 items-center justify-center p-6">
         <Empty className="border-0">
           <EmptyHeader>
             <EmptyMedia variant="icon">
@@ -28,11 +28,7 @@ const NotFound = () => {
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button
-              asChild
-              className="gap-1.5"
-              aria-label="대시보드로 돌아가기"
-            >
+            <Button asChild className="gap-1.5">
               <Link href={ROUTES.DASHBOARD}>
                 <ArrowLeft data-icon="inline-start" aria-hidden />
                 대시보드로 돌아가기
@@ -40,8 +36,8 @@ const NotFound = () => {
             </Button>
           </EmptyContent>
         </Empty>
-      </main>
-    </div>
+      </div>
+    </section>
   );
 };
 
