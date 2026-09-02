@@ -5,6 +5,9 @@ import type {
 } from "@/features/workflows/types";
 import { openUrl } from "@/features/workflows/nodes/open-url";
 import { act } from "@/features/workflows/nodes/act";
+import { extract } from "@/features/workflows/nodes/extract";
+import { observe } from "@/features/workflows/nodes/observe";
+import { agent } from "@/features/workflows/nodes/agent";
 
 export interface WorkflowStepExecutorContext {
   inputValues: Record<string, string>;
@@ -22,11 +25,39 @@ export const workflowStepExecutors: Partial<
     inputValues,
     getStagehand,
   }: WorkflowStepExecutorContext) => {
-    const stagehand = await getStagehand();
-    return openUrl({ url: inputValues.url, stagehand });
+    return openUrl({
+      url: inputValues.url,
+      stagehand: await getStagehand(),
+    });
   },
   act: async ({ inputValues, getStagehand }: WorkflowStepExecutorContext) => {
-    const stagehand = await getStagehand();
-    return act({ instruction: inputValues.instruction, stagehand });
+    return act({
+      instruction: inputValues.instruction,
+      stagehand: await getStagehand(),
+    });
+  },
+  extract: async ({
+    inputValues,
+    getStagehand,
+  }: WorkflowStepExecutorContext) => {
+    return extract({
+      instruction: inputValues.instruction,
+      stagehand: await getStagehand(),
+    });
+  },
+  observe: async ({
+    inputValues,
+    getStagehand,
+  }: WorkflowStepExecutorContext) => {
+    return observe({
+      instruction: inputValues.instruction,
+      stagehand: await getStagehand(),
+    });
+  },
+  agent: async ({ inputValues, getStagehand }: WorkflowStepExecutorContext) => {
+    return agent({
+      instruction: inputValues.instruction,
+      stagehand: await getStagehand(),
+    });
   },
 } satisfies Record<WorkflowActionStepType, WorkflowStepExecutor>;

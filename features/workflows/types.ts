@@ -1,7 +1,8 @@
 import type { Edge, Node } from "@xyflow/react";
 import type { LucideIcon } from "lucide-react";
 
-export type WorkflowStepType = "start" | "open-url" | "act";
+export type WorkflowStepType =
+  "start" | "open-url" | "act" | "extract" | "observe" | "agent";
 
 export type WorkflowStepKind = "trigger" | "action";
 
@@ -9,6 +10,9 @@ export type WorkflowStepKindByType = {
   start: "trigger";
   "open-url": "action";
   act: "action";
+  extract: "action";
+  observe: "action";
+  agent: "action";
 };
 
 export type WorkflowActionStepType = {
