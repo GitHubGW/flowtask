@@ -1,11 +1,11 @@
 import { ERROR_MESSAGES } from "@/constants/error-messages";
 import { interpolateWorkflowValues } from "@/features/workflows/libs/interpolate-workflow-values";
 import { validateWorkflowGraph } from "@/features/workflows/libs/validate-workflow-graph";
-import { nodeExecutors } from "@/features/workflows/nodes/node-executors";
+import { workflowStepExecutors } from "@/features/workflows/nodes/workflow-step-executors";
 import { getWorkflow } from "@/features/workflows/queries";
-import { WorkflowGraph } from "@/libs/db/schema";
+import type { WorkflowGraph } from "@/features/workflows/types";
 import { Stagehand } from "@browserbasehq/stagehand";
-import { logger, task } from "@trigger.dev/sdk";
+import { logger, metadata, task } from "@trigger.dev/sdk";
 import toposort from "toposort";
 
 interface RunWorkflowPayload {
@@ -13,6 +13,11 @@ interface RunWorkflowPayload {
   organizationId: string;
   graph: WorkflowGraph;
 }
+
+export type RunStep = {
+  nodeId: string;
+  status: "pending" | "running" | "done" | "failed";
+};
 
 export const runWorkflowTask = task({
   id: "run-workflow",
@@ -35,6 +40,23 @@ export const runWorkflowTask = task({
       graph.edges.map((edge) => [edge.source, edge.target])
     );
     const outputs: Record<string, unknown> = {};
+
+    let steps: RunStep[] = executionOrder.flatMap((nodeId) => {
+      const node = nodesById.get(nodeId);
+
+      return node?.data.kind === "action"
+        ? [{ nodeId, status: "pending" }]
+        : [];
+    });
+
+    const updateStepStatus = (nodeId: string, status: RunStep["status"]) => {
+      steps = steps.map((step) =>
+        step.nodeId === nodeId ? { ...step, status } : step
+      );
+      metadata.set("steps", steps);
+    };
+
+    metadata.set("steps", steps);
 
     let stagehand: Stagehand | undefined;
     let executedStepCount = 0;
@@ -78,39 +100,51 @@ export const runWorkflowTask = task({
           continue;
         }
 
-        const executor = nodeExecutors[node.data.type];
+        updateStepStatus(node.id, "running");
+        await metadata.flush();
 
-        if (!executor) {
-          throw new Error(`노드 실행기를 찾을 수 없습니다: ${node.data.type}`);
+        try {
+          const workflowStepExecutor = workflowStepExecutors[node.data.type];
+
+          if (!workflowStepExecutor) {
+            throw new Error(
+              `노드 실행기를 찾을 수 없습니다: ${node.data.type}`
+            );
+          }
+
+          logger.log("워크플로우 단계 실행: ", {
+            workflowId,
+            nodeId: node.id,
+            nodeType: node.data.type,
+            nodeTitle: node.data.title,
+          });
+
+          const interpolatedInputValues = Object.fromEntries(
+            Object.entries(node.data.inputValues).map(([key, value]) => [
+              key,
+              interpolateWorkflowValues(value, outputs),
+            ])
+          );
+
+          outputs[node.id] = await workflowStepExecutor({
+            inputValues: interpolatedInputValues,
+            getStagehand,
+          });
+
+          executedStepCount += 1;
+          updateStepStatus(node.id, "done");
+        } catch (error) {
+          updateStepStatus(node.id, "failed");
+          await metadata.flush();
+          throw error;
         }
-
-        logger.log("워크플로우 단계 실행: ", {
-          workflowId,
-          nodeId: node.id,
-          nodeType: node.data.type,
-          nodeTitle: node.data.title,
-        });
-
-        const interpolatedValues = Object.fromEntries(
-          Object.entries(node.data.values).map(([key, value]) => [
-            key,
-            interpolateWorkflowValues(value, outputs),
-          ])
-        );
-
-        outputs[node.id] = await executor({
-          values: interpolatedValues,
-          getStagehand,
-        });
-
-        executedStepCount += 1;
       }
 
       logger.log("워크플로우 실행 완료", {
         workflowId,
         executedStepCount,
       });
-      return { executedStepCount };
+      return { executedStepCount, steps };
     } finally {
       await stagehand?.close();
     }

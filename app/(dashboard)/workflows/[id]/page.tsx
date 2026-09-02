@@ -1,10 +1,12 @@
 import { auth } from "@clerk/nextjs/server";
+import { auth as triggerAuth } from "@trigger.dev/sdk";
 import { notFound, redirect } from "next/navigation";
 import { getWorkflow } from "@/features/workflows/queries";
 import { ReactFlowProvider } from "@xyflow/react";
 import { ROUTES } from "@/constants/routes";
 import { WorkflowRoomProvider } from "@/features/workflows/components/workflow-room-provider";
 import { WorkflowEditorLayout } from "@/features/workflows/components/workflow-editor-layout";
+import { WorkflowRunsProvider } from "@/features/workflows/components/workflow-runs-provider";
 
 interface WorkflowDetailPageProps {
   params: Promise<{ id: string }>;
@@ -28,12 +30,19 @@ const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
     notFound();
   }
 
+  const publicAccessToken = await triggerAuth.createPublicToken({
+    scopes: { read: { tags: [`workflow:${id}`] } },
+    expirationTime: "3h",
+  });
+
   return (
-    <ReactFlowProvider>
-      <WorkflowRoomProvider>
-        <WorkflowEditorLayout />
-      </WorkflowRoomProvider>
-    </ReactFlowProvider>
+    <WorkflowRunsProvider publicAccessToken={publicAccessToken}>
+      <ReactFlowProvider>
+        <WorkflowRoomProvider>
+          <WorkflowEditorLayout />
+        </WorkflowRoomProvider>
+      </ReactFlowProvider>
+    </WorkflowRunsProvider>
   );
 };
 
