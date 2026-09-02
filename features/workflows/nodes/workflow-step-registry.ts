@@ -6,6 +6,7 @@ import {
   Bot,
   Eye,
   Globe,
+  Mail,
   MousePointerClick,
   Pointer,
   ScanText,
@@ -40,8 +41,8 @@ export const workflowStepRegistry = {
       },
     ],
     outputs: [
-      { path: "title", label: "Title" },
-      { path: "url", label: "URL" },
+      { label: "Title", path: "title" },
+      { label: "URL", path: "url" },
     ],
   },
   act: {
@@ -60,9 +61,9 @@ export const workflowStepRegistry = {
       },
     ],
     outputs: [
-      { path: "success", label: "Success" },
-      { path: "message", label: "Message" },
-      { path: "url", label: "URL" },
+      { label: "Success", path: "success" },
+      { label: "Message", path: "message" },
+      { label: "URL", path: "url" },
     ],
   },
   extract: {
@@ -119,9 +120,38 @@ export const workflowStepRegistry = {
       },
     ],
     outputs: [
-      { path: "success", label: "Success" },
-      { path: "message", label: "Message" },
-      { path: "completed", label: "Completed" },
+      { label: "Success", path: "success" },
+      { label: "Message", path: "message" },
+      { label: "Completed", path: "completed" },
     ],
+  },
+  "send-email": {
+    type: "send-email",
+    kind: "action",
+    label: "Send Email",
+    icon: Mail,
+    accent: "bg-teal-500 text-white",
+    inputs: [
+      {
+        key: "to",
+        label: "To",
+        placeholder: "test@gmail.com",
+        required: true,
+      },
+      {
+        key: "subject",
+        label: "Subject",
+        placeholder: "Hello, world!",
+        required: true,
+      },
+      {
+        key: "html",
+        label: "HTML",
+        placeholder: "Write your message",
+        required: true,
+        multiline: true,
+      },
+    ],
+    outputs: [{ label: "Email ID", path: "id" }],
   },
 } satisfies WorkflowStepRegistry;

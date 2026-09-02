@@ -8,6 +8,7 @@ import { act } from "@/features/workflows/nodes/act";
 import { extract } from "@/features/workflows/nodes/extract";
 import { observe } from "@/features/workflows/nodes/observe";
 import { agent } from "@/features/workflows/nodes/agent";
+import { sendEmail } from "@/features/workflows/nodes/send-email";
 
 export interface WorkflowStepExecutorContext {
   inputValues: Record<string, string>;
@@ -58,6 +59,13 @@ export const workflowStepExecutors: Partial<
     return agent({
       instruction: inputValues.instruction,
       stagehand: await getStagehand(),
+    });
+  },
+  "send-email": async ({ inputValues }: WorkflowStepExecutorContext) => {
+    return sendEmail({
+      to: inputValues.to,
+      subject: inputValues.subject,
+      html: inputValues.html,
     });
   },
 } satisfies Record<WorkflowActionStepType, WorkflowStepExecutor>;
