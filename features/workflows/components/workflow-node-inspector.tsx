@@ -1,23 +1,21 @@
 import { Label } from "@/components/ui/label";
-import { NodeFieldControl } from "@/features/workflows/components/node-field-control";
-import { WorkflowNodeIcon } from "@/features/workflows/components/workflow-node-icon";
 import { WorkflowPanelSection } from "@/features/workflows/components/workflow-panel-section";
-import {
-  nodeRegistry,
-  type StepNodeType,
-} from "@/features/workflows/nodes/node-registry";
+import { WorkflowStepIcon } from "@/features/workflows/components/workflow-step-icon";
+import { WorkflowStepInputControl } from "@/features/workflows/components/workflow-step-input-control";
+import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
+import type { WorkflowStepNode } from "@/features/workflows/types";
 import { useReactFlow } from "@xyflow/react";
 
 interface WorkflowNodeInspectorProps {
-  selectedNode: StepNodeType | undefined;
-  onFieldFocus?: (fieldKey: string) => void;
+  selectedNode: WorkflowStepNode | undefined;
+  onInputFocus?: (inputKey: string) => void;
 }
 
 export const WorkflowNodeInspector = ({
   selectedNode,
-  onFieldFocus,
+  onInputFocus,
 }: WorkflowNodeInspectorProps) => {
-  const { updateNodeData } = useReactFlow<StepNodeType>();
+  const { updateNodeData } = useReactFlow<WorkflowStepNode>();
 
   if (!selectedNode) {
     return (
@@ -29,30 +27,36 @@ export const WorkflowNodeInspector = ({
     );
   }
 
-  const { type, title, values } = selectedNode.data;
-  const nodeDefinition = nodeRegistry[type];
+  const { type, title, inputValues } = selectedNode.data;
+  const stepDefinition = workflowStepRegistry[type];
 
   return (
-    <WorkflowPanelSection title={title} icon={<WorkflowNodeIcon type={type} />}>
+    <WorkflowPanelSection
+      title={title}
+      icon={<WorkflowStepIcon stepType={type} />}
+    >
       <div className="flex flex-col gap-3 p-3">
-        {nodeDefinition.fields.length === 0 ? (
+        {stepDefinition.inputs.length === 0 ? (
           <p className="text-xs text-muted-foreground">속성이 없습니다</p>
         ) : (
-          nodeDefinition.fields.map((field) => (
-            <div key={field.key} className="flex flex-col gap-1.5">
-              <Label htmlFor={field.key} className="text-xs">
-                {field.label}
-                {field.required && <span className="text-red-500">*</span>}
+          stepDefinition.inputs.map((input) => (
+            <div key={input.key} className="flex flex-col gap-1.5">
+              <Label htmlFor={input.key} className="text-xs">
+                {input.label}
+                {input.required && <span className="text-red-500">*</span>}
               </Label>
-              <NodeFieldControl
-                field={field}
-                value={values[field.key] ?? ""}
+              <WorkflowStepInputControl
+                input={input}
+                value={inputValues[input.key] ?? ""}
                 onChange={(value) => {
                   updateNodeData(selectedNode.id, (node) => ({
-                    values: { ...node.data.values, [field.key]: value },
+                    inputValues: {
+                      ...node.data.inputValues,
+                      [input.key]: value,
+                    },
                   }));
                 }}
-                onFocus={() => onFieldFocus?.(field.key)}
+                onFocus={() => onInputFocus?.(input.key)}
               />
             </div>
           ))

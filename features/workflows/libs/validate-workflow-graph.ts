@@ -1,5 +1,5 @@
 import toposort from "toposort";
-import type { WorkflowGraph } from "@/libs/db/schema";
+import type { WorkflowGraph } from "@/features/workflows/types";
 
 export const validateWorkflowGraph = ({ nodes, edges }: WorkflowGraph) => {
   const errors = [];

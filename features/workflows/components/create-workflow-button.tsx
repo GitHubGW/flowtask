@@ -4,13 +4,19 @@ import { useTransition } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createWorkflowAction } from "@/features/workflows/actions";
+import { toast } from "sonner";
 
 export const CreateWorkflowButton = () => {
   const [isPending, startTransition] = useTransition();
 
   const handleCreateWorkflow = () => {
     startTransition(async () => {
-      await createWorkflowAction();
+      try {
+        await createWorkflowAction();
+        toast.success("워크플로우를 생성했습니다.");
+      } catch {
+        toast.error("워크플로우 생성에 실패했습니다.");
+      }
     });
   };
 

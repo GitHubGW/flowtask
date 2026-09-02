@@ -3,53 +3,51 @@
 import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  nodeRegistry,
-  type StepNodeType,
-} from "@/features/workflows/nodes/node-registry";
+import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
+import type { WorkflowStepNode } from "@/features/workflows/types";
 import {
   useNodes,
   useReactFlow,
   useOnSelectionChange,
   type OnSelectionChangeFunc,
 } from "@xyflow/react";
-import { WorkflowNodeIcon } from "@/features/workflows/components/workflow-node-icon";
 import { useUpstreamOutputOptions } from "@/features/workflows/hooks/use-upstream-output-options";
 import { RunWorkflowButton } from "@/features/workflows/components/run-workflow-button";
 import { WorkflowNodePalette } from "@/features/workflows/components/workflow-node-palette";
 import { WorkflowNodeInspector } from "@/features/workflows/components/workflow-node-inspector";
 import { WorkflowActionsMenu } from "@/features/workflows/components/workflow-actions-menu";
-
-type LastFocusedField = Record<string, string>;
+import { WorkflowStepIcon } from "@/features/workflows/components/workflow-step-icon";
 
 export const WorkflowEditorSidebar = () => {
   const [activeTab, setActiveTab] = useState("toolbar");
-  const [lastFocusedField, setLastFocusedField] = useState<LastFocusedField>(
-    {}
-  );
-  const { updateNodeData } = useReactFlow<StepNodeType>();
-  const workflowNodes = useNodes<StepNodeType>();
+  const [lastFocusedInput, setLastFocusedInput] = useState<
+    Record<string, string>
+  >({});
+  const { updateNodeData } = useReactFlow<WorkflowStepNode>();
+  const workflowNodes = useNodes<WorkflowStepNode>();
   const selectedNode = workflowNodes.find((node) => node.selected);
   const upstreamOutputOptions = useUpstreamOutputOptions(selectedNode);
 
   const handleNodeSelectionChange = useCallback<
-    OnSelectionChangeFunc<StepNodeType>
+    OnSelectionChangeFunc<WorkflowStepNode>
   >(({ nodes }) => {
     if (nodes.length > 0) {
       setActiveTab("editor");
     }
   }, []);
 
-  useOnSelectionChange<StepNodeType>({ onChange: handleNodeSelectionChange });
+  useOnSelectionChange<WorkflowStepNode>({
+    onChange: handleNodeSelectionChange,
+  });
 
-  const handleFieldFocus = (fieldKey: string) => {
+  const handleInputFocus = (inputKey: string) => {
     if (!selectedNode) {
       return;
     }
 
-    setLastFocusedField((currentField) => ({
-      ...currentField,
-      [selectedNode.id]: fieldKey,
+    setLastFocusedInput((currentInput) => ({
+      ...currentInput,
+      [selectedNode.id]: inputKey,
     }));
   };
 
@@ -58,24 +56,24 @@ export const WorkflowEditorSidebar = () => {
       return;
     }
 
-    const fields = nodeRegistry[selectedNode.data.type].fields;
-    const lastFieldKey = lastFocusedField[selectedNode.id];
-    const fieldKey = fields.some((field) => field.key === lastFieldKey)
-      ? lastFieldKey
-      : fields[0]?.key;
+    const inputs = workflowStepRegistry[selectedNode.data.type].inputs;
+    const lastInputKey = lastFocusedInput[selectedNode.id];
+    const inputKey = inputs.some((input) => input.key === lastInputKey)
+      ? lastInputKey
+      : inputs[0]?.key;
 
-    if (!fieldKey) {
+    if (!inputKey) {
       return;
     }
 
     updateNodeData(selectedNode.id, (node) => {
-      const currentValue = node.data.values[fieldKey] ?? "";
+      const currentValue = node.data.inputValues[inputKey] ?? "";
       const separator = currentValue && !/\s$/.test(currentValue) ? " " : "";
 
       return {
-        values: {
-          ...node.data.values,
-          [fieldKey]: `${currentValue}${separator}${token}`,
+        inputValues: {
+          ...node.data.inputValues,
+          [inputKey]: `${currentValue}${separator}${token}`,
         },
       };
     });
@@ -113,7 +111,7 @@ export const WorkflowEditorSidebar = () => {
           <div className="shrink-0">
             <WorkflowNodeInspector
               selectedNode={selectedNode}
-              onFieldFocus={handleFieldFocus}
+              onInputFocus={handleInputFocus}
             />
           </div>
           {upstreamOutputOptions.length > 0 && (
@@ -122,21 +120,21 @@ export const WorkflowEditorSidebar = () => {
                 연결
               </div>
               <div className="flex max-h-80 flex-wrap gap-1.5 overflow-y-auto p-3">
-                {upstreamOutputOptions.map((outputOption) => (
+                {upstreamOutputOptions.map(({ stepType, label, token }) => (
                   <Button
-                    key={outputOption.token}
+                    key={token}
                     type="button"
                     variant="outline"
                     size="sm"
-                    title={outputOption.token}
-                    onClick={() => handleInsertOutputToken(outputOption.token)}
+                    title={token}
+                    onClick={() => handleInsertOutputToken(token)}
                     className="h-auto max-w-full justify-start py-1"
                   >
-                    <WorkflowNodeIcon
-                      type={outputOption.type}
+                    <WorkflowStepIcon
+                      stepType={stepType}
                       className="size-4 rounded-sm"
                     />
-                    <span className="truncate">{outputOption.label}</span>
+                    <span className="truncate">{label}</span>
                   </Button>
                 ))}
               </div>

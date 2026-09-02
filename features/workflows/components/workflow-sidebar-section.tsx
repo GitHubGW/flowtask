@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Plus, Workflow } from "lucide-react";
+import { Loader2, Plus, Workflow } from "lucide-react";
 import { cn } from "@/libs/utils";
 import {
   Popover,
@@ -23,6 +23,7 @@ import { type WorkflowRow } from "@/libs/db/schema";
 import { useTransition } from "react";
 import { ROUTES } from "@/constants/routes";
 import { createWorkflowAction } from "@/features/workflows/actions";
+import { toast } from "sonner";
 
 interface WorkflowSidebarSectionProps {
   workflows: Pick<WorkflowRow, "id" | "name">[];
@@ -41,7 +42,12 @@ export const WorkflowSidebarSection = ({
 
   const handleCreateWorkflow = () => {
     startTransition(async () => {
-      await createWorkflowAction();
+      try {
+        await createWorkflowAction();
+        toast.success("워크플로우를 생성했습니다.");
+      } catch {
+        toast.error("워크크플로우 생성에 실패했습니다.");
+      }
     });
   };
 
@@ -74,8 +80,12 @@ export const WorkflowSidebarSection = ({
                     onClick={handleCreateWorkflow}
                     className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    <Plus className="size-4 shrink-0" aria-hidden />
-                    워크플로우 추가
+                    {isPending ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      <Plus className="size-4 shrink-0" aria-hidden />
+                    )}
+                    {isPending ? "워크플로우 생성 중..." : "워크플로우 추가"}
                   </button>
                   <div className="my-1 border-t" />
                   <ul className="flex max-h-80 flex-col overflow-y-auto">
@@ -114,7 +124,7 @@ export const WorkflowSidebarSection = ({
         onClick={handleCreateWorkflow}
         disabled={isPending}
       >
-        <Plus />
+        {isPending ? <Loader2 className="animate-spin" /> : <Plus />}
       </SidebarGroupAction>
       <SidebarGroupContent>
         <SidebarMenu>

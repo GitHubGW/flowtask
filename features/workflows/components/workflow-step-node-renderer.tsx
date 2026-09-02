@@ -1,26 +1,35 @@
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
-import {
-  nodeRegistry,
-  type StepNodeType,
-} from "@/features/workflows/nodes/node-registry";
+import { Spinner } from "@/components/ui/spinner";
+import { useLatestRunSteps } from "@/features/workflows/components/workflow-runs-provider";
+import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
+import type { WorkflowStepNode } from "@/features/workflows/types";
 import { cn } from "@/libs/utils";
 
-const WorkflowStepNodeComponent = ({
+const WorkflowStepNodeRendererComponent = ({
+  id,
   data,
   selected,
-}: NodeProps<StepNodeType>) => {
-  const nodeDefinition = nodeRegistry[data.type];
-  const Icon = nodeDefinition.icon;
+}: NodeProps<WorkflowStepNode>) => {
+  const { steps, isLive } = useLatestRunSteps();
+  const currentRunStep = steps.find((step) => step.nodeId === id);
+  const isRunning = isLive && currentRunStep?.status === "running";
+  const isDone = currentRunStep?.status === "done";
+  const isFailed = currentRunStep?.status === "failed";
+  const stepDefinition = workflowStepRegistry[data.type];
+  const Icon = stepDefinition.icon;
   const showsTargetHandle = data.kind !== "trigger";
-  const filteredNodeFields = nodeDefinition.fields.filter(
-    (field) => data.values[field.key]
+  const inputsWithValues = stepDefinition.inputs.filter(
+    (input) => data.inputValues[input.key]
   );
 
   return (
     <div
       className={cn(
         "max-w-80 min-w-50 rounded-(--radius) border-2 border-border bg-card text-card-foreground",
+        isRunning && "border-blue-500",
+        isDone && "border-green-500",
+        isFailed && "border-destructive",
         selected && "ring-2 ring-ring ring-offset-2 ring-offset-background"
       )}
     >
@@ -37,28 +46,32 @@ const WorkflowStepNodeComponent = ({
         <div
           className={cn(
             "flex size-7 shrink-0 items-center justify-center rounded-md",
-            nodeDefinition.accent
+            stepDefinition.accent
           )}
         >
-          <Icon className="size-4" />
+          {isRunning ? (
+            <Spinner className="size-4" />
+          ) : (
+            <Icon className="size-4" />
+          )}
         </div>
         <span className="text-sm font-semibold">{data.title}</span>
       </div>
 
-      {filteredNodeFields.length > 0 && (
+      {inputsWithValues.length > 0 && (
         <>
           <div className="border-t border-border" />
           <div className="flex flex-col gap-1.5 px-3 py-2.5">
-            {filteredNodeFields.map((field) => (
+            {inputsWithValues.map((input) => (
               <div
-                key={field.key}
+                key={input.key}
                 className="flex items-center justify-between gap-4 text-xs"
               >
                 <span className="shrink-0 text-muted-foreground">
-                  {field.label}
+                  {input.label}
                 </span>
                 <span className="truncate font-medium">
-                  {data.values[field.key]}
+                  {data.inputValues[input.key]}
                 </span>
               </div>
             ))}
@@ -76,4 +89,4 @@ const WorkflowStepNodeComponent = ({
   );
 };
 
-export const WorkflowStepNode = memo(WorkflowStepNodeComponent);
+export const WorkflowStepNodeRenderer = memo(WorkflowStepNodeRendererComponent);

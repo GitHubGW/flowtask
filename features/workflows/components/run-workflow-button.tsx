@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { runWorkflowAction } from "@/features/workflows/actions";
 import { validateWorkflowGraph } from "@/features/workflows/libs/validate-workflow-graph";
-import { type StepNodeType } from "@/features/workflows/nodes/node-registry";
+import type { WorkflowStepNode } from "@/features/workflows/types";
 import { useReactFlow } from "@xyflow/react";
 import { Play } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 export const RunWorkflowButton = () => {
   const { id } = useParams<{ id: string }>();
-  const { getNodes, getEdges } = useReactFlow<StepNodeType>();
+  const { getNodes, getEdges } = useReactFlow<WorkflowStepNode>();
   const [isPending, startTransition] = useTransition();
 
   const handleRunWorkflow = () => {
@@ -41,7 +41,7 @@ export const RunWorkflowButton = () => {
       onClick={handleRunWorkflow}
     >
       <Play aria-hidden className="fill-current" />
-      실행
+      {isPending ? "워크플로우 실행 중..." : "워크플로우 실행"}
     </Button>
   );
 };

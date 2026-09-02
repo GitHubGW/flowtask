@@ -10,7 +10,7 @@ import {
   updateWorkflowGraph,
 } from "@/features/workflows/queries";
 import type { runWorkflowTask } from "@/features/workflows/tasks/run-workflow";
-import { WorkflowGraph } from "@/libs/db/schema";
+import type { WorkflowGraph } from "@/features/workflows/types";
 import { liveblocks } from "@/libs/liveblocks";
 import { auth } from "@clerk/nextjs/server";
 import { runs, tasks } from "@trigger.dev/sdk";
@@ -81,7 +81,7 @@ export const runWorkflowAction = async (
   }
 
   const updatedWorkflow = await updateWorkflowGraph({
-    id: workflowId,
+    workflowId,
     organizationId: orgId,
     graph,
   });

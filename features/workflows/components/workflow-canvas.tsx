@@ -8,45 +8,55 @@ import {
   MiniMap,
   ConnectionLineType,
   Panel,
+  type ReactFlowProps,
   type Edge,
 } from "@xyflow/react";
-import { WorkflowStepNode } from "@/features/workflows/components/workflow-step-node";
-import type { StepNodeType } from "@/features/workflows/nodes/node-registry";
+import { WorkflowStepNodeRenderer } from "@/features/workflows/components/workflow-step-node-renderer";
+import type {
+  WorkflowGraph,
+  WorkflowStepNode,
+} from "@/features/workflows/types";
 import { useLiveblocksFlow, Cursors } from "@liveblocks/react-flow";
 import { AvatarStack } from "@liveblocks/react-ui";
 
-const initialNodes: StepNodeType[] = [];
+const INITIAL_WORKFLOW_GRAPH: WorkflowGraph = {
+  nodes: [],
+  edges: [],
+};
 
-const initialEdges: Edge[] = [];
+const WORKFLOW_CANVAS_OPTIONS: ReactFlowProps<WorkflowStepNode, Edge> = {
+  nodeTypes: { step: WorkflowStepNodeRenderer },
+  connectionLineType: ConnectionLineType.SmoothStep,
+  connectionLineStyle: { stroke: "var(--border)" },
+  defaultViewport: { x: 0, y: 0, zoom: 1.2 },
+  defaultEdgeOptions: {
+    type: "smoothstep" as const,
+    style: { stroke: "var(--border)" },
+  },
+};
 
 export const WorkflowCanvas = () => {
   const { resolvedTheme } = useTheme();
   const colorMode = resolvedTheme === "dark" ? "dark" : "light";
+
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onDelete } =
     useLiveblocksFlow({
       suspense: true,
-      nodes: { initial: initialNodes },
-      edges: { initial: initialEdges },
+      nodes: { initial: INITIAL_WORKFLOW_GRAPH.nodes },
+      edges: { initial: INITIAL_WORKFLOW_GRAPH.edges },
     });
 
   return (
     <div className="size-full min-h-0">
       <ReactFlow
-        fitView
-        nodeTypes={{ step: WorkflowStepNode }}
-        colorMode={colorMode}
+        {...WORKFLOW_CANVAS_OPTIONS}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onDelete={onDelete}
-        connectionLineType={ConnectionLineType.SmoothStep}
-        connectionLineStyle={{ stroke: "var(--border)" }}
-        defaultEdgeOptions={{
-          type: "smoothstep",
-          style: { stroke: "var(--border)" },
-        }}
+        colorMode={colorMode}
       >
         <Cursors />
         <Background />

@@ -1,22 +1,22 @@
 "use client";
 
 import { getIncomers, useEdges, useNodes } from "@xyflow/react";
-import {
-  nodeRegistry,
-  type WorkflowNodeType,
-  type StepNodeType,
-} from "@/features/workflows/nodes/node-registry";
+import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
+import type {
+  WorkflowStepNode,
+  WorkflowStepType,
+} from "@/features/workflows/types";
 
 export interface UpstreamOutputOption {
-  type: WorkflowNodeType;
+  stepType: WorkflowStepType;
   label: string;
   token: string;
 }
 
 export const useUpstreamOutputOptions = (
-  selectedNode: StepNodeType | undefined
+  selectedNode: WorkflowStepNode | undefined
 ) => {
-  const workflowNodes = useNodes<StepNodeType>();
+  const workflowNodes = useNodes<WorkflowStepNode>();
   const workflowEdges = useEdges();
 
   if (!selectedNode) {
@@ -24,9 +24,9 @@ export const useUpstreamOutputOptions = (
   }
 
   const visitedNodeIds = new Set([selectedNode.id]);
-  const upstreamNodes: StepNodeType[] = [];
+  const upstreamNodes: WorkflowStepNode[] = [];
 
-  const collectUpstreamNodes = (node: StepNodeType) => {
+  const collectUpstreamNodes = (node: WorkflowStepNode) => {
     const incomers = getIncomers(node, workflowNodes, workflowEdges);
 
     for (const incomer of incomers) {
@@ -43,8 +43,8 @@ export const useUpstreamOutputOptions = (
   collectUpstreamNodes(selectedNode);
 
   return upstreamNodes.flatMap((node) =>
-    nodeRegistry[node.data.type].outputs.map((output) => ({
-      type: node.data.type,
+    workflowStepRegistry[node.data.type].outputs.map((output) => ({
+      stepType: node.data.type,
       label: `${node.data.title} · ${output.label}`,
       token: `{{ ${node.id}.${output.path} }}`,
     }))
