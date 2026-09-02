@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,13 +20,15 @@ import {
 import { MoreHorizontal, Trash2 } from "lucide-react";
 import { deleteWorkflowAction } from "@/features/workflows/actions";
 import { MouseEvent, useState, useTransition } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { ROUTES } from "@/constants/routes";
 
 export const WorkflowActionsMenu = () => {
   const { id } = useParams<{ id: string }>();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, startDeleteTransition] = useTransition();
+  const router = useRouter();
 
   const handleOpenDeleteDialog = () => {
     setIsDeleteDialogOpen(true);
@@ -44,6 +48,8 @@ export const WorkflowActionsMenu = () => {
     startDeleteTransition(async () => {
       try {
         await deleteWorkflowAction(id);
+        toast.success("워크플로우를 삭제했습니다.");
+        router.push(ROUTES.DASHBOARD);
       } catch {
         toast.error("워크플로우 삭제에 실패했습니다.");
       }

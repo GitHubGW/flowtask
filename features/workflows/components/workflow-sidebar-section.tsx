@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Loader2, Plus, Workflow } from "lucide-react";
 import { cn } from "@/libs/utils";
 import {
@@ -35,6 +35,7 @@ export const WorkflowSidebarSection = ({
   const pathname = usePathname();
   const { state } = useSidebar();
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const isWorkflowActive = (workflowId: string) => {
     return pathname === ROUTES.WORKFLOWS.DETAIL(workflowId);
@@ -43,10 +44,11 @@ export const WorkflowSidebarSection = ({
   const handleCreateWorkflow = () => {
     startTransition(async () => {
       try {
-        await createWorkflowAction();
+        const { workflowId } = await createWorkflowAction();
         toast.success("워크플로우를 생성했습니다.");
+        router.push(ROUTES.WORKFLOWS.DETAIL(workflowId));
       } catch {
-        toast.error("워크크플로우 생성에 실패했습니다.");
+        toast.error("워크플로우 생성에 실패했습니다.");
       }
     });
   };
