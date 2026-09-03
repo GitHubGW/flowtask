@@ -101,11 +101,10 @@ export const updateWorkflowGraph = async ({
   organizationId,
   graph,
 }: UpdateWorkflowGraphParams) => {
-  const errors = validateWorkflowGraph(graph);
+  const validationError = validateWorkflowGraph(graph);
 
-  if (errors.length > 0) {
-    const errorMessage = errors.join("\n");
-    throw new Error(errorMessage);
+  if (validationError) {
+    throw new Error(validationError);
   }
 
   const [updatedWorkflow] = await db

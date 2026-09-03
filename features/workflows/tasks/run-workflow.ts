@@ -22,11 +22,10 @@ export type RunStep = {
 export const runWorkflowTask = task({
   id: "run-workflow",
   run: async ({ workflowId, organizationId, graph }: RunWorkflowPayload) => {
-    const errors = validateWorkflowGraph(graph);
+    const validationError = validateWorkflowGraph(graph);
 
-    if (errors.length > 0) {
-      const errorMessage = errors.join("\n");
-      throw new Error(errorMessage);
+    if (validationError) {
+      throw new Error(validationError);
     }
 
     const workflow = await getWorkflow(workflowId, organizationId);

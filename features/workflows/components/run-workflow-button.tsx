@@ -15,11 +15,10 @@ export const RunWorkflowButton = () => {
 
   const handleRunWorkflow = () => {
     const graph = { nodes: getNodes(), edges: getEdges() };
-    const errors = validateWorkflowGraph(graph);
+    const validationError = validateWorkflowGraph(graph);
 
-    if (errors.length > 0) {
-      const errorMessage = errors.join("\n");
-      toast.error(errorMessage);
+    if (validationError) {
+      toast.error(validationError);
       return;
     }
 

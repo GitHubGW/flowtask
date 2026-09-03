@@ -2,7 +2,6 @@
 
 import { ERROR_MESSAGES } from "@/constants/error-messages";
 import { REVALIDATION_PATHS } from "@/constants/revalidation-paths";
-import { ROUTES } from "@/constants/routes";
 import { createWorkflowName } from "@/features/workflows/libs/create-workflow-name";
 import {
   createWorkflow,
