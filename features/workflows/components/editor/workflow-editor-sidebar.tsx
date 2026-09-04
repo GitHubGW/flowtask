@@ -1,22 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type { WorkflowStepNode } from "@/features/workflows/types";
-import {
-  useNodes,
-  useReactFlow,
-  useOnSelectionChange,
-  type OnSelectionChangeFunc,
-} from "@xyflow/react";
+import { useNodes, useReactFlow } from "@xyflow/react";
 import { useUpstreamOutputOptions } from "@/features/workflows/hooks/use-upstream-output-options";
-import { RunWorkflowButton } from "@/features/workflows/components/run-workflow-button";
-import { WorkflowNodePalette } from "@/features/workflows/components/workflow-node-palette";
-import { WorkflowNodeInspector } from "@/features/workflows/components/workflow-node-inspector";
-import { WorkflowActionsMenu } from "@/features/workflows/components/workflow-actions-menu";
-import { WorkflowStepIcon } from "@/features/workflows/components/workflow-step-icon";
+import { RunWorkflowButton } from "@/features/workflows/components/editor/run-workflow-button";
+import { WorkflowNodePalette } from "@/features/workflows/components/editor/workflow-node-palette";
+import { WorkflowNodeInspector } from "@/features/workflows/components/editor/workflow-node-inspector";
+import { WorkflowActionsMenu } from "@/features/workflows/components/editor/workflow-actions-menu";
+import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 
 export const WorkflowEditorSidebar = () => {
   const [activeTab, setActiveTab] = useState("toolbar");
@@ -27,18 +22,6 @@ export const WorkflowEditorSidebar = () => {
   const workflowNodes = useNodes<WorkflowStepNode>();
   const selectedNode = workflowNodes.find((node) => node.selected);
   const upstreamOutputOptions = useUpstreamOutputOptions(selectedNode);
-
-  const handleNodeSelectionChange = useCallback<
-    OnSelectionChangeFunc<WorkflowStepNode>
-  >(({ nodes }) => {
-    if (nodes.length > 0) {
-      setActiveTab("editor");
-    }
-  }, []);
-
-  useOnSelectionChange<WorkflowStepNode>({
-    onChange: handleNodeSelectionChange,
-  });
 
   const handleInputFocus = (inputKey: string) => {
     if (!selectedNode) {

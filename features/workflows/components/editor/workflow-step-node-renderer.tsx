@@ -1,10 +1,10 @@
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import { Spinner } from "@/components/ui/spinner";
-import { useLatestRunSteps } from "@/features/workflows/components/workflow-runs-provider";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type { WorkflowStepNode } from "@/features/workflows/types";
 import { cn } from "@/libs/utils";
+import { useLatestRunSteps } from "@/features/workflows/hooks/use-latest-run-steps";
 
 const WorkflowStepNodeRendererComponent = ({
   id,

@@ -7,7 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { CreateWorkflowButton } from "@/features/workflows/components/create-workflow-button";
+import { CreateWorkflowButton } from "@/features/workflows/components/dashboard/create-workflow-button";
 
 const DashboardPage = async () => {
   return (

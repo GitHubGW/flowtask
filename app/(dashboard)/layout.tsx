@@ -1,4 +1,4 @@
-import { DashboardSidebar } from "@/features/workflows/components/dashboard-sidebar";
+import { DashboardSidebar } from "@/features/workflows/components/dashboard/dashboard-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";

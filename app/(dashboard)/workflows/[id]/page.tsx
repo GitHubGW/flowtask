@@ -4,9 +4,9 @@ import { notFound, redirect } from "next/navigation";
 import { getWorkflow } from "@/features/workflows/queries";
 import { ReactFlowProvider } from "@xyflow/react";
 import { ROUTES } from "@/constants/routes";
-import { WorkflowRoomProvider } from "@/features/workflows/components/workflow-room-provider";
-import { WorkflowEditorLayout } from "@/features/workflows/components/workflow-editor-layout";
-import { WorkflowRunsProvider } from "@/features/workflows/components/workflow-runs-provider";
+import { WorkflowRoomProvider } from "@/features/workflows/components/providers/workflow-room-provider";
+import { WorkflowEditorLayout } from "@/features/workflows/components/editor/workflow-editor-layout";
+import { WorkflowRunsProvider } from "@/features/workflows/components/providers/workflow-runs-provider";
 
 interface WorkflowDetailPageProps {
   params: Promise<{ id: string }>;

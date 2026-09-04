@@ -10,7 +10,7 @@ import {
   type ReactFlowProps,
   type Edge,
 } from "@xyflow/react";
-import { WorkflowStepNodeRenderer } from "@/features/workflows/components/workflow-step-node-renderer";
+import { WorkflowStepNodeRenderer } from "@/features/workflows/components/editor/workflow-step-node-renderer";
 import type {
   WorkflowGraph,
   WorkflowStepNode,

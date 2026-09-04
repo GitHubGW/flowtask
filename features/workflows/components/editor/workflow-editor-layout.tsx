@@ -5,8 +5,9 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { WorkflowCanvas } from "@/features/workflows/components/workflow-canvas";
-import { WorkflowEditorSidebar } from "@/features/workflows/components/workflow-editor-sidebar";
+import { WorkflowCanvas } from "@/features/workflows/components/editor/workflow-canvas";
+import { WorkflowConsole } from "@/features/workflows/components/console/workflow-console";
+import { WorkflowEditorSidebar } from "@/features/workflows/components/editor/workflow-editor-sidebar";
 
 export const WorkflowEditorLayout = () => {
   return (
@@ -19,13 +20,11 @@ export const WorkflowEditorLayout = () => {
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel
-              defaultSize="8rem"
-              minSize="6rem"
+              defaultSize="14rem"
+              minSize="8rem"
               className="min-h-0"
             >
-              <div className="flex size-full items-center justify-center text-sm text-muted-foreground">
-                로그
-              </div>
+              <WorkflowConsole />
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>

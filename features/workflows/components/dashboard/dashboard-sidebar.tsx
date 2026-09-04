@@ -9,7 +9,7 @@ import {
 import { auth } from "@clerk/nextjs/server";
 import { getWorkflows } from "@/features/workflows/queries";
 import { ROUTES } from "@/constants/routes";
-import { WorkflowSidebarSection } from "@/features/workflows/components/workflow-sidebar-section";
+import { WorkflowSidebarSection } from "@/features/workflows/components/dashboard/workflow-sidebar-section";
 
 export const DashboardSidebar = async () => {
   const { orgId } = await auth();

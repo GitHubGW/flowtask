@@ -5,8 +5,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { WorkflowPanelSection } from "@/features/workflows/components/workflow-panel-section";
-import { WorkflowStepIcon } from "@/features/workflows/components/workflow-step-icon";
+import { WorkflowPanelSection } from "@/features/workflows/components/editor/workflow-panel-section";
+import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type {
   WorkflowStepKind,
@@ -34,16 +34,14 @@ export const WorkflowNodePalette = () => {
 
   const addNodeToCanvas = (stepType: WorkflowStepType) => {
     const { width, height } = store.getState();
-    const { kind, label } = workflowStepRegistry[stepType];
+    const { type, kind, label } = workflowStepRegistry[stepType];
     const workflowNodes = getNodes();
-    const hasTriggerNode =
-      kind === "trigger" &&
-      workflowNodes.some(
-        (workflowNode) => workflowNode.data.kind === "trigger"
-      );
+    const hasStartNode =
+      type === "start" &&
+      workflowNodes.some((workflowNode) => workflowNode.data.type === "start");
 
-    if (hasTriggerNode) {
-      toast.error("한 개의 트리거 노드만 추가할 수 있습니다.");
+    if (hasStartNode) {
+      toast.error("한 개의 시작(트리거) 노드만 추가할 수 있습니다.");
       return;
     }
 
