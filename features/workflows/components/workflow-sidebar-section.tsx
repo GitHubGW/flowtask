@@ -19,7 +19,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { type WorkflowRow } from "@/libs/db/schema";
+import type { WorkflowRow } from "@/libs/db/schema";
 import { useTransition } from "react";
 import { ROUTES } from "@/constants/routes";
 import { createWorkflowAction } from "@/features/workflows/actions";

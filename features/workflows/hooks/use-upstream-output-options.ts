@@ -13,6 +13,9 @@ export interface UpstreamOutputOption {
   token: string;
 }
 
+/**
+ * 선택한 노드에서 참조 가능한 상위 노드의 출력 옵션을 제공하는 훅
+ */
 export const useUpstreamOutputOptions = (
   selectedNode: WorkflowStepNode | undefined
 ) => {

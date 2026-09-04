@@ -1,11 +1,18 @@
 import toposort from "toposort";
 import type { WorkflowGraph } from "@/features/workflows/types";
 
+/**
+ * 워크플로우 그래프의 실행 가능 여부를 검증하는 함수
+ *
+ * @param nodes - 워크플로우를 구성하는 노드 목록
+ * @param edges - 노드 사이의 연결 관계 목록
+ * @returns 검증 실패 시 오류 메시지 또는 검증 성공 시 `null`
+ */
 export const validateWorkflowGraph = ({ nodes, edges }: WorkflowGraph) => {
-  const triggerNodes = nodes.filter((node) => node.data.kind === "trigger");
+  const startNodes = nodes.filter((node) => node.data.type === "start");
 
-  if (triggerNodes.length === 0) {
-    return "워크플로우에는 하나의 트리거 노드가 존재해야 합니다.";
+  if (startNodes.length === 0) {
+    return "워크플로우에는 하나의 시작(트리거) 노드가 존재해야 합니다.";
   }
 
   const actionNodes = nodes.filter((node) => node.data.kind === "action");

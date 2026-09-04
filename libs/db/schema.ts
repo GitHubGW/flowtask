@@ -1,4 +1,4 @@
-import { type WorkflowGraph } from "@/features/workflows/types";
+import type { WorkflowGraph } from "@/features/workflows/types";
 import { pgTable, text, timestamp, uuid, jsonb } from "drizzle-orm/pg-core";
 
 export const workflows = pgTable("workflows", {

@@ -16,6 +16,9 @@ type WorkflowStepRegistry = {
   [K in WorkflowStepType]: WorkflowStepDefinition<K>;
 };
 
+/**
+ * 워크플로우 스텝 타입과 UI/입출력 정의를 연결하는 매핑 객체
+ */
 export const workflowStepRegistry = {
   start: {
     type: "start",

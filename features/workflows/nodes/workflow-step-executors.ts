@@ -19,6 +19,9 @@ export type WorkflowStepExecutor = (
   context: WorkflowStepExecutorContext
 ) => Promise<unknown>;
 
+/**
+ * 스텝 타입과 실행 함수를 연결하는 매핑 객체
+ */
 export const workflowStepExecutors: Partial<
   Record<WorkflowStepType, WorkflowStepExecutor>
 > = {

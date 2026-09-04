@@ -8,7 +8,7 @@ import {
   deleteWorkflow,
   updateWorkflowGraph,
 } from "@/features/workflows/queries";
-import type { runWorkflowTask } from "@/features/workflows/tasks/run-workflow";
+import type { runWorkflowTask } from "@/features/workflows/tasks/run-workflow/run-workflow-task";
 import type { WorkflowGraph } from "@/features/workflows/types";
 import { liveblocks } from "@/libs/liveblocks";
 import { auth } from "@clerk/nextjs/server";
@@ -89,7 +89,7 @@ export const runWorkflowAction = async (
   }
 
   const handle = await tasks.trigger<typeof runWorkflowTask>(
-    "run-workflow",
+    "run-workflow-task",
     { workflowId, organizationId: orgId, graph },
     { tags: [`workflow:${workflowId}`] }
   );
