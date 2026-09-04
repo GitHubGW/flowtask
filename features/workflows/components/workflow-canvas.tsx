@@ -5,7 +5,6 @@ import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   ConnectionLineType,
   Panel,
   type ReactFlowProps,
@@ -33,6 +32,7 @@ const WORKFLOW_CANVAS_OPTIONS: ReactFlowProps<WorkflowStepNode, Edge> = {
     type: "smoothstep" as const,
     style: { stroke: "var(--border)" },
   },
+  proOptions: { hideAttribution: true },
 };
 
 export const WorkflowCanvas = () => {
@@ -61,7 +61,6 @@ export const WorkflowCanvas = () => {
         <Cursors />
         <Background />
         <Controls />
-        <MiniMap />
         <Panel position="top-right">
           <AvatarStack size={30} max={5} />
         </Panel>
