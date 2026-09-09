@@ -16,6 +16,8 @@ import type {
 } from "@/features/workflows/types";
 import { useReactFlow, useStoreApi } from "@xyflow/react";
 import { toast } from "sonner";
+import { Lock } from "lucide-react";
+import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
 
 const WORKFLOW_STEP_CATEGORIES: { kind: WorkflowStepKind; label: string }[] = [
   { kind: "trigger", label: "트리거" },
@@ -31,8 +33,14 @@ const WORKFLOW_STEP_DEFINITIONS = Object.values(workflowStepRegistry);
 export const WorkflowNodePalette = () => {
   const store = useStoreApi<WorkflowStepNode>();
   const { getNodes, getViewport, addNodes } = useReactFlow<WorkflowStepNode>();
+  const { isLoaded, hasProPlan, goToPricing } = useProPlan();
 
   const addNodeToCanvas = (stepType: WorkflowStepType) => {
+    if (stepType === "agent" && !hasProPlan) {
+      goToPricing();
+      return;
+    }
+
     const { width, height } = store.getState();
     const { type, kind, label } = workflowStepRegistry[stepType];
     const workflowNodes = getNodes();
@@ -91,18 +99,31 @@ export const WorkflowNodePalette = () => {
               </AccordionTrigger>
 
               <AccordionContent className="flex flex-col gap-0.5">
-                {stepDefinitionsInCategory.map(({ type, label: stepLabel }) => (
-                  <Button
-                    key={type}
-                    type="button"
-                    variant="ghost"
-                    onClick={() => addNodeToCanvas(type)}
-                    className="justify-start gap-2.5 px-1.5 text-sm"
-                  >
-                    <WorkflowStepIcon stepType={type} />
-                    {stepLabel}
-                  </Button>
-                ))}
+                {stepDefinitionsInCategory.map(({ type, label: stepLabel }) => {
+                  const isDisabled = type === "agent" && !isLoaded;
+                  const isAgentLocked =
+                    isLoaded && type === "agent" && !hasProPlan;
+
+                  return (
+                    <Button
+                      key={type}
+                      type="button"
+                      variant="ghost"
+                      disabled={isDisabled}
+                      onClick={() => addNodeToCanvas(type)}
+                      className="justify-start gap-2.5 px-1.5 text-sm"
+                    >
+                      <WorkflowStepIcon stepType={type} />
+                      {stepLabel}
+                      {isAgentLocked && (
+                        <Lock
+                          className="ml-auto size-3.5 text-muted-foreground"
+                          aria-hidden
+                        />
+                      )}
+                    </Button>
+                  );
+                })}
               </AccordionContent>
             </AccordionItem>
           );
