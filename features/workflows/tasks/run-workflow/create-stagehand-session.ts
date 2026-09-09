@@ -1,6 +1,6 @@
 import { Stagehand } from "@browserbasehq/stagehand";
 
-export const createStagehandSession = () => {
+export const createStagehandSession = (organizationId: string) => {
   let stagehand: Stagehand | undefined;
 
   const getStagehand = async () => {
@@ -19,6 +19,10 @@ export const createStagehandSession = () => {
       apiKey: BROWSERBASE_API_KEY,
       model: "google/gemini-2.5-flash",
       disablePino: true,
+      browserbaseSessionCreateParams: {
+        userMetadata: { organizationId },
+        browserSettings: { recordSession: true },
+      },
     });
 
     await stagehand.init();
@@ -29,5 +33,9 @@ export const createStagehandSession = () => {
     await stagehand?.close();
   };
 
-  return { getStagehand, closeStagehand };
+  const getBrowserbaseSessionId = () => {
+    return stagehand?.browserbaseSessionID;
+  };
+
+  return { getStagehand, closeStagehand, getBrowserbaseSessionId };
 };

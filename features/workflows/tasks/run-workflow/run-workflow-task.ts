@@ -58,7 +58,7 @@ const getNodesInExecutionOrder = (graph: WorkflowGraph) => {
  * 워크플로우 그래프의 스텝을 연결 순서대로 실행하는 Trigger.dev 태스크
  *
  * - 실행 중 스텝 상태를 Trigger.dev 메타데이터에 게시
- * - 완료 후 실행한 스텝 수와 전체 스텝 결과 반환
+ * - 완료 후 스텝 결과, 실행한 스텝 수, Browserbase 세션 ID를 반환
  */
 export const runWorkflowTask = task({
   id: "run-workflow-task",
@@ -71,13 +71,14 @@ export const runWorkflowTask = task({
     await assertWorkflowExists(workflowId, organizationId);
 
     const orderedNodes = getNodesInExecutionOrder(graph);
-    const stepTracker = createRunStepTracker(orderedNodes);
-    const stagehandSession = createStagehandSession();
+    const { publish, update, getSteps } = createRunStepTracker(orderedNodes);
+    const { getStagehand, closeStagehand, getBrowserbaseSessionId } =
+      createStagehandSession(organizationId);
 
     const outputs: WorkflowNodeOutputs = {};
     let executedStepCount = 0;
 
-    stepTracker.publish();
+    publish();
 
     logger.log("워크플로우 실행 시작", {
       workflowId,
@@ -94,15 +95,15 @@ export const runWorkflowTask = task({
         });
 
         if (node.data.type === "start") {
-          stepTracker.update(node.id, { status: "done" });
+          update(node.id, { status: "done" });
           continue;
         }
 
         await executeWorkflowStep({
           node,
           outputs,
-          getStagehand: stagehandSession.getStagehand,
-          updateRunStep: stepTracker.update,
+          getStagehand,
+          updateRunStep: update,
         });
 
         executedStepCount += 1;
@@ -113,9 +114,13 @@ export const runWorkflowTask = task({
         executedStepCount,
       });
 
-      return { steps: stepTracker.getSteps(), executedStepCount };
+      return {
+        steps: getSteps(),
+        executedStepCount,
+        browserbaseSessionId: getBrowserbaseSessionId(),
+      };
     } finally {
-      await stagehandSession.closeStagehand();
+      await closeStagehand();
     }
   },
 });
