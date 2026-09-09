@@ -24,6 +24,7 @@ import { useTransition } from "react";
 import { ROUTES } from "@/constants/routes";
 import { createWorkflowAction } from "@/features/workflows/actions";
 import { toast } from "sonner";
+import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
 
 interface WorkflowSidebarSectionProps {
   workflows: Pick<WorkflowRow, "id" | "name">[];
@@ -36,12 +37,18 @@ export const WorkflowSidebarSection = ({
   const { state } = useSidebar();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { isLoaded, hasProPlan, goToPricing } = useProPlan();
 
   const isWorkflowActive = (workflowId: string) => {
     return pathname === ROUTES.WORKFLOWS.DETAIL(workflowId);
   };
 
   const handleCreateWorkflow = () => {
+    if (!hasProPlan) {
+      goToPricing();
+      return;
+    }
+
     startTransition(async () => {
       try {
         const { workflowId } = await createWorkflowAction();
@@ -78,7 +85,7 @@ export const WorkflowSidebarSection = ({
                 >
                   <button
                     type="button"
-                    disabled={isPending}
+                    disabled={isPending || !isLoaded}
                     onClick={handleCreateWorkflow}
                     className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
@@ -124,7 +131,7 @@ export const WorkflowSidebarSection = ({
       <SidebarGroupAction
         title="워크플로우 추가"
         onClick={handleCreateWorkflow}
-        disabled={isPending}
+        disabled={isPending || !isLoaded}
       >
         {isPending ? <Loader2 className="animate-spin" /> : <Plus />}
       </SidebarGroupAction>

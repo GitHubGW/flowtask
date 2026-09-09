@@ -17,12 +17,18 @@ import { revalidatePath } from "next/cache";
 
 /**
  * 워크플로우 생성
+ *
+ * @returns 생성된 워크플로우 ID
  */
 export const createWorkflowAction = async () => {
-  const { orgId } = await auth();
+  const { orgId, has } = await auth();
 
   if (!orgId) {
     throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
+  }
+
+  if (!has({ plan: "pro" })) {
+    throw new Error(ERROR_MESSAGES.PRO_PLAN_REQUIRED);
   }
 
   const workflowName = createWorkflowName();
@@ -67,6 +73,7 @@ export const deleteWorkflowAction = async (workflowId: string) => {
  *
  * @param workflowId 워크플로우 ID
  * @param graph 워크플로우 그래프
+ * @returns 실행 작업 핸들
  */
 export const runWorkflowAction = async (
   workflowId: string,
