@@ -28,7 +28,7 @@ export const WorkflowConsoleStepRow = ({
     <button
       type="button"
       aria-pressed={isSelected}
-      onClick={() => onSelect({ runId, nodeId: step.nodeId })}
+      onClick={() => onSelect({ kind: "step", runId, nodeId: step.nodeId })}
       className={cn(
         "flex w-full items-center gap-3 rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent",
         isSelected && "bg-accent",

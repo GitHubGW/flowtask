@@ -2,16 +2,17 @@
 
 import { WorkflowConsoleStepRow } from "@/features/workflows/components/console/workflow-console-step-row";
 import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
-import type { RunStepSelection } from "@/features/workflows/types";
+import type { WorkflowConsoleSelection } from "@/features/workflows/types";
+import { WorkflowConsoleReplayRow } from "@/features/workflows/components/console/workflow-console-replay-row";
 
 interface WorkflowConsoleRunListProps {
-  selectedStep: RunStepSelection | null;
-  onSelectStep: (selection: RunStepSelection) => void;
+  selection: WorkflowConsoleSelection | null;
+  onSelect: (selection: WorkflowConsoleSelection) => void;
 }
 
 export const WorkflowConsoleRunList = ({
-  selectedStep,
-  onSelectStep,
+  selection,
+  onSelect,
 }: WorkflowConsoleRunListProps) => {
   const runs = useWorkflowConsoleRuns();
 
@@ -35,8 +36,9 @@ export const WorkflowConsoleRunList = ({
               {run.steps.length > 0 ? (
                 run.steps.map((step) => {
                   const isSelected =
-                    selectedStep?.runId === run.id &&
-                    selectedStep.nodeId === step.nodeId;
+                    selection?.kind === "step" &&
+                    selection.runId === run.id &&
+                    selection.nodeId === step.nodeId;
 
                   return (
                     <WorkflowConsoleStepRow
@@ -45,7 +47,7 @@ export const WorkflowConsoleRunList = ({
                       step={step}
                       isLive={run.isLive}
                       isSelected={isSelected}
-                      onSelect={onSelectStep}
+                      onSelect={onSelect}
                     />
                   );
                 })
@@ -55,6 +57,15 @@ export const WorkflowConsoleRunList = ({
                     ? "실행 정보를 불러오는 중입니다."
                     : "표시할 단계 정보가 없습니다."}
                 </p>
+              )}
+              {run.browserbaseSessionId && run.status === "COMPLETED" && (
+                <WorkflowConsoleReplayRow
+                  runId={run.id}
+                  isSelected={
+                    selection?.kind === "replay" && selection.runId === run.id
+                  }
+                  onSelect={onSelect}
+                />
               )}
             </div>
           ))}

@@ -8,36 +8,78 @@ import {
 } from "@/components/ui/resizable";
 import { WorkflowConsoleRunList } from "@/features/workflows/components/console/workflow-console-run-list";
 import { WorkflowConsoleStepDetail } from "@/features/workflows/components/console/workflow-console-step-detail";
-import type { RunStepSelection } from "@/features/workflows/types";
+import type { WorkflowConsoleSelection } from "@/features/workflows/types";
+import { SessionReplay } from "@/features/workflows/components/console/session-replay";
+import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
+
+const isSameConsoleSelection = (
+  currentSelection: WorkflowConsoleSelection | null,
+  nextSelection: WorkflowConsoleSelection
+) => {
+  if (!currentSelection || currentSelection.runId !== nextSelection.runId) {
+    return false;
+  }
+
+  if (currentSelection.kind === "replay") {
+    return nextSelection.kind === "replay";
+  }
+
+  return (
+    nextSelection.kind === "step" &&
+    currentSelection.nodeId === nextSelection.nodeId
+  );
+};
 
 export const WorkflowConsole = () => {
-  const [selectedStep, setSelectedStep] = useState<RunStepSelection | null>(
+  const [selection, setSelection] = useState<WorkflowConsoleSelection | null>(
     null
   );
+  const runs = useWorkflowConsoleRuns();
+  const replayRun =
+    selection?.kind === "replay"
+      ? runs.find((run) => run.id === selection.runId)
+      : undefined;
 
-  const handleSelectStep = (selection: RunStepSelection) => {
-    setSelectedStep((currentSelection) => {
-      const isSameStep =
-        currentSelection?.runId === selection.runId &&
-        currentSelection.nodeId === selection.nodeId;
-      return isSameStep ? null : selection;
+  const handleSelect = (nextSelection: WorkflowConsoleSelection) => {
+    setSelection((currentSelection) => {
+      if (isSameConsoleSelection(currentSelection, nextSelection)) {
+        return null;
+      }
+
+      return nextSelection;
     });
   };
 
   return (
     <ResizablePanelGroup orientation="horizontal" className="size-full">
       <ResizablePanel minSize="12rem" className="min-h-0">
-        <WorkflowConsoleRunList
-          selectedStep={selectedStep}
-          onSelectStep={handleSelectStep}
-        />
+        <WorkflowConsoleRunList selection={selection} onSelect={handleSelect} />
       </ResizablePanel>
 
-      {selectedStep && (
+      {selection && (
         <>
           <ResizableHandle />
           <ResizablePanel defaultSize="50" minSize="12rem" className="min-h-0">
-            <WorkflowConsoleStepDetail selection={selectedStep} />
+            {selection.kind === "step" ? (
+              <WorkflowConsoleStepDetail selection={selection} />
+            ) : replayRun?.browserbaseSessionId &&
+              replayRun.status === "COMPLETED" ? (
+              <section className="flex size-full min-h-0 flex-col">
+                <h2 className="shrink-0 border-b px-3 py-2 text-sm font-semibold">
+                  리플레이
+                </h2>
+                <div className="min-h-0 flex-1">
+                  <SessionReplay
+                    key={replayRun.browserbaseSessionId}
+                    sessionId={replayRun.browserbaseSessionId}
+                  />
+                </div>
+              </section>
+            ) : (
+              <p className="p-3 text-xs text-muted-foreground">
+                선택한 실행의 녹화를 찾을 수 없습니다.
+              </p>
+            )}
           </ResizablePanel>
         </>
       )}

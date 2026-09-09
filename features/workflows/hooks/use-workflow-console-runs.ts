@@ -22,6 +22,7 @@ export const useWorkflowConsoleRuns = () => {
         createdAt: run.createdAt,
         isLive,
         steps: getWorkflowRunSteps(run),
+        browserbaseSessionId: run.output?.browserbaseSessionId,
       };
     });
   }, [runs]);

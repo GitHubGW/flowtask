@@ -137,11 +137,28 @@ export type WorkflowNodeOutputs = Record<string, unknown>;
  * 실행 콘솔에서 선택한 스텝의 식별 정보
  */
 export interface RunStepSelection {
+  /** 콘솔 선택 대상 종류 */
+  kind: "step";
   /** Trigger.dev에서 생성한 워크플로우 실행 ID */
   runId: string;
   /** 해당 실행에서 선택한 React Flow 노드 ID */
   nodeId: string;
 }
+
+/**
+ * 실행 콘솔에서 선택한 Browserbase 세션 리플레이의 식별 정보
+ */
+export interface RunReplaySelection {
+  /** 콘솔 선택 대상 종류 */
+  kind: "replay";
+  /** 리플레이가 속한 Trigger.dev 워크플로우 실행 ID */
+  runId: string;
+}
+
+/**
+ * 실행 콘솔에서 선택할 수 있는 스텝 또는 리플레이 정보
+ */
+export type WorkflowConsoleSelection = RunStepSelection | RunReplaySelection;
 
 /**
  * 워크플로우 실행 중인 개별 스텝의 상태와 입출력 정보
