@@ -1,5 +1,12 @@
-import type { NextConfig } from "next"
+import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs/config";
 
-const nextConfig: NextConfig = {}
+const nextConfig: NextConfig = {};
 
-export default nextConfig
+export default withSentryConfig(nextConfig, {
+  org: "gw-5p",
+  project: "browser-automation-agent",
+  widenClientFileUpload: true,
+  tunnelRoute: "/monitoring",
+  silent: !process.env.CI,
+});
