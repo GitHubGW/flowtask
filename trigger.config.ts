@@ -1,3 +1,5 @@
+import { sentryEsbuildPlugin } from "@sentry/esbuild-plugin";
+import { esbuildPlugin } from "@trigger.dev/build/extensions";
 import { defineConfig } from "@trigger.dev/sdk";
 
 export default defineConfig({
@@ -5,6 +7,18 @@ export default defineConfig({
   runtime: "node",
   logLevel: "log",
   maxDuration: 3600,
+  build: {
+    extensions: [
+      esbuildPlugin(
+        sentryEsbuildPlugin({
+          org: "devgw",
+          project: "browser-automation-agent",
+          authToken: process.env.SENTRY_AUTH_TOKEN,
+        }),
+        { placement: "last", target: "deploy" }
+      ),
+    ],
+  },
   retries: {
     enabledInDev: true,
     default: {
@@ -15,5 +29,5 @@ export default defineConfig({
       randomize: true,
     },
   },
-  dirs: ["features"],
+  dirs: ["features", "trigger"],
 });
