@@ -4,7 +4,7 @@ import { withSentryConfig } from "@sentry/nextjs/config";
 const nextConfig: NextConfig = {};
 
 export default withSentryConfig(nextConfig, {
-  org: "gw-5p",
+  org: "devgw",
   project: "browser-automation-agent",
   widenClientFileUpload: true,
   tunnelRoute: "/monitoring",
