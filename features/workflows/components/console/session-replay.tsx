@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import * as Sentry from "@sentry/nextjs";
 import type Hls from "hls.js";
 import { Spinner } from "@/components/ui/spinner";
 import { API } from "@/constants/api";
@@ -117,10 +118,16 @@ export const SessionReplay = ({ sessionId }: { sessionId: string }) => {
 
         const playlist = await response.text();
         await attachReplayPlayer(playlist);
-      } catch {
+      } catch (error) {
         if (abortController.signal.aborted) {
           return;
         }
+
+        Sentry.logger.warn("워크플로우 녹화 요청 실패", {
+          "browserbase.session_id": sessionId,
+          "error.message":
+            error instanceof Error ? error.message : "알 수 없는 녹화 오류",
+        });
 
         setStatus("error");
       }

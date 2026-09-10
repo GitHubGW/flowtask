@@ -12,6 +12,7 @@ import type { runWorkflowTask } from "@/features/workflows/tasks/run-workflow/ru
 import type { WorkflowGraph } from "@/features/workflows/types";
 import { liveblocks } from "@/libs/liveblocks";
 import { auth } from "@clerk/nextjs/server";
+import * as Sentry from "@sentry/nextjs";
 import { runs, tasks } from "@trigger.dev/sdk";
 import { revalidatePath } from "next/cache";
 
@@ -42,6 +43,11 @@ export const createWorkflowAction = async () => {
 
   revalidatePath(REVALIDATION_PATHS.DASHBOARD_LAYOUT, "layout");
 
+  Sentry.logger.info("워크플로우 생성", {
+    "workflow.id": createdWorkflow.id,
+    "organization.id": orgId,
+  });
+
   return { workflowId: createdWorkflow.id };
 };
 
@@ -66,6 +72,11 @@ export const deleteWorkflowAction = async (workflowId: string) => {
   await liveblocks.deleteRoom(deletedWorkflow.id);
 
   revalidatePath(REVALIDATION_PATHS.DASHBOARD_LAYOUT, "layout");
+
+  Sentry.logger.info("워크플로우 삭제", {
+    "workflow.id": deletedWorkflow.id,
+    "organization.id": orgId,
+  });
 };
 
 /**
@@ -100,6 +111,13 @@ export const runWorkflowAction = async (
     { workflowId, organizationId: orgId, graph },
     { tags: [`workflow:${workflowId}`] }
   );
+
+  Sentry.logger.info("워크플로우 실행 트리거", {
+    "workflow.id": workflowId,
+    "organization.id": orgId,
+    "trigger.run_id": handle.id,
+    "workflow.node_count": graph.nodes.length,
+  });
 
   return handle;
 };
