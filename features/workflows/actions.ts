@@ -109,7 +109,7 @@ export const runWorkflowAction = async (
   const handle = await tasks.trigger<typeof runWorkflowTask>(
     "run-workflow-task",
     { workflowId, organizationId: orgId, graph },
-    { tags: [`workflow:${workflowId}`] }
+    { tags: [`workflow:${workflowId}`, `organization:${orgId}`] }
   );
 
   Sentry.logger.info("워크플로우 실행 트리거", {
@@ -127,12 +127,24 @@ export const runWorkflowAction = async (
  *
  * @param runId 실행 ID
  */
-export const cancelRunWorkflowAction = async (runId: string) => {
+export const cancelWorkflowAction = async (runId: string) => {
   const { orgId } = await auth();
 
   if (!orgId) {
     throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
   }
 
+  const run = await runs.retrieve(runId);
+  const hasOrganizationTag = run.tags.includes(`organization:${orgId}`);
+
+  if (!hasOrganizationTag) {
+    throw new Error(ERROR_MESSAGES.UNAUTHORIZED);
+  }
+
   await runs.cancel(runId);
+
+  Sentry.logger.info("워크플로우 실행 취소", {
+    "trigger.run_id": runId,
+    "organization.id": orgId,
+  });
 };

@@ -7,11 +7,11 @@ import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-r
 import type { WorkflowStepNode } from "@/features/workflows/types";
 import { useNodes, useReactFlow } from "@xyflow/react";
 import { useUpstreamOutputOptions } from "@/features/workflows/hooks/use-upstream-output-options";
-import { RunWorkflowButton } from "@/features/workflows/components/editor/run-workflow-button";
 import { WorkflowNodePalette } from "@/features/workflows/components/editor/workflow-node-palette";
 import { WorkflowNodeInspector } from "@/features/workflows/components/editor/workflow-node-inspector";
 import { WorkflowActionsMenu } from "@/features/workflows/components/editor/workflow-actions-menu";
 import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
+import { WorkflowRunToggleButton } from "@/features/workflows/components/editor/workflow-run-toggle-button";
 
 export const WorkflowEditorSidebar = () => {
   const [activeTab, setActiveTab] = useState("toolbar");
@@ -71,7 +71,7 @@ export const WorkflowEditorSidebar = () => {
       >
         <div className="flex items-center justify-between border-b border-border p-2">
           <WorkflowActionsMenu />
-          <RunWorkflowButton />
+          <WorkflowRunToggleButton />
         </div>
         <TabsList className="m-2 w-fit bg-background">
           <TabsTrigger
