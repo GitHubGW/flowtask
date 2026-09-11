@@ -2,19 +2,25 @@
 
 import { ERROR_MESSAGES } from "@/constants/error-messages";
 import { REVALIDATION_PATHS } from "@/constants/revalidation-paths";
-import { createWorkflowName } from "@/features/workflows/libs/create-workflow-name";
+import { createInitialWorkflowGraph } from "@/features/workflows/libs/create-initial-workflow-graph";
 import {
   createWorkflow,
   deleteWorkflow,
   updateWorkflowGraph,
 } from "@/features/workflows/queries";
 import type { runWorkflowTask } from "@/features/workflows/tasks/run-workflow/run-workflow-task";
-import type { WorkflowGraph } from "@/features/workflows/types";
+import type {
+  WorkflowGraph,
+  WorkflowStepNode,
+} from "@/features/workflows/types";
 import { liveblocks } from "@/libs/liveblocks";
 import { auth } from "@clerk/nextjs/server";
 import * as Sentry from "@sentry/nextjs";
 import { runs, tasks } from "@trigger.dev/sdk";
 import { revalidatePath } from "next/cache";
+import { mutateFlow } from "@liveblocks/react-flow/node";
+import type { Edge } from "@xyflow/react";
+import { createWorkflowName } from "@/features/workflows/libs/create-workflow-name";
 
 /**
  * 워크플로우 생성
@@ -22,24 +28,32 @@ import { revalidatePath } from "next/cache";
  * @returns 생성된 워크플로우 ID
  */
 export const createWorkflowAction = async () => {
-  const { orgId, has } = await auth();
+  const { orgId } = await auth();
 
   if (!orgId) {
     throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
   }
 
-  if (!has({ plan: "pro" })) {
-    throw new Error(ERROR_MESSAGES.PRO_PLAN_REQUIRED);
-  }
-
   const workflowName = createWorkflowName();
-  const createdWorkflow = await createWorkflow(workflowName, orgId);
+  const initialGraph = createInitialWorkflowGraph();
+  const createdWorkflow = await createWorkflow({
+    workflowName,
+    organizationId: orgId,
+    graph: initialGraph,
+  });
   await liveblocks.createRoom(createdWorkflow.id, {
     organizationId: orgId,
     defaultAccesses: [],
     groupsAccesses: { [orgId]: ["room:write"] },
     metadata: { title: createdWorkflow.name },
   });
+  await mutateFlow<WorkflowStepNode, Edge>(
+    { client: liveblocks, roomId: createdWorkflow.id },
+    (flow) => {
+      flow.addNodes(initialGraph.nodes);
+      flow.addEdges(initialGraph.edges);
+    }
+  );
 
   revalidatePath(REVALIDATION_PATHS.WORKFLOWS_LAYOUT, "layout");
 
@@ -90,10 +104,16 @@ export const runWorkflowAction = async (
   workflowId: string,
   graph: WorkflowGraph
 ) => {
-  const { orgId } = await auth();
+  const { orgId, has } = await auth();
 
   if (!orgId) {
     throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
+  }
+
+  const usesAgentNode = graph.nodes.some((node) => node.data.type === "agent");
+
+  if (usesAgentNode && !has({ plan: "pro" })) {
+    throw new Error(ERROR_MESSAGES.PRO_PLAN_REQUIRED);
   }
 
   const updatedWorkflow = await updateWorkflowGraph({

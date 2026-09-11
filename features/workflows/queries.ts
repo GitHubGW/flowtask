@@ -49,13 +49,20 @@ export const getWorkflow = async (
  * @param organizationId - 조직 ID
  * @returns 생성된 워크플로우
  */
-export const createWorkflow = async (
-  workflowName: string,
-  organizationId: string
-) => {
+interface CreateWorkflowParams {
+  workflowName: string;
+  organizationId: string;
+  graph: WorkflowGraph;
+}
+
+export const createWorkflow = async ({
+  workflowName,
+  organizationId,
+  graph,
+}: CreateWorkflowParams) => {
   const [createdWorkflow] = await db
     .insert(workflows)
-    .values({ name: workflowName, organizationId })
+    .values({ name: workflowName, organizationId, graph })
     .returning();
   return createdWorkflow;
 };

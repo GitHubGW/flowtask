@@ -7,19 +7,12 @@ import { createWorkflowAction } from "@/features/workflows/actions";
 import { toast } from "sonner";
 import { ROUTES } from "@/constants/routes";
 import { useRouter } from "next/navigation";
-import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
 
 export const CreateWorkflowButton = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { isLoaded, hasProPlan, goToPricing } = useProPlan();
 
   const handleCreateWorkflow = () => {
-    if (!hasProPlan) {
-      goToPricing();
-      return;
-    }
-
     startTransition(async () => {
       try {
         const { workflowId } = await createWorkflowAction();
@@ -34,7 +27,7 @@ export const CreateWorkflowButton = () => {
   return (
     <Button
       type="button"
-      disabled={isPending || !isLoaded}
+      disabled={isPending}
       onClick={handleCreateWorkflow}
       className="gap-1.5 rounded-lg bg-slate-950 text-white hover:bg-slate-800"
     >
