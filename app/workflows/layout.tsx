@@ -16,9 +16,9 @@ const WorkflowLayout = async ({ children }: WorkflowLayoutProps) => {
   }
 
   return (
-    <SidebarProvider className="h-svh">
+    <SidebarProvider className="h-svh bg-slate-50">
       <WorkflowSidebar />
-      <SidebarInset className="min-h-0 overflow-hidden border shadow-none">
+      <SidebarInset className="min-h-0 overflow-hidden border-0 bg-white shadow-none md:m-0 md:rounded-none">
         {children}
       </SidebarInset>
     </SidebarProvider>

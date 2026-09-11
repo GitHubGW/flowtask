@@ -11,7 +11,7 @@ import { getWorkflows } from "@/features/workflows/queries";
 import { ROUTES } from "@/constants/routes";
 import { WorkflowSidebarSection } from "@/features/workflows/components/navigation/workflow-sidebar-section";
 import Link from "next/link";
-import { Workflow } from "lucide-react";
+import Image from "next/image";
 
 export const WorkflowSidebar = async () => {
   const { orgId } = await auth();
@@ -28,8 +28,14 @@ export const WorkflowSidebar = async () => {
             href={ROUTES.HOME}
             className="flex min-w-0 items-center gap-2.5 group-data-[collapsible=icon]:hidden"
           >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-slate-950 text-white">
-              <Workflow className="size-4" aria-hidden />
+            <span className="flex size-8 items-center justify-center rounded-lg bg-emerald-500 text-white">
+              <Image
+                src="/images/logo.svg"
+                width={24}
+                height={24}
+                alt="로고 이미지"
+                className="size-8"
+              />
             </span>
             <span className="truncate text-base font-bold tracking-tight text-slate-950">
               Flowtask
