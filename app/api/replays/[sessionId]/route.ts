@@ -6,7 +6,7 @@ export const GET = async (
   _request: Request,
   { params }: { params: Promise<{ sessionId: string }> }
 ) => {
-  const { isAuthenticated, userId, orgId } = await auth();
+  const { isAuthenticated, userId, orgId, has } = await auth();
 
   if (!isAuthenticated || !userId) {
     return new Response("Unauthorized", { status: 401 });
@@ -14,6 +14,10 @@ export const GET = async (
 
   if (!orgId) {
     return new Response("Forbidden", { status: 403 });
+  }
+
+  if (!has({ plan: "pro" })) {
+    return new Response("Pro plan required", { status: 403 });
   }
 
   const { sessionId } = await params;

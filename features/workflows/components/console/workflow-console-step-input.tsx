@@ -8,14 +8,14 @@ export const WorkflowConsoleStepInput = ({
   input,
 }: WorkflowConsoleStepInputProps) => {
   return (
-    <section className="space-y-1.5">
-      <h3 className="text-xs font-medium text-muted-foreground">입력</h3>
+    <section>
+      <h3 className="text-sm font-semibold text-slate-950">입력</h3>
       {input ? (
-        <pre className="rounded-md bg-muted p-3 font-mono text-xs wrap-break-word whitespace-pre-wrap">
+        <pre className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs leading-5 wrap-break-word whitespace-pre-wrap text-slate-800">
           {JSON.stringify(input, null, 2)}
         </pre>
       ) : (
-        <p className="rounded-md bg-muted p-3 text-xs text-muted-foreground">
+        <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
           이 단계에 기록된 입력이 없습니다.
         </p>
       )}

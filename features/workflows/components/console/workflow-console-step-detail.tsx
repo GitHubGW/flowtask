@@ -4,7 +4,10 @@ import type { RunStepSelection } from "@/features/workflows/types";
 import { WorkflowConsoleStepInput } from "@/features/workflows/components/console/workflow-console-step-input";
 import { WorkflowConsoleStepOutput } from "@/features/workflows/components/console/workflow-console-step-output";
 import { WorkflowConsoleStepMetadata } from "@/features/workflows/components/console/workflow-console-step-metadata";
+import { WorkflowConsoleStepStatusIcon } from "@/features/workflows/components/console/workflow-console-step-status-icon";
+import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
+import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 
 interface WorkflowConsoleStepDetailProps {
   selection: RunStepSelection;
@@ -27,12 +30,32 @@ export const WorkflowConsoleStepDetail = ({
     );
   }
 
+  const stepDefinition = workflowStepRegistry[selectedStep.type];
+  const stepKindLabel =
+    stepDefinition.kind === "trigger" ? "Trigger" : "Action";
+
   return (
-    <section className="flex size-full min-h-0 flex-col">
-      <h2 className="shrink-0 border-b px-3 py-2 text-sm font-semibold">
-        {selectedStep.title}
-      </h2>
-      <div className="min-h-0 flex-1 space-y-4 overflow-auto p-3">
+    <section className="flex size-full min-h-0 flex-col bg-white">
+      <div className="flex shrink-0 items-center gap-3 border-b border-slate-200 px-4 pt-5 pb-6">
+        <WorkflowStepIcon
+          stepType={selectedStep.type}
+          className="size-10 rounded-xl [&_svg]:size-5"
+        />
+        <div className="min-w-0 flex-1">
+          <span className="inline-flex rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
+            {stepKindLabel}
+          </span>
+          <h2 className="mt-1 truncate text-sm font-semibold text-slate-950">
+            {selectedStep.title}
+          </h2>
+        </div>
+        <WorkflowConsoleStepStatusIcon
+          status={selectedStep.status}
+          isLive={selectedRun?.isLive ?? false}
+        />
+      </div>
+
+      <div className="min-h-0 flex-1 space-y-6 overflow-auto px-4 py-5">
         <WorkflowConsoleStepMetadata step={selectedStep} />
         <WorkflowConsoleStepInput input={selectedStep.input} />
         <WorkflowConsoleStepOutput step={selectedStep} />

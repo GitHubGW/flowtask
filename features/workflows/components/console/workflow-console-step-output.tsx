@@ -9,11 +9,11 @@ export const WorkflowConsoleStepOutput = ({
 }: WorkflowConsoleStepOutputProps) => {
   if (step.error) {
     return (
-      <section className="space-y-1.5">
-        <h3 className="text-xs font-medium text-muted-foreground">오류</h3>
+      <section>
+        <h3 className="text-sm font-semibold text-slate-950">오류</h3>
         <pre
           role="alert"
-          className="rounded-md bg-muted p-3 font-mono text-xs wrap-break-word whitespace-pre-wrap text-destructive"
+          className="mt-3 rounded-xl border border-red-200 bg-red-50 p-4 font-mono text-xs leading-5 wrap-break-word whitespace-pre-wrap text-red-700"
         >
           {step.error}
         </pre>
@@ -23,9 +23,9 @@ export const WorkflowConsoleStepOutput = ({
 
   if (step.output !== undefined) {
     return (
-      <section className="space-y-1.5">
-        <h3 className="text-xs font-medium text-muted-foreground">출력</h3>
-        <pre className="rounded-md bg-muted p-3 font-mono text-xs wrap-break-word whitespace-pre-wrap">
+      <section>
+        <h3 className="text-sm font-semibold text-slate-950">출력</h3>
+        <pre className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs leading-5 wrap-break-word whitespace-pre-wrap text-slate-800">
           {JSON.stringify(step.output, null, 2)}
         </pre>
       </section>
@@ -34,9 +34,9 @@ export const WorkflowConsoleStepOutput = ({
 
   if (step.status === "pending") {
     return (
-      <section className="space-y-1.5">
-        <h3 className="text-xs font-medium text-muted-foreground">출력</h3>
-        <p className="rounded-md bg-muted p-3 text-xs text-muted-foreground">
+      <section>
+        <h3 className="text-sm font-semibold text-slate-950">출력</h3>
+        <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
           아직 실행되지 않은 단계입니다.
         </p>
       </section>
@@ -45,9 +45,9 @@ export const WorkflowConsoleStepOutput = ({
 
   if (step.status === "running") {
     return (
-      <section className="space-y-1.5">
-        <h3 className="text-xs font-medium text-muted-foreground">출력</h3>
-        <p className="rounded-md bg-muted p-3 text-xs text-muted-foreground">
+      <section>
+        <h3 className="text-sm font-semibold text-slate-950">출력</h3>
+        <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
           단계 실행 중입니다.
         </p>
       </section>
@@ -55,9 +55,9 @@ export const WorkflowConsoleStepOutput = ({
   }
 
   return (
-    <section className="space-y-1.5">
-      <h3 className="text-xs font-medium text-muted-foreground">출력</h3>
-      <p className="rounded-md bg-muted p-3 text-xs text-muted-foreground">
+    <section>
+      <h3 className="text-sm font-semibold text-slate-950">출력</h3>
+      <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
         이 단계에서 생성된 출력이 없습니다.
       </p>
     </section>

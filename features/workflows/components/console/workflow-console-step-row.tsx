@@ -20,35 +20,23 @@ export const WorkflowConsoleStepRow = ({
   isSelected,
   onSelect,
 }: WorkflowConsoleStepRowProps) => {
-  const isDone = step.status === "done";
-  const isFailed = step.status === "failed";
-  const isPending = step.status === "pending";
-
   return (
     <button
       type="button"
       aria-pressed={isSelected}
       onClick={() => onSelect({ kind: "step", runId, nodeId: step.nodeId })}
       className={cn(
-        "flex w-full items-center gap-3 rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent",
-        isSelected && "bg-accent",
-        isPending && "opacity-50"
+        "flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left text-sm transition-colors hover:bg-slate-50",
+        isSelected && "bg-violet-50 hover:bg-violet-50"
       )}
     >
-      <WorkflowStepIcon stepType={step.type} />
-      <span
-        className={cn(
-          "min-w-0 flex-1 truncate font-medium",
-          isDone && "text-emerald-600",
-          isFailed && "text-destructive",
-          isPending && "text-muted-foreground"
-        )}
-      >
+      <WorkflowStepIcon stepType={step.type} className="size-7 rounded-lg" />
+      <span className="min-w-0 flex-1 truncate font-medium text-slate-950">
         {step.title}
       </span>
       <div className="flex shrink-0 items-center gap-2">
         {step.durationMs !== undefined && (
-          <span className="text-muted-foreground tabular-nums">
+          <span className="text-xs text-slate-500 tabular-nums">
             {prettyMilliseconds(step.durationMs)}
           </span>
         )}
