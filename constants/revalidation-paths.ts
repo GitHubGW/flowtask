@@ -1,3 +1,3 @@
 export const REVALIDATION_PATHS = {
-  DASHBOARD_LAYOUT: "/(dashboard)",
+  WORKFLOWS_LAYOUT: "/workflows",
 } as const;

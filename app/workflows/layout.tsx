@@ -1,14 +1,14 @@
-import { DashboardSidebar } from "@/features/workflows/components/dashboard/dashboard-sidebar";
+import { WorkflowSidebar } from "@/features/workflows/components/navigation/workflow-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 
-interface DashboardLayoutProps {
+interface WorkflowLayoutProps {
   children: React.ReactNode;
 }
 
-const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
+const WorkflowLayout = async ({ children }: WorkflowLayoutProps) => {
   const { isAuthenticated } = await auth();
 
   if (!isAuthenticated) {
@@ -17,7 +17,7 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
 
   return (
     <SidebarProvider className="h-svh">
-      <DashboardSidebar />
+      <WorkflowSidebar />
       <SidebarInset className="min-h-0 overflow-hidden border shadow-none">
         {children}
       </SidebarInset>
@@ -25,4 +25,4 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
   );
 };
 
-export default DashboardLayout;
+export default WorkflowLayout;

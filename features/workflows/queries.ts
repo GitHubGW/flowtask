@@ -95,6 +95,7 @@ interface UpdateWorkflowGraphParams {
  * @param workflowId - 워크플로우 ID
  * @param organizationId - 조직 ID
  * @param graph - 워크플로우 그래프
+ * @returns 업데이트된 워크플로우
  */
 export const updateWorkflowGraph = async ({
   workflowId,

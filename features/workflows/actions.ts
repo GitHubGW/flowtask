@@ -41,7 +41,7 @@ export const createWorkflowAction = async () => {
     metadata: { title: createdWorkflow.name },
   });
 
-  revalidatePath(REVALIDATION_PATHS.DASHBOARD_LAYOUT, "layout");
+  revalidatePath(REVALIDATION_PATHS.WORKFLOWS_LAYOUT, "layout");
 
   Sentry.logger.info("워크플로우 생성", {
     "workflow.id": createdWorkflow.id,
@@ -71,7 +71,7 @@ export const deleteWorkflowAction = async (workflowId: string) => {
 
   await liveblocks.deleteRoom(deletedWorkflow.id);
 
-  revalidatePath(REVALIDATION_PATHS.DASHBOARD_LAYOUT, "layout");
+  revalidatePath(REVALIDATION_PATHS.WORKFLOWS_LAYOUT, "layout");
 
   Sentry.logger.info("워크플로우 삭제", {
     "workflow.id": deletedWorkflow.id,

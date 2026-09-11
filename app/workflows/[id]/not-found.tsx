@@ -1,4 +1,6 @@
-import { Workflow } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, Workflow } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -7,9 +9,9 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { CreateWorkflowButton } from "@/features/workflows/components/dashboard/create-workflow-button";
+import { ROUTES } from "@/constants/routes";
 
-const DashboardPage = async () => {
+const NotFound = () => {
   return (
     <section className="flex min-h-svh flex-col">
       <div className="flex flex-1 items-center justify-center p-6">
@@ -19,14 +21,19 @@ const DashboardPage = async () => {
               <Workflow aria-hidden />
             </EmptyMedia>
             <EmptyTitle className="text-base font-semibold">
-              워크플로우를 선택하세요
+              워크플로우를 찾을 수 없습니다
             </EmptyTitle>
             <EmptyDescription>
-              워크플로우를 선택하거나 새로 생성하세요.
+              다른 워크플로우를 선택하거나 새로 생성하세요.
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <CreateWorkflowButton />
+            <Button asChild className="gap-1.5">
+              <Link href={ROUTES.WORKFLOWS.INDEX}>
+                <ArrowLeft data-icon="inline-start" aria-hidden />
+                돌아가기
+              </Link>
+            </Button>
           </EmptyContent>
         </Empty>
       </div>
@@ -34,4 +41,4 @@ const DashboardPage = async () => {
   );
 };
 
-export default DashboardPage;
+export default NotFound;

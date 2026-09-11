@@ -49,7 +49,7 @@ export const WorkflowActionsMenu = () => {
       try {
         await deleteWorkflowAction(id);
         toast.success("워크플로우를 삭제했습니다.");
-        router.push(ROUTES.DASHBOARD);
+        router.push(ROUTES.WORKFLOWS.INDEX);
       } catch {
         toast.error("워크플로우 삭제에 실패했습니다.");
       }
