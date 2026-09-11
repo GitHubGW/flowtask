@@ -11,7 +11,7 @@ export const WorkflowPanelSection = ({
 }: WorkflowPanelSectionProps) => {
   return (
     <section className="flex min-h-0 flex-1 flex-col">
-      <div className="flex items-center gap-2 border-y border-border bg-card px-3 py-1.5 text-sm font-semibold">
+      <div className="flex min-h-12 items-center gap-2 border-b border-slate-200 bg-white px-4 text-sm font-semibold text-slate-950">
         {icon}
         {title}
       </div>

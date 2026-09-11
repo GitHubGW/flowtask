@@ -89,6 +89,8 @@ export interface WorkflowStepDefinition<
   kind: WorkflowStepKindByType[K];
   /** 노드 팔레트와 UI에 표시할 기본 이름 */
   label: string;
+  /** 워크플로우 스텝 타입에 대한 설명 */
+  description: string;
   /** 스텝을 시각적으로 구분할 아이콘 컴포넌트 */
   icon: LucideIcon;
   /** 스텝 아이콘 등에 적용할 강조 색상 클래스 */

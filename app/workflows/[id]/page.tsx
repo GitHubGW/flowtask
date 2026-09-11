@@ -39,7 +39,7 @@ const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
     <WorkflowRunsProvider publicAccessToken={publicAccessToken}>
       <ReactFlowProvider>
         <WorkflowRoomProvider>
-          <WorkflowEditorLayout />
+          <WorkflowEditorLayout workflowName={workflow.name} />
         </WorkflowRoomProvider>
       </ReactFlowProvider>
     </WorkflowRunsProvider>

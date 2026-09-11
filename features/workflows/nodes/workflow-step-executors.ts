@@ -34,8 +34,11 @@ export const workflowStepExecutors: Partial<
       stagehand: await getStagehand(),
     });
   },
-  act: async ({ inputValues, getStagehand }: WorkflowStepExecutorContext) => {
-    return act({
+  observe: async ({
+    inputValues,
+    getStagehand,
+  }: WorkflowStepExecutorContext) => {
+    return observe({
       instruction: inputValues.instruction,
       stagehand: await getStagehand(),
     });
@@ -49,17 +52,8 @@ export const workflowStepExecutors: Partial<
       stagehand: await getStagehand(),
     });
   },
-  observe: async ({
-    inputValues,
-    getStagehand,
-  }: WorkflowStepExecutorContext) => {
-    return observe({
-      instruction: inputValues.instruction,
-      stagehand: await getStagehand(),
-    });
-  },
-  agent: async ({ inputValues, getStagehand }: WorkflowStepExecutorContext) => {
-    return agent({
+  act: async ({ inputValues, getStagehand }: WorkflowStepExecutorContext) => {
+    return act({
       instruction: inputValues.instruction,
       stagehand: await getStagehand(),
     });
@@ -69,6 +63,12 @@ export const workflowStepExecutors: Partial<
       to: inputValues.to,
       subject: inputValues.subject,
       html: inputValues.html,
+    });
+  },
+  agent: async ({ inputValues, getStagehand }: WorkflowStepExecutorContext) => {
+    return agent({
+      instruction: inputValues.instruction,
+      stagehand: await getStagehand(),
     });
   },
 } satisfies Record<WorkflowActionStepType, WorkflowStepExecutor>;

@@ -5,6 +5,7 @@ import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-r
 import type { WorkflowStepNode } from "@/features/workflows/types";
 import { cn } from "@/libs/utils";
 import { useLatestRunSteps } from "@/features/workflows/hooks/use-latest-run-steps";
+import { Zap } from "lucide-react";
 
 const WorkflowStepNodeRendererComponent = ({
   id,
@@ -13,77 +14,86 @@ const WorkflowStepNodeRendererComponent = ({
 }: NodeProps<WorkflowStepNode>) => {
   const { steps, isLive } = useLatestRunSteps();
   const currentRunStep = steps.find((step) => step.nodeId === id);
+  const stepDefinition = workflowStepRegistry[data.type];
+  const Icon = stepDefinition.icon;
   const isRunning = isLive && currentRunStep?.status === "running";
   const isDone = currentRunStep?.status === "done";
   const isFailed = currentRunStep?.status === "failed";
-  const stepDefinition = workflowStepRegistry[data.type];
-  const Icon = stepDefinition.icon;
   const showsTargetHandle = data.kind !== "trigger";
-  const inputsWithValues = stepDefinition.inputs.filter(
-    (input) => data.inputValues[input.key]
-  );
+  const isTrigger = data.kind === "trigger";
+  const isAction = data.kind === "action";
+  const displayTitle = isTrigger ? stepDefinition.label : data.title;
+  const inputSummary = stepDefinition.inputs
+    .map((input) => data.inputValues[input.key]?.trim())
+    .find(Boolean);
 
   return (
     <div
       className={cn(
-        "max-w-80 min-w-50 rounded-(--radius) border-2 border-border bg-card text-card-foreground",
-        isRunning && "border-blue-500",
-        isDone && "border-green-500",
+        "relative w-72 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-slate-950 shadow-sm transition-[border-color,box-shadow]",
+        isRunning && "border-violet-400",
+        isDone && "border-emerald-500",
         isFailed && "border-destructive",
-        selected && "ring-2 ring-ring ring-offset-2 ring-offset-background"
+        selected && "border-violet-500 ring-2 ring-violet-100"
       )}
     >
+      {isTrigger && (
+        <span className="absolute -top-7 left-0 flex items-center gap-1 rounded-lg bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-600">
+          <Zap className="size-3" aria-hidden />
+          Trigger
+        </span>
+      )}
+
+      {isRunning && (
+        <span className="absolute -top-7 right-0 flex items-center gap-1 rounded-lg bg-violet-50 px-2 py-0.5 text-[11px] font-medium text-violet-600">
+          <Spinner className="size-3" />
+          실행중
+        </span>
+      )}
+
+      {isDone && (
+        <span className="absolute -top-7 right-0 flex items-center gap-1 rounded-lg bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-600">
+          <span aria-hidden>✓</span>
+          완료
+        </span>
+      )}
+
+      {isFailed && (
+        <span className="absolute -top-7 right-0 flex items-center gap-1 rounded-lg bg-red-50 px-2 py-0.5 text-[11px] font-medium text-red-600">
+          <span aria-hidden>×</span>
+          실패
+        </span>
+      )}
+
       {showsTargetHandle && (
         <Handle
           type="target"
-          position={Position.Left}
-          style={{ transform: "translate(-100%, -50%)" }}
-          className="h-3.5! w-1.5! min-w-0! rounded-l-xs! rounded-r-none! border-0! bg-border!"
+          position={Position.Top}
+          className="size-2.5! min-w-0! border-2! border-white! bg-slate-400! shadow-sm!"
         />
       )}
 
-      <div className="flex items-center gap-2.5 px-3 py-2.5">
+      <div className="flex items-center gap-3">
         <div
           className={cn(
-            "flex size-7 shrink-0 items-center justify-center rounded-md",
+            "flex size-7 shrink-0 items-center justify-center rounded-lg",
             stepDefinition.accent
           )}
         >
-          {isRunning ? (
-            <Spinner className="size-4" />
-          ) : (
-            <Icon className="size-4" />
-          )}
+          <Icon className="size-3.5" />
         </div>
-        <span className="text-sm font-semibold">{data.title}</span>
+        <p className="truncate text-sm font-medium">{displayTitle}</p>
       </div>
-
-      {inputsWithValues.length > 0 && (
-        <>
-          <div className="border-t border-border" />
-          <div className="flex flex-col gap-1.5 px-3 py-2.5">
-            {inputsWithValues.map((input) => (
-              <div
-                key={input.key}
-                className="flex items-center justify-between gap-4 text-xs"
-              >
-                <span className="shrink-0 text-muted-foreground">
-                  {input.label}
-                </span>
-                <span className="truncate font-medium">
-                  {data.inputValues[input.key]}
-                </span>
-              </div>
-            ))}
-          </div>
-        </>
+      {isAction && (
+        <p className="mt-2 truncate text-xs text-slate-400">
+          {inputSummary || "입력값을 설정해 주세요."}
+        </p>
       )}
 
       <Handle
         type="source"
-        position={Position.Right}
-        style={{ transform: "translate(100%, -50%)" }}
-        className="h-3.5! w-1.5! min-w-0! rounded-l-none! rounded-r-xs! border-0! bg-border!"
+        position={Position.Bottom}
+        className="size-2.5! min-w-0! border-2! border-white! bg-slate-400! shadow-sm!"
       />
     </div>
   );

@@ -6,6 +6,7 @@ import {
   runWorkflowAction,
 } from "@/features/workflows/actions";
 import { useLatestRunSteps } from "@/features/workflows/hooks/use-latest-run-steps";
+import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
 import { validateWorkflowGraph } from "@/features/workflows/libs/validate-workflow-graph";
 import type { WorkflowStepNode } from "@/features/workflows/types";
 import { useReactFlow } from "@xyflow/react";
@@ -20,6 +21,7 @@ export const WorkflowRunToggleButton = () => {
   const { runId, isLive } = useLatestRunSteps();
   const [isPending, startTransition] = useTransition();
   const [cancelledRunId, setCancelledRunId] = useState<string>();
+  const { isLoaded, hasProPlan, goToPricing } = useProPlan();
   const isRunActive = isLive && runId !== cancelledRunId;
 
   const handleRunWorkflow = () => {
@@ -28,6 +30,16 @@ export const WorkflowRunToggleButton = () => {
 
     if (validationError) {
       toast.error(validationError);
+      return;
+    }
+
+    const usesAgentNode = graph.nodes.some(
+      (node) => node.data.type === "agent"
+    );
+
+    if (usesAgentNode && !hasProPlan) {
+      toast.info("AI 에이전트 노드는 Pro 플랜에서 사용할 수 있어요.");
+      goToPricing();
       return;
     }
 
@@ -64,6 +76,7 @@ export const WorkflowRunToggleButton = () => {
         size="sm"
         variant="destructive"
         onClick={handleCancelWorkflow}
+        className="h-8 rounded-lg px-3"
       >
         <Square aria-hidden className="fill-current" />
         {isPending ? "중지 중..." : "중지"}
@@ -73,10 +86,10 @@ export const WorkflowRunToggleButton = () => {
 
   return (
     <Button
-      disabled={isPending}
+      disabled={isPending || !isLoaded}
       size="sm"
-      variant="secondary"
       onClick={handleRunWorkflow}
+      className="h-8 rounded-lg bg-violet-500 px-3 text-white shadow-sm hover:bg-violet-600"
     >
       <Play aria-hidden className="fill-current" />
       {isPending ? "실행 중..." : "실행"}

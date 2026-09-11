@@ -2,25 +2,25 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type { WorkflowStepNode } from "@/features/workflows/types";
-import { useNodes, useReactFlow } from "@xyflow/react";
+import { type Edge, useEdges, useNodes, useReactFlow } from "@xyflow/react";
 import { useUpstreamOutputOptions } from "@/features/workflows/hooks/use-upstream-output-options";
-import { WorkflowNodePalette } from "@/features/workflows/components/editor/workflow-node-palette";
 import { WorkflowNodeInspector } from "@/features/workflows/components/editor/workflow-node-inspector";
-import { WorkflowActionsMenu } from "@/features/workflows/components/editor/workflow-actions-menu";
 import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 import { WorkflowRunToggleButton } from "@/features/workflows/components/editor/workflow-run-toggle-button";
+import { AddWorkflowNodeButton } from "@/features/workflows/components/editor/add-workflow-node-button";
+import { WorkflowEdgeInspector } from "@/features/workflows/components/editor/workflow-edge-inspector";
 
 export const WorkflowEditorSidebar = () => {
-  const [activeTab, setActiveTab] = useState("toolbar");
   const [lastFocusedInput, setLastFocusedInput] = useState<
     Record<string, string>
   >({});
   const { updateNodeData } = useReactFlow<WorkflowStepNode>();
   const workflowNodes = useNodes<WorkflowStepNode>();
+  const workflowEdges = useEdges<Edge>();
   const selectedNode = workflowNodes.find((node) => node.selected);
+  const selectedEdge = workflowEdges.find((edge) => edge.selected);
   const upstreamOutputOptions = useUpstreamOutputOptions(selectedNode);
 
   const handleInputFocus = (inputKey: string) => {
@@ -63,68 +63,50 @@ export const WorkflowEditorSidebar = () => {
   };
 
   return (
-    <aside className="size-full min-h-0">
-      <Tabs
-        value={activeTab}
-        onValueChange={setActiveTab}
-        className="size-full gap-0"
-      >
-        <div className="flex items-center justify-between border-b border-border p-2">
-          <WorkflowActionsMenu />
-          <WorkflowRunToggleButton />
-        </div>
-        <TabsList className="m-2 w-fit bg-background">
-          <TabsTrigger
-            value="toolbar"
-            className="flex-none rounded-sm data-active:bg-accent! data-active:text-accent-foreground! data-active:shadow-none! dark:data-active:border-transparent!"
-          >
-            툴바
-          </TabsTrigger>
-          <TabsTrigger
-            value="editor"
-            className="flex-none rounded-sm data-active:bg-accent! data-active:text-accent-foreground! data-active:shadow-none! dark:data-active:border-transparent!"
-          >
-            에디터
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="toolbar" className="flex min-h-0 flex-col">
-          <WorkflowNodePalette />
-        </TabsContent>
-        <TabsContent value="editor" className="flex min-h-0 flex-col">
-          <div className="shrink-0">
-            <WorkflowNodeInspector
-              selectedNode={selectedNode}
-              onInputFocus={handleInputFocus}
-            />
-          </div>
-          {upstreamOutputOptions.length > 0 && (
-            <div className="shrink-0 border-t border-border">
-              <div className="bg-card px-3 py-1.5 text-sm font-semibold">
-                연결
-              </div>
-              <div className="flex max-h-80 flex-wrap gap-1.5 overflow-y-auto p-3">
-                {upstreamOutputOptions.map(({ stepType, label, token }) => (
-                  <Button
-                    key={token}
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    title={token}
-                    onClick={() => handleInsertOutputToken(token)}
-                    className="h-auto max-w-full justify-start py-1"
-                  >
-                    <WorkflowStepIcon
-                      stepType={stepType}
-                      className="size-4 rounded-sm"
-                    />
-                    <span className="truncate">{label}</span>
-                  </Button>
-                ))}
-              </div>
+    <aside className="flex size-full min-h-0 flex-col border-l border-slate-200 bg-white">
+      <div className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 px-3">
+        <AddWorkflowNodeButton />
+        <WorkflowRunToggleButton />
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col">
+        {selectedEdge ? (
+          <WorkflowEdgeInspector
+            selectedEdge={selectedEdge}
+            workflowNodes={workflowNodes}
+          />
+        ) : (
+          <WorkflowNodeInspector
+            selectedNode={selectedNode}
+            onInputFocus={handleInputFocus}
+          />
+        )}
+        {!selectedEdge && upstreamOutputOptions.length > 0 && (
+          <div className="shrink-0 border-t border-slate-200">
+            <div className="px-4 py-3 text-xs font-semibold text-slate-700">
+              연결
             </div>
-          )}
-        </TabsContent>
-      </Tabs>
+            <div className="flex max-h-80 flex-wrap gap-2 overflow-y-auto px-4 pb-4">
+              {upstreamOutputOptions.map(({ stepType, label, token }) => (
+                <Button
+                  key={token}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  title={token}
+                  onClick={() => handleInsertOutputToken(token)}
+                  className="h-auto max-w-full justify-start py-1"
+                >
+                  <WorkflowStepIcon
+                    stepType={stepType}
+                    className="size-4 rounded-sm"
+                  />
+                  <span className="truncate">{label}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </aside>
   );
 };
