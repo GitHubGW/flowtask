@@ -1,0 +1,92 @@
+@keyframes highlightAgent {
+  0%,
+  28% {
+    border-color: rgb(226 232 240);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+
+  38%,
+  92% {
+    border-color: rgb(167 139 250);
+    box-shadow: 0 10px 22px -8px rgb(196 181 253 / 0.8);
+  }
+
+  100% {
+    border-color: rgb(226 232 240);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+}
+
+@keyframes showConfiguration {
+  0%,
+  54% {
+    opacity: 0;
+    transform: translate(-50%, 0.75rem);
+  }
+
+  64%,
+  92% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0.75rem);
+  }
+}
+
+@keyframes moveCursor {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  30%,
+  50% {
+    opacity: 1;
+    transform: translate(-6.5rem, 6.75rem);
+  }
+
+  68%,
+  92% {
+    opacity: 1;
+    transform: translate(-2.25rem, 12rem);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-2.25rem, 12rem);
+  }
+}
+
+.agentNode {
+  animation: highlightAgent 5.4s ease-in-out infinite;
+}
+
+.configurationPanel {
+  animation: showConfiguration 5.4s ease-in-out infinite;
+}
+
+.cursor {
+  animation: moveCursor 5.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agentNode {
+    border-color: rgb(167 139 250);
+    box-shadow: 0 10px 22px -8px rgb(196 181 253 / 0.8);
+    animation: none;
+  }
+
+  .configurationPanel {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    animation: none;
+  }
+
+  .cursor {
+    display: none;
+  }
+}

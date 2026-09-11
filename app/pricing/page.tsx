@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CircleCheck, Plus } from "lucide-react";
-import { PublicHeader } from "@/components/public-header";
+import { Header } from "@/components/header";
 import {
   Accordion,
   AccordionContent,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 const PricingPage = () => {
   return (
     <div className="min-h-svh bg-white text-slate-950">
-      <PublicHeader />
+      <Header />
 
       <main>
         <section className="px-5 pt-20 pb-24 sm:px-8 sm:pt-24 sm:pb-32">

@@ -36,7 +36,7 @@ export const CreateWorkflowButton = () => {
       type="button"
       disabled={isPending || !isLoaded}
       onClick={handleCreateWorkflow}
-      className="gap-1.5"
+      className="gap-1.5 rounded-lg bg-slate-950 text-white hover:bg-slate-800"
     >
       <Plus data-icon="inline-start" aria-hidden />
       {isPending ? "워크플로우 생성 중..." : "워크플로우 추가"}

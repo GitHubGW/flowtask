@@ -1,5 +1,6 @@
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { koKR } from "@clerk/localizations/ko-KR";
 import { shadcn } from "@clerk/ui/themes";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -18,10 +19,10 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Browser Automation Agent",
-    template: "%s | Browser Automation Agent",
+    default: "Flowtask",
+    template: "%s | Flowtask",
   },
-  description: "Browser Automation Agent",
+  description: "브라우저 작업을 워크플로우로 자동화하는 Flowtask",
 };
 
 interface RootLayoutProps {
@@ -38,6 +39,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <body>
         <ClerkProvider
           appearance={{ theme: shadcn }}
+          localization={koKR}
           taskUrls={{ "choose-organization": ROUTES.CHOOSE_ORGANIZATION }}
         >
           <ThemeProvider>

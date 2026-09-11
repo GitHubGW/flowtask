@@ -126,8 +126,10 @@ export const WorkflowSidebarSection = ({
   }
 
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>워크플로우</SidebarGroupLabel>
+    <SidebarGroup className="gap-1">
+      <SidebarGroupLabel className="text-[11px] font-semibold tracking-wide text-slate-500 uppercase">
+        워크플로우
+      </SidebarGroupLabel>
       <SidebarGroupAction
         title="워크플로우 추가"
         onClick={handleCreateWorkflow}
@@ -136,12 +138,13 @@ export const WorkflowSidebarSection = ({
         {isPending ? <Loader2 className="animate-spin" /> : <Plus />}
       </SidebarGroupAction>
       <SidebarGroupContent>
-        <SidebarMenu>
+        <SidebarMenu className="gap-1">
           {workflows.map((workflow) => (
             <SidebarMenuItem key={workflow.id}>
               <SidebarMenuButton
                 asChild
                 isActive={isWorkflowActive(workflow.id)}
+                className="h-9 rounded-lg px-2.5 text-slate-600 hover:bg-white hover:text-slate-950 data-[active=true]:bg-white data-[active=true]:font-semibold data-[active=true]:text-slate-950 data-[active=true]:shadow-sm"
               >
                 <Link
                   href={ROUTES.WORKFLOWS.DETAIL(workflow.id)}
@@ -149,6 +152,7 @@ export const WorkflowSidebarSection = ({
                     isWorkflowActive(workflow.id) ? "page" : undefined
                   }
                 >
+                  <Workflow className="size-4 text-slate-400" aria-hidden />
                   <span>{workflow.name}</span>
                 </Link>
               </SidebarMenuButton>

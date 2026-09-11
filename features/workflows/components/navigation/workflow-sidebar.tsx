@@ -9,22 +9,41 @@ import {
 import { auth } from "@clerk/nextjs/server";
 import { getWorkflows } from "@/features/workflows/queries";
 import { ROUTES } from "@/constants/routes";
-import { WorkflowSidebarSection } from "@/features/workflows/components/dashboard/workflow-sidebar-section";
+import { WorkflowSidebarSection } from "@/features/workflows/components/navigation/workflow-sidebar-section";
+import Link from "next/link";
+import { Workflow } from "lucide-react";
 
-export const DashboardSidebar = async () => {
+export const WorkflowSidebar = async () => {
   const { orgId } = await auth();
   const workflows = orgId ? await getWorkflows(orgId) : [];
 
   return (
-    <Sidebar variant="inset" collapsible="icon">
-      <SidebarHeader>
+    <Sidebar
+      collapsible="icon"
+      className="border-r border-slate-200 bg-slate-50"
+    >
+      <SidebarHeader className="gap-3 border-b border-slate-200 px-3 py-3">
+        <div className="flex h-8 items-center justify-between gap-2 group-data-[collapsible=icon]:justify-center">
+          <Link
+            href={ROUTES.HOME}
+            className="flex min-w-0 items-center gap-2.5 group-data-[collapsible=icon]:hidden"
+          >
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-slate-950 text-white">
+              <Workflow className="size-4" aria-hidden />
+            </span>
+            <span className="truncate text-base font-bold tracking-tight text-slate-950">
+              Flowtask
+            </span>
+          </Link>
+          <SidebarTrigger className="shrink-0 text-slate-500 hover:bg-slate-200/70" />
+        </div>
         <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]:justify-center">
           <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
             <OrganizationSwitcher
               hidePersonal
-              afterCreateOrganizationUrl={ROUTES.DASHBOARD}
-              afterLeaveOrganizationUrl={ROUTES.DASHBOARD}
-              afterSelectOrganizationUrl={ROUTES.DASHBOARD}
+              afterCreateOrganizationUrl={ROUTES.WORKFLOWS.INDEX}
+              afterLeaveOrganizationUrl={ROUTES.WORKFLOWS.INDEX}
+              afterSelectOrganizationUrl={ROUTES.WORKFLOWS.INDEX}
               appearance={{
                 elements: {
                   rootBox: "flex min-w-0 w-full",
@@ -34,13 +53,12 @@ export const DashboardSidebar = async () => {
               }}
             />
           </div>
-          <SidebarTrigger className="shrink-0" />
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="px-1 py-2">
         <WorkflowSidebarSection workflows={workflows} />
       </SidebarContent>
-      <SidebarFooter className="group-data-[collapsible=icon]:items-center">
+      <SidebarFooter className="border-t border-slate-200 p-3 group-data-[collapsible=icon]:items-center">
         <UserButton
           appearance={{
             elements: {
