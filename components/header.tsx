@@ -1,3 +1,4 @@
+import { Show, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
@@ -41,20 +42,31 @@ export const Header = () => {
           </Link>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
-          <Button
-            asChild
-            variant="outline"
-            className="hidden rounded-full px-4 sm:inline-flex"
-          >
-            <Link href={ROUTES.SIGN_IN}>로그인</Link>
-          </Button>
+        <div className="ml-auto flex items-center gap-4">
+          <Show when="signed-out">
+            <Button
+              asChild
+              variant="outline"
+              className="hidden rounded-full px-4 sm:inline-flex"
+            >
+              <Link href={ROUTES.SIGN_IN}>로그인</Link>
+            </Button>
+          </Show>
           <Button
             asChild
             className="rounded-full bg-slate-950 px-4 text-white hover:bg-slate-800"
           >
             <Link href={ROUTES.WORKFLOWS.INDEX}>시작하기</Link>
           </Button>
+          <Show when="signed-in">
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: "size-9",
+                },
+              }}
+            />
+          </Show>
         </div>
       </div>
     </header>
