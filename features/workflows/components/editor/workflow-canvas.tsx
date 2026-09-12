@@ -24,9 +24,10 @@ import type {
 } from "@/features/workflows/types";
 import { useLiveblocksFlow, Cursors } from "@liveblocks/react-flow";
 import { AvatarStack } from "@liveblocks/react-ui";
-import { Map as MapIcon } from "lucide-react";
+import { CircleAlert, Map as MapIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLatestRunSteps } from "@/features/workflows/hooks/use-latest-run-steps";
+import { useWorkflowRunsContext } from "@/features/workflows/components/providers/workflow-runs-provider";
 
 const INITIAL_WORKFLOW_GRAPH: WorkflowGraph = {
   nodes: [],
@@ -57,6 +58,7 @@ export const WorkflowCanvas = () => {
   const { resolvedTheme } = useTheme();
   const [isMiniMapOpen, setIsMiniMapOpen] = useState(false);
   const { steps } = useLatestRunSteps();
+  const { error: runsError } = useWorkflowRunsContext();
   const { getNodes, getEdges } = useReactFlow<WorkflowStepNode, Edge>();
   const colorMode = resolvedTheme === "dark" ? "dark" : "light";
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onDelete } =
@@ -157,6 +159,18 @@ export const WorkflowCanvas = () => {
         colorMode={colorMode}
       >
         <Cursors />
+        {runsError && (
+          <Panel position="top-center">
+            <div
+              role="alert"
+              className="flex items-center gap-2 rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-medium text-red-600 shadow-sm"
+            >
+              <CircleAlert className="size-4" aria-hidden />
+              실행 상태를 실시간으로 불러오지 못했습니다. 페이지를 새로고침해
+              주세요.
+            </div>
+          </Panel>
+        )}
         <Background
           variant={BackgroundVariant.Dots}
           gap={20}

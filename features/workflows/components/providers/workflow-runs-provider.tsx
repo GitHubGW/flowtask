@@ -2,7 +2,7 @@
 
 import { useRealtimeRunsWithTag } from "@trigger.dev/react-hooks";
 import { useParams } from "next/navigation";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import type { runWorkflowTask } from "@/features/workflows/tasks/run-workflow/run-workflow-task";
 import type { RunStep } from "@/features/workflows/types";
 
@@ -15,6 +15,11 @@ export type WorkflowRun = UseRealtimeWorkflowRunsResult["runs"][number];
 interface WorkflowRunsContextValue {
   runs: WorkflowRun[];
   error: UseRealtimeWorkflowRunsResult["error"];
+  pendingRunId?: string;
+  isRunStarting: boolean;
+  beginRun: () => void;
+  trackRun: (runId: string) => void;
+  cancelRunStart: () => void;
 }
 
 interface WorkflowRunsProviderProps {
@@ -36,14 +41,47 @@ export const WorkflowRunsProvider = ({
   children,
 }: WorkflowRunsProviderProps) => {
   const { id: workflowId } = useParams<{ id: string }>();
+  const [pendingRunId, setPendingRunId] = useState<string>();
+  const [isRunStarting, setIsRunStarting] = useState(false);
   const { runs, error } = useRealtimeRunsWithTag<typeof runWorkflowTask>(
     `workflow:${workflowId}`,
     { accessToken: publicAccessToken, skipColumns: ["payload"] }
   );
 
+  const beginRun = useCallback(() => {
+    setPendingRunId(undefined);
+    setIsRunStarting(true);
+  }, []);
+
+  const trackRun = useCallback((runId: string) => {
+    setPendingRunId(runId);
+    setIsRunStarting(false);
+  }, []);
+
+  const cancelRunStart = useCallback(() => {
+    setPendingRunId(undefined);
+    setIsRunStarting(false);
+  }, []);
+
   const contextValue = useMemo<WorkflowRunsContextValue>(() => {
-    return { runs, error };
-  }, [runs, error]);
+    return {
+      runs,
+      error,
+      pendingRunId,
+      isRunStarting,
+      beginRun,
+      trackRun,
+      cancelRunStart,
+    };
+  }, [
+    runs,
+    error,
+    pendingRunId,
+    isRunStarting,
+    beginRun,
+    trackRun,
+    cancelRunStart,
+  ]);
 
   return (
     <WorkflowRunsContext value={contextValue}>{children}</WorkflowRunsContext>

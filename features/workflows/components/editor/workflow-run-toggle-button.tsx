@@ -6,6 +6,7 @@ import {
   runWorkflowAction,
 } from "@/features/workflows/actions";
 import { useLatestRunSteps } from "@/features/workflows/hooks/use-latest-run-steps";
+import { useWorkflowRunsContext } from "@/features/workflows/components/providers/workflow-runs-provider";
 import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
 import { validateWorkflowGraph } from "@/features/workflows/libs/validate-workflow-graph";
 import type { WorkflowStepNode } from "@/features/workflows/types";
@@ -22,6 +23,7 @@ export const WorkflowRunToggleButton = () => {
   const [isPending, startTransition] = useTransition();
   const [cancelledRunId, setCancelledRunId] = useState<string>();
   const { isLoaded, hasProPlan, goToPricing } = useProPlan();
+  const { beginRun, trackRun, cancelRunStart } = useWorkflowRunsContext();
   const isRunActive = isLive && runId !== cancelledRunId;
 
   const handleRunWorkflow = () => {
@@ -43,11 +45,15 @@ export const WorkflowRunToggleButton = () => {
       return;
     }
 
+    beginRun();
+
     startTransition(async () => {
       try {
-        await runWorkflowAction(id, graph);
+        const handle = await runWorkflowAction(id, graph);
+        trackRun(handle.id);
         toast.success("워크플로우를 실행했습니다.");
       } catch {
+        cancelRunStart();
         toast.error("워크플로우 실행에 실패했습니다.");
       }
     });
