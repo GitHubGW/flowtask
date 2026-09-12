@@ -8,6 +8,7 @@ export const createInitialWorkflowGraph = (): WorkflowGraph => {
     id: crypto.randomUUID(),
     type: "step",
     position: { x: 0, y: 0 },
+    deletable: false,
     data: { type: "start", kind: "trigger", title: "시작", inputValues: {} },
   };
 
