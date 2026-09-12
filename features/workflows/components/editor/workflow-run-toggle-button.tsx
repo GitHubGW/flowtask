@@ -7,6 +7,7 @@ import {
 } from "@/features/workflows/actions";
 import { useLatestRunSteps } from "@/features/workflows/hooks/use-latest-run-steps";
 import { useWorkflowRunsContext } from "@/features/workflows/components/providers/workflow-runs-provider";
+import { WORKFLOW_MESSAGES } from "@/features/workflows/constants/workflow-messages";
 import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
 import { validateWorkflowGraph } from "@/features/workflows/libs/validate-workflow-graph";
 import type { WorkflowStepNode } from "@/features/workflows/types";
@@ -40,7 +41,7 @@ export const WorkflowRunToggleButton = () => {
     );
 
     if (usesAgentNode && !hasProPlan) {
-      toast.info("AI 에이전트 노드는 Pro 플랜에서 사용할 수 있어요.");
+      toast.info(WORKFLOW_MESSAGES.AGENT_NODE_PRO_REQUIRED);
       goToPricing();
       return;
     }
@@ -51,10 +52,10 @@ export const WorkflowRunToggleButton = () => {
       try {
         const handle = await runWorkflowAction(id, graph);
         trackRun(handle.id);
-        toast.success("워크플로우를 실행했습니다.");
+        toast.success(WORKFLOW_MESSAGES.RUN_REQUESTED);
       } catch {
         cancelRunStart();
-        toast.error("워크플로우 실행에 실패했습니다.");
+        toast.error(WORKFLOW_MESSAGES.RUN_ERROR);
       }
     });
   };
@@ -68,9 +69,9 @@ export const WorkflowRunToggleButton = () => {
       try {
         await cancelWorkflowAction(runId);
         setCancelledRunId(runId);
-        toast.success("워크플로우를 중지했습니다.");
+        toast.success(WORKFLOW_MESSAGES.CANCEL_SUCCESS);
       } catch {
-        toast.error("워크플로우 중지에 실패했습니다.");
+        toast.error(WORKFLOW_MESSAGES.CANCEL_ERROR);
       }
     });
   };

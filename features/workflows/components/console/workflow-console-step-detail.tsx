@@ -25,7 +25,7 @@ export const WorkflowConsoleStepDetail = ({
   if (!selectedStep) {
     return (
       <div className="flex size-full items-center justify-center p-3 text-center text-xs text-muted-foreground">
-        선택한 단계를 더 이상 찾을 수 없습니다.
+        선택한 단계를 더 이상 찾을 수 없어요.
       </div>
     );
   }

@@ -22,7 +22,7 @@ import type {
   WorkflowStepType,
 } from "@/features/workflows/types";
 
-const ACTION_STEP_DEFINITIONS = Object.values(workflowStepRegistry).filter(
+const actionStepDefinitions = Object.values(workflowStepRegistry).filter(
   (stepDefinition) => stepDefinition.kind === "action"
 );
 
@@ -106,7 +106,7 @@ export const AddWorkflowNodeButton = () => {
         </PopoverHeader>
 
         <div className="flex flex-col gap-1">
-          {ACTION_STEP_DEFINITIONS.map(({ type, label, description }) => {
+          {actionStepDefinitions.map(({ type, label, description }) => {
             const isDisabled = type === "agent" && !isLoaded;
             const isAgentLocked = isLoaded && type === "agent" && !hasProPlan;
 

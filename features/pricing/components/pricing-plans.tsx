@@ -9,16 +9,13 @@ import {
   ProPlanButton,
   type BillingPeriod,
 } from "@/features/pricing/components/pro-plan-button";
-import {
-  freePlanFeatures,
-  proPlanFeatures,
-  ultimatePlanFeatures,
-} from "@/features/pricing/data";
+import { planFeatures, pricingPlans } from "@/features/pricing/data";
 import { cn } from "@/libs/utils";
 
 export const PricingPlans = () => {
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("annual");
   const isAnnual = billingPeriod === "annual";
+  const { free, pro, ultimate } = pricingPlans;
 
   const handleSelectAnnual = () => {
     setBillingPeriod("annual");
@@ -66,15 +63,17 @@ export const PricingPlans = () => {
       <div className="mt-16 grid items-stretch gap-5 md:grid-cols-3">
         <article className="relative flex min-h-132 flex-col rounded-3xl border border-slate-200 bg-white p-8">
           <header>
-            <h2 className="text-2xl font-extrabold tracking-tight">Free</h2>
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              {free.name}
+            </h2>
             <p className="mt-2 min-h-12 text-base leading-6 text-slate-600">
-              기본 브라우저 자동화를 시작하기 위한 플랜
+              {free.description}
             </p>
           </header>
 
           <div className="mt-6">
             <strong className="text-5xl font-black tracking-[-0.04em]">
-              $0
+              {free.price}
             </strong>
             <p className="mt-3 text-sm text-slate-600">
               항상 무료, 카드 등록 불필요
@@ -92,7 +91,7 @@ export const PricingPlans = () => {
           </div>
 
           <div className="my-7 border-t border-slate-200" />
-          <PlanFeatures title="포함된 기능" features={freePlanFeatures} />
+          <PlanFeatures title="포함된 기능" features={planFeatures.free} />
         </article>
 
         <article className="relative flex min-h-132 flex-col rounded-3xl border border-slate-200 bg-slate-50 p-8 shadow-[0_18px_45px_rgba(15,23,42,0.10)]">
@@ -100,16 +99,18 @@ export const PricingPlans = () => {
             추천
           </span>
           <header>
-            <h2 className="text-2xl font-extrabold tracking-tight">Pro</h2>
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              {pro.name}
+            </h2>
             <p className="mt-2 min-h-12 text-base leading-6 text-slate-600">
-              워크플로우의 모든 기능을 사용할 수 있는 플랜
+              {pro.description}
             </p>
           </header>
 
           <div className="mt-6">
             <div className="flex items-end gap-1.5">
               <strong className="text-5xl font-black tracking-[-0.04em]">
-                $1
+                {pro.price}
               </strong>
               <span className="pb-1 text-sm text-slate-500">/월</span>
             </div>
@@ -126,7 +127,7 @@ export const PricingPlans = () => {
 
           <PlanFeatures
             title="Free 플랜의 모든 기능과"
-            features={proPlanFeatures}
+            features={planFeatures.pro}
           />
         </article>
 
@@ -135,15 +136,17 @@ export const PricingPlans = () => {
             준비 중
           </span>
           <header>
-            <h2 className="text-2xl font-extrabold tracking-tight">Ultimate</h2>
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              {ultimate.name}
+            </h2>
             <p className="mt-2 min-h-12 text-base leading-6 text-slate-600">
-              대규모 조직을 위한 맞춤형 자동화 플랜
+              {ultimate.description}
             </p>
           </header>
 
           <div className="mt-6">
             <strong className="text-5xl font-black tracking-[-0.04em]">
-              맞춤형
+              {ultimate.price}
             </strong>
             <p className="mt-3 text-sm text-slate-600">
               필요한 규모와 환경에 맞게 설계
@@ -165,7 +168,7 @@ export const PricingPlans = () => {
 
           <PlanFeatures
             title="Pro 플랜의 모든 기능과"
-            features={ultimatePlanFeatures}
+            features={planFeatures.ultimate}
           />
         </article>
       </div>

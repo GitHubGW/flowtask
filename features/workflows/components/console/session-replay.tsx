@@ -5,6 +5,7 @@ import * as Sentry from "@sentry/nextjs";
 import type Hls from "hls.js";
 import { Spinner } from "@/components/ui/spinner";
 import { API } from "@/constants/api";
+import { WORKFLOW_LOG_EVENTS } from "@/features/workflows/constants/workflow-log-events";
 
 type ReplayStatus = "loading" | "ready" | "error" | "unsupported" | "timeout";
 
@@ -12,12 +13,12 @@ const REPLAY_POLL_INTERVAL_MS = 2000;
 const REPLAY_TIMEOUT_MS = 180000;
 
 const replayStatusMessages: Record<ReplayStatus, string> = {
-  loading: "녹화를 준비하고 있습니다…",
-  ready: "녹화가 준비되었습니다.",
-  error: "녹화를 불러오지 못했습니다. Replay를 다시 선택해 주세요.",
-  unsupported: "이 브라우저에서는 녹화를 재생할 수 없습니다.",
+  loading: "리플레이를 준비하고 있어요…",
+  ready: "리플레이가 준비됐어요.",
+  error: "리플레이를 불러오지 못했어요. 다시 선택해 주세요.",
+  unsupported: "현재 브라우저에서는 리플레이를 재생할 수 없어요.",
   timeout:
-    "녹화 준비가 지연되고 있습니다. 잠시 후 Replay를 다시 선택해 주세요.",
+    "리플레이 준비가 지연되고 있어요. 잠시 후 다시 선택해 주세요.",
 };
 
 export const SessionReplay = ({ sessionId }: { sessionId: string }) => {
@@ -123,10 +124,13 @@ export const SessionReplay = ({ sessionId }: { sessionId: string }) => {
           return;
         }
 
-        Sentry.logger.warn("워크플로우 녹화 요청 실패", {
+        Sentry.logger.warn(WORKFLOW_LOG_EVENTS.REPLAY_REQUEST_FAILED.message, {
+          "event.name": WORKFLOW_LOG_EVENTS.REPLAY_REQUEST_FAILED.name,
           "browserbase.session_id": sessionId,
           "error.message":
-            error instanceof Error ? error.message : "알 수 없는 녹화 오류",
+            error instanceof Error
+              ? error.message
+              : WORKFLOW_LOG_EVENTS.REPLAY_REQUEST_FAILED.unknownErrorMessage,
         });
 
         setStatus("error");
@@ -152,7 +156,7 @@ export const SessionReplay = ({ sessionId }: { sessionId: string }) => {
         ref={videoRef}
         controls
         playsInline
-        aria-label="워크플로우 실행 녹화"
+        aria-label="워크플로우 실행 리플레이"
         onLoadedMetadata={handleLoadedMetadata}
         onError={handleError}
         className={status === "ready" ? "size-full" : "hidden"}

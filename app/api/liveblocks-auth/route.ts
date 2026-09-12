@@ -8,14 +8,14 @@ export const POST = async () => {
 
   if (!isAuthenticated || !userId) {
     return Response.json(
-      { error: ERROR_MESSAGES.UNAUTHORIZED },
+      { error: ERROR_MESSAGES.AUTHENTICATION_REQUIRED },
       { status: 401 }
     );
   }
 
   if (!orgId) {
     return Response.json(
-      { error: ERROR_MESSAGES.NO_ORGANIZATION_FOUND },
+      { error: ERROR_MESSAGES.ORGANIZATION_REQUIRED },
       { status: 403 }
     );
   }
@@ -24,7 +24,7 @@ export const POST = async () => {
 
   if (!user) {
     return Response.json(
-      { error: ERROR_MESSAGES.UNAUTHORIZED },
+      { error: ERROR_MESSAGES.USER_NOT_FOUND },
       { status: 401 }
     );
   }

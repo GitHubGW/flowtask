@@ -2,6 +2,7 @@ import { Show, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
+import { SITE } from "@/constants/site";
 import Image from "next/image";
 
 export const Header = () => {
@@ -21,7 +22,7 @@ export const Header = () => {
               className="size-8"
             />
           </span>
-          Flowtask
+          {SITE.NAME}
         </Link>
 
         <nav
@@ -60,11 +61,7 @@ export const Header = () => {
           </Button>
           <Show when="signed-in">
             <UserButton
-              appearance={{
-                elements: {
-                  userButtonAvatarBox: "size-9",
-                },
-              }}
+              appearance={{ elements: { userButtonAvatarBox: "size-9" } }}
             />
           </Show>
         </div>

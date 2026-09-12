@@ -1,3 +1,4 @@
+import { WORKFLOW_MESSAGES } from "@/features/workflows/constants/workflow-messages";
 import { resend } from "@/libs/resend";
 
 interface SendEmailParams {
@@ -17,12 +18,12 @@ export const sendEmail = async ({ to, subject, html }: SendEmailParams) => {
   });
 
   if (!data || error) {
-    throw new Error(error.message || "이메일 전송에 실패했습니다.");
+    throw new Error(WORKFLOW_MESSAGES.SEND_EMAIL_FAILED);
   }
 
   return {
     success: true,
-    message: "이메일 전송에 성공했습니다.",
+    message: WORKFLOW_MESSAGES.SEND_EMAIL_SUCCESS,
     id: data.id,
   };
 };

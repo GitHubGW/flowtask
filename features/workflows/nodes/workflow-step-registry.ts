@@ -41,7 +41,7 @@ export const workflowStepRegistry = {
       {
         key: "url",
         label: "URL",
-        placeholder: "https://google.com",
+        placeholder: "https://naver.com",
         required: true,
       },
     ],

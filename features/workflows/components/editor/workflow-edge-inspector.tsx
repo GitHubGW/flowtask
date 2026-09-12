@@ -36,7 +36,7 @@ export const WorkflowEdgeInspector = ({
             Connection
           </span>
           <h2 className="mt-1 truncate text-sm font-semibold text-slate-950">
-            Edge
+            엣지
           </h2>
         </div>
         <Button

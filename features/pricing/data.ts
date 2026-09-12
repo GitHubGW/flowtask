@@ -26,22 +26,40 @@ export const pricingQuestions = [
   },
 ] as const;
 
-export const freePlanFeatures = [
-  "Agent를 제외한 기본 자동화 노드",
-  "워크플로우 편집과 실행",
-  "실행 기록과 단계별 결과 확인",
-] as const;
+export const planFeatures = {
+  free: [
+    "Agent를 제외한 기본 자동화 노드",
+    "워크플로우 편집과 실행",
+    "실행 기록과 단계별 결과 확인",
+  ],
+  pro: [
+    "Free 플랜의 모든 기능",
+    "자연어로 작업하는 AI Agent 노드",
+    "브라우저 세션 리플레이",
+  ],
+  ultimate: [
+    "Pro 플랜의 모든 기능",
+    "조직 규모에 맞춘 실행량",
+    "전용 실행 환경 구성",
+    "신규 기능 우선 이용",
+    "전담 기술 지원",
+  ],
+} as const;
 
-export const proPlanFeatures = [
-  "Free 플랜의 모든 기능",
-  "자연어로 작업하는 AI Agent 노드",
-  "브라우저 세션 리플레이",
-] as const;
-
-export const ultimatePlanFeatures = [
-  "Pro 플랜의 모든 기능",
-  "조직 규모에 맞춘 실행량",
-  "전용 실행 환경 구성",
-  "신규 기능 우선 이용",
-  "전담 기술 지원",
-] as const;
+export const pricingPlans = {
+  free: {
+    name: "Free",
+    description: "기본 브라우저 자동화를 시작하기 위한 플랜",
+    price: "$0",
+  },
+  pro: {
+    name: "Pro",
+    description: "워크플로우의 모든 기능을 사용할 수 있는 플랜",
+    price: "$1",
+  },
+  ultimate: {
+    name: "Ultimate",
+    description: "대규모 조직을 위한 맞춤형 자동화 플랜",
+    price: "맞춤형",
+  },
+} as const;

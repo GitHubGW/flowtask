@@ -38,6 +38,7 @@ import {
   createWorkflowAction,
   deleteWorkflowAction,
 } from "@/features/workflows/actions";
+import { WORKFLOW_MESSAGES } from "@/features/workflows/constants/workflow-messages";
 import { toast } from "sonner";
 
 interface WorkflowSidebarSectionProps {
@@ -67,10 +68,10 @@ export const WorkflowSidebarSection = ({
     startCreating(async () => {
       try {
         const { workflowId } = await createWorkflowAction();
-        toast.success("워크플로우를 생성했습니다.");
+        toast.success(WORKFLOW_MESSAGES.CREATE_SUCCESS);
         router.push(ROUTES.WORKFLOWS.DETAIL(workflowId));
       } catch {
-        toast.error("워크플로우 생성에 실패했습니다.");
+        toast.error(WORKFLOW_MESSAGES.CREATE_ERROR);
       }
     });
   };
@@ -84,10 +85,10 @@ export const WorkflowSidebarSection = ({
       try {
         await deleteWorkflowAction(workflowToDelete.id);
         setWorkflowToDeleteId(null);
-        toast.success("워크플로우를 삭제했습니다.");
+        toast.success(WORKFLOW_MESSAGES.DELETE_SUCCESS);
         router.push(ROUTES.WORKFLOWS.INDEX);
       } catch {
-        toast.error("워크플로우 삭제에 실패했습니다.");
+        toast.error(WORKFLOW_MESSAGES.DELETE_ERROR);
       }
     });
   };

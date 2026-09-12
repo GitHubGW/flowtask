@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth as clerkAuth } from "@clerk/nextjs/server";
 import { auth as triggerAuth } from "@trigger.dev/sdk";
 import { notFound, redirect } from "next/navigation";
 import { getWorkflow } from "@/features/workflows/queries";
@@ -7,6 +7,7 @@ import { ROUTES } from "@/constants/routes";
 import { WorkflowRoomProvider } from "@/features/workflows/components/providers/workflow-room-provider";
 import { WorkflowEditorLayout } from "@/features/workflows/components/editor/workflow-editor-layout";
 import { WorkflowRunsProvider } from "@/features/workflows/components/providers/workflow-runs-provider";
+import { WORKFLOW_RUN_TAGS } from "@/features/workflows/constants/workflow-trigger";
 
 interface WorkflowDetailPageProps {
   params: Promise<{ id: string }>;
@@ -14,7 +15,7 @@ interface WorkflowDetailPageProps {
 
 const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
   const [{ id }, { isAuthenticated, orgId, redirectToSignIn }] =
-    await Promise.all([params, auth()]);
+    await Promise.all([params, clerkAuth()]);
 
   if (!isAuthenticated) {
     redirectToSignIn({ returnBackUrl: ROUTES.WORKFLOWS.DETAIL(id) });
@@ -31,7 +32,7 @@ const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
   }
 
   const publicAccessToken = await triggerAuth.createPublicToken({
-    scopes: { read: { tags: [`workflow:${id}`] } },
+    scopes: { read: { tags: [WORKFLOW_RUN_TAGS.workflow(id)] } },
     expirationTime: "3h",
   });
 

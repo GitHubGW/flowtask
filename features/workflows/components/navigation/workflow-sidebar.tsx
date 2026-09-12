@@ -9,6 +9,7 @@ import {
 import { auth } from "@clerk/nextjs/server";
 import { getWorkflows } from "@/features/workflows/queries";
 import { ROUTES } from "@/constants/routes";
+import { SITE } from "@/constants/site";
 import { WorkflowSidebarSection } from "@/features/workflows/components/navigation/workflow-sidebar-section";
 import Link from "next/link";
 import Image from "next/image";
@@ -38,7 +39,7 @@ export const WorkflowSidebar = async () => {
               />
             </span>
             <span className="truncate text-base font-bold tracking-tight text-slate-950">
-              Flowtask
+              {SITE.NAME}
             </span>
           </Link>
           <SidebarTrigger className="shrink-0 text-slate-500 hover:bg-slate-200/70" />

@@ -21,7 +21,7 @@ const NotFound = () => {
               <Workflow aria-hidden />
             </EmptyMedia>
             <EmptyTitle className="text-base font-semibold">
-              워크플로우를 찾을 수 없습니다
+              워크플로우를 찾을 수 없어요
             </EmptyTitle>
             <EmptyDescription>
               다른 워크플로우를 선택하거나 새로 생성하세요.

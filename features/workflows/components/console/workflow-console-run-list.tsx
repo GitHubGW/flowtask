@@ -65,8 +65,8 @@ export const WorkflowConsoleRunList = ({
               ) : (
                 <p className="px-2 py-2 text-xs text-slate-500">
                   {run.isLive
-                    ? "실행 정보를 불러오는 중입니다."
-                    : "표시할 단계 정보가 없습니다."}
+                    ? "실행 정보를 불러오고 있어요."
+                    : "표시할 단계 정보가 없어요."}
                 </p>
               )}
               {run.browserbaseSessionId && run.status === "COMPLETED" && (
@@ -86,7 +86,7 @@ export const WorkflowConsoleRunList = ({
         </div>
       ) : (
         <div className="flex min-h-0 flex-1 items-center justify-center p-4 text-sm text-slate-500">
-          아직 워크플로우 실행 기록이 없습니다.
+          아직 워크플로우 실행 기록이 없어요.
         </div>
       )}
     </section>

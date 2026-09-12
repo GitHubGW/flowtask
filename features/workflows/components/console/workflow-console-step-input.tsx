@@ -16,7 +16,7 @@ export const WorkflowConsoleStepInput = ({
         </pre>
       ) : (
         <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
-          이 단계에 기록된 입력이 없습니다.
+          이 단계에 기록된 입력이 없어요.
         </p>
       )}
     </section>

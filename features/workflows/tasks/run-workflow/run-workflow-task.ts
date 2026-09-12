@@ -1,4 +1,6 @@
-import { ERROR_MESSAGES } from "@/constants/error-messages";
+import { WORKFLOW_ERROR_MESSAGES } from "@/features/workflows/constants/workflow-error-messages";
+import { WORKFLOW_LOG_EVENTS } from "@/features/workflows/constants/workflow-log-events";
+import { WORKFLOW_TASK_ID } from "@/features/workflows/constants/workflow-trigger";
 import { validateWorkflowGraph } from "@/features/workflows/libs/validate-workflow-graph";
 import { getWorkflow } from "@/features/workflows/queries";
 import { createRunStepTracker } from "@/features/workflows/tasks/run-workflow/create-run-step-tracker";
@@ -32,7 +34,7 @@ const assertWorkflowExists = async (
   const workflow = await getWorkflow(workflowId, organizationId);
 
   if (!workflow) {
-    throw new Error(ERROR_MESSAGES.NO_WORKFLOW_FOUND);
+    throw new Error(WORKFLOW_ERROR_MESSAGES.WORKFLOW_NOT_FOUND);
   }
 };
 
@@ -47,7 +49,7 @@ const getNodesInExecutionOrder = (graph: WorkflowGraph) => {
     const node = nodesById.get(nodeId);
 
     if (!node) {
-      throw new Error(`그래프에서 노드를 찾을 수 없습니다: ${nodeId}`);
+      throw new Error(WORKFLOW_ERROR_MESSAGES.GRAPH_NODE_NOT_FOUND);
     }
 
     return node;
@@ -61,7 +63,7 @@ const getNodesInExecutionOrder = (graph: WorkflowGraph) => {
  * - 완료 후 스텝 결과, 실행한 스텝 수, Browserbase 세션 ID를 반환
  */
 export const runWorkflowTask = task({
-  id: "run-workflow-task",
+  id: WORKFLOW_TASK_ID,
   run: async ({
     workflowId,
     organizationId,
@@ -80,14 +82,16 @@ export const runWorkflowTask = task({
 
     publish();
 
-    logger.log("워크플로우 실행 시작", {
+    logger.log(WORKFLOW_LOG_EVENTS.RUN_STARTED.message, {
+      "event.name": WORKFLOW_LOG_EVENTS.RUN_STARTED.name,
       workflowId,
       nodeCount: orderedNodes.length,
     });
 
     try {
       for (const node of orderedNodes) {
-        logger.log("워크플로우 단계 실행", {
+        logger.log(WORKFLOW_LOG_EVENTS.STEP_STARTED.message, {
+          "event.name": WORKFLOW_LOG_EVENTS.STEP_STARTED.name,
           workflowId,
           nodeId: node.id,
           nodeType: node.data.type,
@@ -109,7 +113,8 @@ export const runWorkflowTask = task({
         executedStepCount += 1;
       }
 
-      logger.log("워크플로우 실행 완료", {
+      logger.log(WORKFLOW_LOG_EVENTS.RUN_COMPLETED.message, {
+        "event.name": WORKFLOW_LOG_EVENTS.RUN_COMPLETED.name,
         workflowId,
         executedStepCount,
       });

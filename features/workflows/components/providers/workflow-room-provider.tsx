@@ -26,7 +26,7 @@ const resolveUsers = async ({ userIds }: ResolveUsersArgs) => {
   const response = await fetch(`${API.USER}?userIds=${encodedUserIds}`);
 
   if (!response.ok) {
-    throw new Error(ERROR_MESSAGES.NO_USER_FOUND);
+    throw new Error(ERROR_MESSAGES.USER_NOT_FOUND);
   }
 
   return response.json();

@@ -2,7 +2,14 @@
 
 import { useRealtimeRunsWithTag } from "@trigger.dev/react-hooks";
 import { useParams } from "next/navigation";
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import { WORKFLOW_RUN_TAGS } from "@/features/workflows/constants/workflow-trigger";
 import type { runWorkflowTask } from "@/features/workflows/tasks/run-workflow/run-workflow-task";
 import type { RunStep } from "@/features/workflows/types";
 
@@ -44,7 +51,7 @@ export const WorkflowRunsProvider = ({
   const [pendingRunId, setPendingRunId] = useState<string>();
   const [isRunStarting, setIsRunStarting] = useState(false);
   const { runs, error } = useRealtimeRunsWithTag<typeof runWorkflowTask>(
-    `workflow:${workflowId}`,
+    WORKFLOW_RUN_TAGS.workflow(workflowId),
     { accessToken: publicAccessToken, skipColumns: ["payload"] }
   );
 

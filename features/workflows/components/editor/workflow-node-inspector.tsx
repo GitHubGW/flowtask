@@ -23,7 +23,7 @@ export const WorkflowNodeInspector = ({
       <WorkflowPanelSection title="에디터">
         <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
           <p className="text-sm font-medium text-slate-700">
-            선택된 노드가 없습니다
+            선택된 노드가 없어요
           </p>
           <p className="mt-1 text-xs leading-5 text-slate-500">
             캔버스의 노드를 선택하면 설정을 편집할 수 있어요.
@@ -74,7 +74,7 @@ export const WorkflowNodeInspector = ({
       <div className="px-4 pb-5">
         <h3 className="text-sm font-semibold text-slate-950">입력</h3>
         {stepDefinition.inputs.length === 0 ? (
-          <p className="mt-3 text-xs text-slate-500">입력값이 없습니다.</p>
+          <p className="mt-3 text-xs text-slate-500">입력값이 없어요.</p>
         ) : (
           <div className="mt-4 flex flex-col gap-5">
             {stepDefinition.inputs.map((input) => (

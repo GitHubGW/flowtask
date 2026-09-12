@@ -166,7 +166,7 @@ export const WorkflowCanvas = () => {
               className="flex items-center gap-2 rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-medium text-red-600 shadow-sm"
             >
               <CircleAlert className="size-4" aria-hidden />
-              실행 상태를 실시간으로 불러오지 못했습니다. 페이지를 새로고침해
+              실행 상태를 실시간으로 불러오지 못했어요. 페이지를 새로고침해
               주세요.
             </div>
           </Panel>

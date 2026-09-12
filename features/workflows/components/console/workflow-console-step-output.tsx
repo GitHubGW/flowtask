@@ -37,7 +37,7 @@ export const WorkflowConsoleStepOutput = ({
       <section>
         <h3 className="text-sm font-semibold text-slate-950">출력</h3>
         <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
-          아직 실행되지 않은 단계입니다.
+          아직 실행되지 않은 단계예요.
         </p>
       </section>
     );
@@ -48,7 +48,7 @@ export const WorkflowConsoleStepOutput = ({
       <section>
         <h3 className="text-sm font-semibold text-slate-950">출력</h3>
         <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
-          단계 실행 중입니다.
+          단계를 실행하고 있어요.
         </p>
       </section>
     );
@@ -58,7 +58,7 @@ export const WorkflowConsoleStepOutput = ({
     <section>
       <h3 className="text-sm font-semibold text-slate-950">출력</h3>
       <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500">
-        이 단계에서 생성된 출력이 없습니다.
+        이 단계에서 생성된 출력이 없어요.
       </p>
     </section>
   );

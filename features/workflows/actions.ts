@@ -1,7 +1,14 @@
 "use server";
 
 import { ERROR_MESSAGES } from "@/constants/error-messages";
+import { BILLING_PLANS } from "@/constants/billing";
 import { REVALIDATION_PATHS } from "@/constants/revalidation-paths";
+import { WORKFLOW_ERROR_MESSAGES } from "@/features/workflows/constants/workflow-error-messages";
+import { WORKFLOW_LOG_EVENTS } from "@/features/workflows/constants/workflow-log-events";
+import {
+  WORKFLOW_RUN_TAGS,
+  WORKFLOW_TASK_ID,
+} from "@/features/workflows/constants/workflow-trigger";
 import { createInitialWorkflowGraph } from "@/features/workflows/libs/create-initial-workflow-graph";
 import {
   createWorkflow,
@@ -31,7 +38,7 @@ export const createWorkflowAction = async () => {
   const { orgId } = await auth();
 
   if (!orgId) {
-    throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
+    throw new Error(ERROR_MESSAGES.ORGANIZATION_REQUIRED);
   }
 
   const workflowName = createWorkflowName();
@@ -57,7 +64,8 @@ export const createWorkflowAction = async () => {
 
   revalidatePath(REVALIDATION_PATHS.WORKFLOWS_LAYOUT, "layout");
 
-  Sentry.logger.info("워크플로우 생성", {
+  Sentry.logger.info(WORKFLOW_LOG_EVENTS.CREATED.message, {
+    "event.name": WORKFLOW_LOG_EVENTS.CREATED.name,
     "workflow.id": createdWorkflow.id,
     "organization.id": orgId,
   });
@@ -74,20 +82,21 @@ export const deleteWorkflowAction = async (workflowId: string) => {
   const { orgId } = await auth();
 
   if (!orgId) {
-    throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
+    throw new Error(ERROR_MESSAGES.ORGANIZATION_REQUIRED);
   }
 
   const deletedWorkflow = await deleteWorkflow(workflowId, orgId);
 
   if (!deletedWorkflow) {
-    throw new Error(ERROR_MESSAGES.NO_WORKFLOW_FOUND);
+    throw new Error(WORKFLOW_ERROR_MESSAGES.WORKFLOW_NOT_FOUND);
   }
 
   await liveblocks.deleteRoom(deletedWorkflow.id);
 
   revalidatePath(REVALIDATION_PATHS.WORKFLOWS_LAYOUT, "layout");
 
-  Sentry.logger.info("워크플로우 삭제", {
+  Sentry.logger.info(WORKFLOW_LOG_EVENTS.DELETED.message, {
+    "event.name": WORKFLOW_LOG_EVENTS.DELETED.name,
     "workflow.id": deletedWorkflow.id,
     "organization.id": orgId,
   });
@@ -107,13 +116,13 @@ export const runWorkflowAction = async (
   const { orgId, has } = await auth();
 
   if (!orgId) {
-    throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
+    throw new Error(ERROR_MESSAGES.ORGANIZATION_REQUIRED);
   }
 
   const usesAgentNode = graph.nodes.some((node) => node.data.type === "agent");
 
-  if (usesAgentNode && !has({ plan: "pro" })) {
-    throw new Error(ERROR_MESSAGES.PRO_PLAN_REQUIRED);
+  if (usesAgentNode && !has({ plan: BILLING_PLANS.PRO })) {
+    throw new Error(WORKFLOW_ERROR_MESSAGES.PRO_PLAN_REQUIRED);
   }
 
   const updatedWorkflow = await updateWorkflowGraph({
@@ -123,16 +132,22 @@ export const runWorkflowAction = async (
   });
 
   if (!updatedWorkflow) {
-    throw new Error(ERROR_MESSAGES.NO_WORKFLOW_FOUND);
+    throw new Error(WORKFLOW_ERROR_MESSAGES.WORKFLOW_NOT_FOUND);
   }
 
   const handle = await tasks.trigger<typeof runWorkflowTask>(
-    "run-workflow-task",
+    WORKFLOW_TASK_ID,
     { workflowId, organizationId: orgId, graph },
-    { tags: [`workflow:${workflowId}`, `organization:${orgId}`] }
+    {
+      tags: [
+        WORKFLOW_RUN_TAGS.workflow(workflowId),
+        WORKFLOW_RUN_TAGS.organization(orgId),
+      ],
+    }
   );
 
-  Sentry.logger.info("워크플로우 실행 트리거", {
+  Sentry.logger.info(WORKFLOW_LOG_EVENTS.RUN_REQUESTED.message, {
+    "event.name": WORKFLOW_LOG_EVENTS.RUN_REQUESTED.name,
     "workflow.id": workflowId,
     "organization.id": orgId,
     "trigger.run_id": handle.id,
@@ -151,11 +166,13 @@ export const cancelWorkflowAction = async (runId: string) => {
   const { orgId } = await auth();
 
   if (!orgId) {
-    throw new Error(ERROR_MESSAGES.NO_ORGANIZATION_FOUND);
+    throw new Error(ERROR_MESSAGES.ORGANIZATION_REQUIRED);
   }
 
   const run = await runs.retrieve(runId);
-  const hasOrganizationTag = run.tags.includes(`organization:${orgId}`);
+  const hasOrganizationTag = run.tags.includes(
+    WORKFLOW_RUN_TAGS.organization(orgId)
+  );
 
   if (!hasOrganizationTag) {
     throw new Error(ERROR_MESSAGES.UNAUTHORIZED);
@@ -163,7 +180,8 @@ export const cancelWorkflowAction = async (runId: string) => {
 
   await runs.cancel(runId);
 
-  Sentry.logger.info("워크플로우 실행 취소", {
+  Sentry.logger.info(WORKFLOW_LOG_EVENTS.RUN_CANCEL_REQUESTED.message, {
+    "event.name": WORKFLOW_LOG_EVENTS.RUN_CANCEL_REQUESTED.name,
     "trigger.run_id": runId,
     "organization.id": orgId,
   });

@@ -1,16 +1,10 @@
 import prettyMilliseconds from "pretty-ms";
+import { WORKFLOW_STEP_STATUS } from "@/features/workflows/constants/workflow-step-status";
 import type { RunStep } from "@/features/workflows/types";
 
 interface WorkflowConsoleStepMetadataProps {
   step: RunStep;
 }
-
-const STEP_STATUS_LABELS: Record<RunStep["status"], string> = {
-  pending: "실행 전",
-  running: "실행 중",
-  done: "완료",
-  failed: "실패",
-};
 
 export const WorkflowConsoleStepMetadata = ({
   step,
@@ -22,7 +16,7 @@ export const WorkflowConsoleStepMetadata = ({
         <div>
           <dt className="text-xs text-slate-500">상태</dt>
           <dd className="mt-1 text-sm font-medium text-slate-950">
-            {STEP_STATUS_LABELS[step.status]}
+            {WORKFLOW_STEP_STATUS[step.status]}
           </dd>
         </div>
         <div>

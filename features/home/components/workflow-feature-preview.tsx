@@ -67,19 +67,26 @@ export const WorkflowFeaturePreview = ({
   if (type === "collaboration") {
     return (
       <div className="mt-10 flex justify-center -space-x-3">
-        {["지", "민", "수", "+3"].map((name, index) => (
-          <span
-            key={name}
-            className={cn(
-              "flex size-12 items-center justify-center rounded-full border-4 border-white text-xs font-bold text-white shadow-sm",
-              ["bg-violet-500", "bg-sky-500", "bg-emerald-500", "bg-slate-700"][
-                index
-              ]
-            )}
-          >
-            {name}
-          </span>
-        ))}
+        {["지", "민", "수", "+3"].map((name, index) => {
+          const color = [
+            "bg-violet-500",
+            "bg-sky-500",
+            "bg-emerald-500",
+            "bg-slate-700",
+          ][index];
+
+          return (
+            <span
+              key={name}
+              className={cn(
+                "flex size-12 items-center justify-center rounded-full border-4 border-white text-xs font-bold text-white shadow-sm",
+                color
+              )}
+            >
+              {name}
+            </span>
+          );
+        })}
       </div>
     );
   }

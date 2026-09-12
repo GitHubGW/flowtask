@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SignInButton, useAuth } from "@clerk/nextjs";
 import { CheckoutButton } from "@clerk/nextjs/experimental";
 import { Button } from "@/components/ui/button";
+import { BILLING_PLANS } from "@/constants/billing";
 import { ROUTES } from "@/constants/routes";
 
 const CLERK_PRO_PLAN_ID = process.env.NEXT_PUBLIC_CLERK_PRO_PLAN_ID;
@@ -46,7 +47,7 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
     );
   }
 
-  if (has?.({ plan: "pro" })) {
+  if (has?.({ plan: BILLING_PLANS.PRO })) {
     return (
       <Button
         asChild

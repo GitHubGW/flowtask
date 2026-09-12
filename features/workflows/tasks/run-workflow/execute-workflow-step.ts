@@ -1,3 +1,4 @@
+import { WORKFLOW_ERROR_MESSAGES } from "@/features/workflows/constants/workflow-error-messages";
 import { interpolateWorkflowValues } from "@/features/workflows/libs/interpolate-workflow-values";
 import { workflowStepExecutors } from "@/features/workflows/nodes/workflow-step-executors";
 import type { RunStepTracker } from "@/features/workflows/tasks/run-workflow/create-run-step-tracker";
@@ -27,7 +28,7 @@ export const executeWorkflowStep = async ({
     const executor = workflowStepExecutors[node.data.type];
 
     if (!executor) {
-      throw new Error(`노드 실행기를 찾을 수 없습니다: ${node.data.type}`);
+      throw new Error(WORKFLOW_ERROR_MESSAGES.STEP_EXECUTOR_NOT_FOUND);
     }
 
     const interpolatedInputValues = Object.fromEntries(

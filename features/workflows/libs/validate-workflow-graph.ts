@@ -1,4 +1,5 @@
 import toposort from "toposort";
+import { WORKFLOW_VALIDATION_MESSAGES } from "@/features/workflows/constants/workflow-validation-messages";
 import type { WorkflowGraph } from "@/features/workflows/types";
 
 /**
@@ -12,13 +13,13 @@ export const validateWorkflowGraph = ({ nodes, edges }: WorkflowGraph) => {
   const startNodes = nodes.filter((node) => node.data.type === "start");
 
   if (startNodes.length === 0) {
-    return "워크플로우에는 하나의 시작(트리거) 노드가 존재해야 합니다.";
+    return WORKFLOW_VALIDATION_MESSAGES.START_NODE_REQUIRED;
   }
 
   const actionNodes = nodes.filter((node) => node.data.kind === "action");
 
   if (actionNodes.length === 0) {
-    return "워크플로우에는 하나 이상의 액션 노드가 존재해야 합니다.";
+    return WORKFLOW_VALIDATION_MESSAGES.ACTION_NODE_REQUIRED;
   }
 
   const connectedTargetNodeIds = new Set(edges.map((edge) => edge.target));
@@ -28,13 +29,13 @@ export const validateWorkflowGraph = ({ nodes, edges }: WorkflowGraph) => {
   );
 
   if (hasUnconnectedActionNode) {
-    return "트리거 노드와 연결되지 않은 액션 노드가 존재합니다.";
+    return WORKFLOW_VALIDATION_MESSAGES.UNCONNECTED_ACTION_NODE;
   }
 
   try {
     toposort(edges.map((edge) => [edge.source, edge.target]));
   } catch {
-    return "워크플로우 그래프가 유효하지 않습니다.";
+    return WORKFLOW_VALIDATION_MESSAGES.INVALID_GRAPH;
   }
 
   return null;

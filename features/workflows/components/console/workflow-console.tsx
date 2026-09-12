@@ -77,7 +77,7 @@ export const WorkflowConsole = () => {
               </section>
             ) : (
               <p className="p-3 text-xs text-muted-foreground">
-                선택한 실행의 녹화를 찾을 수 없습니다.
+                선택한 실행의 리플레이를 찾을 수 없어요.
               </p>
             )}
           </ResizablePanel>

@@ -4,18 +4,18 @@ import { getClerkAvatar, getClerkDisplayName } from "@/libs/clerk/user";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
 export const GET = async (request: Request) => {
-  const { isAuthenticated, orgId } = await auth();
+  const { isAuthenticated, userId, orgId } = await auth();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !userId) {
     return Response.json(
-      { error: ERROR_MESSAGES.UNAUTHORIZED },
+      { error: ERROR_MESSAGES.AUTHENTICATION_REQUIRED },
       { status: 401 }
     );
   }
 
   if (!orgId) {
     return Response.json(
-      { error: ERROR_MESSAGES.NO_ORGANIZATION_FOUND },
+      { error: ERROR_MESSAGES.ORGANIZATION_REQUIRED },
       { status: 403 }
     );
   }

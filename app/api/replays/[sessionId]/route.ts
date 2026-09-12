@@ -1,3 +1,6 @@
+import { ERROR_MESSAGES } from "@/constants/error-messages";
+import { BILLING_PLANS } from "@/constants/billing";
+import { WORKFLOW_ERROR_MESSAGES } from "@/features/workflows/constants/workflow-error-messages";
 import { browserbase } from "@/libs/browserbase";
 import { NotFoundError } from "@browserbasehq/sdk";
 import { auth } from "@clerk/nextjs/server";
@@ -9,15 +12,24 @@ export const GET = async (
   const { isAuthenticated, userId, orgId, has } = await auth();
 
   if (!isAuthenticated || !userId) {
-    return new Response("Unauthorized", { status: 401 });
+    return Response.json(
+      { error: ERROR_MESSAGES.AUTHENTICATION_REQUIRED },
+      { status: 401 }
+    );
   }
 
   if (!orgId) {
-    return new Response("Forbidden", { status: 403 });
+    return Response.json(
+      { error: ERROR_MESSAGES.ORGANIZATION_REQUIRED },
+      { status: 403 }
+    );
   }
 
-  if (!has({ plan: "pro" })) {
-    return new Response("Pro plan required", { status: 403 });
+  if (!has({ plan: BILLING_PLANS.PRO })) {
+    return Response.json(
+      { error: WORKFLOW_ERROR_MESSAGES.PRO_PLAN_REQUIRED },
+      { status: 403 }
+    );
   }
 
   const { sessionId } = await params;
@@ -26,7 +38,10 @@ export const GET = async (
     const session = await browserbase.sessions.retrieve(sessionId);
 
     if (session.userMetadata?.organizationId !== orgId) {
-      return new Response("Forbidden", { status: 403 });
+      return Response.json(
+        { error: ERROR_MESSAGES.UNAUTHORIZED },
+        { status: 403 }
+      );
     }
 
     const replay = await browserbase.sessions.replays.retrieve(sessionId);
