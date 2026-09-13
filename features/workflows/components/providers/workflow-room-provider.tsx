@@ -1,15 +1,16 @@
 "use client";
 
+import type { ResolveUsersArgs } from "@liveblocks/node";
+import {
+  ClientSideSuspense,
+  LiveblocksProvider,
+  RoomProvider,
+} from "@liveblocks/react/suspense";
+import { useParams } from "next/navigation";
+
 import { Spinner } from "@/components/ui/spinner";
 import { API } from "@/constants/api";
 import { ERROR_MESSAGES } from "@/constants/error-messages";
-import type { ResolveUsersArgs } from "@liveblocks/node";
-import {
-  LiveblocksProvider,
-  RoomProvider,
-  ClientSideSuspense,
-} from "@liveblocks/react/suspense";
-import { useParams } from "next/navigation";
 
 interface WorkflowRoomProviderProps {
   children: React.ReactNode;

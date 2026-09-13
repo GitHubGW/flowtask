@@ -1,13 +1,14 @@
 "use client";
 
 import { format } from "date-fns";
+import { ko } from "date-fns/locale";
+
 import { Badge } from "@/components/ui/badge";
+import { WorkflowConsoleReplayRow } from "@/features/workflows/components/console/workflow-console-replay-row";
 import { WorkflowConsoleStepRow } from "@/features/workflows/components/console/workflow-console-step-row";
+import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
 import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
 import type { WorkflowConsoleSelection } from "@/features/workflows/types";
-import { WorkflowConsoleReplayRow } from "@/features/workflows/components/console/workflow-console-replay-row";
-import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
-import { ko } from "date-fns/locale";
 
 interface WorkflowConsoleRunListProps {
   selection: WorkflowConsoleSelection | null;

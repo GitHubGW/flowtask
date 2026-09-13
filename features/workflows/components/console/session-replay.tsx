@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import * as Sentry from "@sentry/nextjs";
 import type Hls from "hls.js";
+import { useEffect, useRef, useState } from "react";
+
 import { Spinner } from "@/components/ui/spinner";
 import { API } from "@/constants/api";
 import { WORKFLOW_LOG_EVENTS } from "@/features/workflows/constants/workflow-log-events";

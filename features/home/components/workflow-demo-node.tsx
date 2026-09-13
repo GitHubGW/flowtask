@@ -1,5 +1,6 @@
-import { cn } from "@/libs/utils";
 import type { LucideIcon } from "lucide-react";
+
+import { cn } from "@/libs/utils";
 
 interface WorkflowDemoNodeProps {
   className?: string;

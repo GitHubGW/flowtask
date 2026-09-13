@@ -1,14 +1,14 @@
 "use client";
 
-import type { RunStepSelection } from "@/features/workflows/types";
 import { Badge } from "@/components/ui/badge";
 import { WorkflowConsoleStepInput } from "@/features/workflows/components/console/workflow-console-step-input";
-import { WorkflowConsoleStepOutput } from "@/features/workflows/components/console/workflow-console-step-output";
 import { WorkflowConsoleStepMetadata } from "@/features/workflows/components/console/workflow-console-step-metadata";
+import { WorkflowConsoleStepOutput } from "@/features/workflows/components/console/workflow-console-step-output";
 import { WorkflowConsoleStepStatusIcon } from "@/features/workflows/components/console/workflow-console-step-status-icon";
 import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
+import type { RunStepSelection } from "@/features/workflows/types";
 
 interface WorkflowConsoleStepDetailProps {
   selection: RunStepSelection;

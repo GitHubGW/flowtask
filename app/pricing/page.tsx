@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
 import { ClosingCta } from "@/components/closing-cta";
 import { Faq } from "@/components/faq";
 import { Header } from "@/components/header";
@@ -7,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { PricingPlans } from "@/features/pricing/components/pricing-plans";
 import { pricingQuestions } from "@/features/pricing/data";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "가격",

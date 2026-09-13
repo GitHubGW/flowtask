@@ -1,7 +1,8 @@
+import { auth, clerkClient } from "@clerk/nextjs/server";
+
 import { ASSETS } from "@/constants/assets";
 import { ERROR_MESSAGES } from "@/constants/error-messages";
 import { getClerkAvatar, getClerkDisplayName } from "@/libs/clerk/user";
-import { auth, clerkClient } from "@clerk/nextjs/server";
 
 export const GET = async (request: Request) => {
   const { isAuthenticated, userId, orgId } = await auth();

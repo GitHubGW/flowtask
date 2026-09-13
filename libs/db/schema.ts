@@ -1,5 +1,6 @@
+import { jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+
 import type { WorkflowGraph } from "@/features/workflows/types";
-import { pgTable, text, timestamp, uuid, jsonb } from "drizzle-orm/pg-core";
 
 export const workflows = pgTable("workflows", {
   id: uuid("id").defaultRandom().primaryKey(),

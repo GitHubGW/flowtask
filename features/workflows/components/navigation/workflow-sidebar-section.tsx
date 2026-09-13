@@ -1,10 +1,11 @@
 "use client";
 
+import { Loader2, Plus, Trash2, Workflow } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Loader2, Plus, Trash2, Workflow } from "lucide-react";
-import { cn } from "@/libs/utils";
+import { toast } from "sonner";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,14 +33,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import type { WorkflowRow } from "@/libs/db/schema";
 import { ROUTES } from "@/constants/routes";
 import {
   createWorkflowAction,
   deleteWorkflowAction,
 } from "@/features/workflows/actions";
 import { WORKFLOW_MESSAGES } from "@/features/workflows/constants/workflow-messages";
-import { toast } from "sonner";
+import type { WorkflowRow } from "@/libs/db/schema";
+import { cn } from "@/libs/utils";
 
 interface WorkflowSidebarSectionProps {
   workflows: Pick<WorkflowRow, "id" | "name">[];

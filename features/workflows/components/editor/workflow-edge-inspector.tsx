@@ -1,8 +1,8 @@
-import { Waypoints } from "lucide-react";
 import { type Edge, useReactFlow } from "@xyflow/react";
+import { Waypoints } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { WorkflowStepNode } from "@/features/workflows/types";
 
 interface WorkflowEdgeInspectorProps {

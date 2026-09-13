@@ -1,9 +1,10 @@
 import prettyMilliseconds from "pretty-ms";
+
+import { WorkflowConsoleStepStatusIcon } from "@/features/workflows/components/console/workflow-console-step-status-icon";
+import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 import type { RunStepSelection } from "@/features/workflows/types";
 import type { RunStep } from "@/features/workflows/types";
 import { cn } from "@/libs/utils";
-import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
-import { WorkflowConsoleStepStatusIcon } from "@/features/workflows/components/console/workflow-console-step-status-icon";
 
 interface WorkflowConsoleStepRowProps {
   runId: string;

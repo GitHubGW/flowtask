@@ -1,16 +1,17 @@
 "use client";
 
+import { ChevronRight, Workflow } from "lucide-react";
+import Link from "next/link";
+
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { WorkflowCanvas } from "@/features/workflows/components/editor/workflow-canvas";
-import { WorkflowConsole } from "@/features/workflows/components/console/workflow-console";
-import { WorkflowEditorSidebar } from "@/features/workflows/components/editor/workflow-editor-sidebar";
-import { ChevronRight, Workflow } from "lucide-react";
-import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
+import { WorkflowConsole } from "@/features/workflows/components/console/workflow-console";
+import { WorkflowCanvas } from "@/features/workflows/components/editor/workflow-canvas";
+import { WorkflowEditorSidebar } from "@/features/workflows/components/editor/workflow-editor-sidebar";
 
 interface WorkflowEditorLayoutProps {
   workflowName: string;

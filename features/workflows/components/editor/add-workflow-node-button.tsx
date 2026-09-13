@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, X } from "lucide-react";
 import { useReactFlow, useStoreApi } from "@xyflow/react";
+import { Plus, X } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,10 +12,10 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
-import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import { ProPlanBadge } from "@/features/workflows/components/shared/pro-plan-badge";
 import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
+import { useProPlan } from "@/features/workflows/hooks/use-pro-plan";
+import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type {
   WorkflowStepNode,
   WorkflowStepNodeData,

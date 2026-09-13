@@ -1,18 +1,19 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
+
+import { ClosingCta } from "@/components/closing-cta";
+import { Faq } from "@/components/faq";
+import { Header } from "@/components/header";
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
+import { SITE } from "@/constants/site";
 import { WorkflowBuilderDemo } from "@/features/home/components/workflow-builder-demo";
+import { WorkflowFeaturePreview } from "@/features/home/components/workflow-feature-preview";
 import {
   homeCapabilities,
   homeHighlights,
   homeQuestions,
 } from "@/features/home/data";
-import { Button } from "@/components/ui/button";
-import { ClosingCta } from "@/components/closing-cta";
-import { Faq } from "@/components/faq";
-import { Header } from "@/components/header";
-import { ROUTES } from "@/constants/routes";
-import { WorkflowFeaturePreview } from "@/features/home/components/workflow-feature-preview";
-import { SITE } from "@/constants/site";
 
 export const metadata: Metadata = {
   title: `홈 | ${SITE.NAME}`,

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   Bot,
   Braces,
@@ -8,9 +7,12 @@ import {
   Play,
   Sparkles,
 } from "lucide-react";
-import { WorkflowDemoNode } from "./workflow-demo-node";
+import Image from "next/image";
+
 import { cn } from "@/libs/utils";
+
 import styles from "./workflow-builder-demo.module.css";
+import { WorkflowDemoNode } from "./workflow-demo-node";
 
 export const WorkflowBuilderDemo = () => {
   return (

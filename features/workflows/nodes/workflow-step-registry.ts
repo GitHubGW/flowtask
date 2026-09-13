@@ -1,7 +1,3 @@
-import type {
-  WorkflowStepDefinition,
-  WorkflowStepType,
-} from "@/features/workflows/types";
 import {
   Bot,
   Globe,
@@ -11,6 +7,11 @@ import {
   ScanText,
   Search,
 } from "lucide-react";
+
+import type {
+  WorkflowStepDefinition,
+  WorkflowStepType,
+} from "@/features/workflows/types";
 
 type WorkflowStepRegistry = {
   [K in WorkflowStepType]: WorkflowStepDefinition<K>;

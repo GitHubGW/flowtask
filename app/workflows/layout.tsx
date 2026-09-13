@@ -1,8 +1,9 @@
-import { WorkflowSidebar } from "@/features/workflows/components/navigation/workflow-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
+import { WorkflowSidebar } from "@/features/workflows/components/navigation/workflow-sidebar";
 
 interface WorkflowLayoutProps {
   children: React.ReactNode;

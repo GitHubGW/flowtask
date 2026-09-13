@@ -1,9 +1,10 @@
 import { Show, UserButton } from "@clerk/nextjs";
+import Image from "next/image";
 import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-import Image from "next/image";
 
 export const Header = () => {
   return (

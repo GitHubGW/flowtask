@@ -1,8 +1,9 @@
+import { CircleCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { CircleCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import { Footer } from "@/components/footer";
+import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 
 const CLOSING_CTA_BENEFITS = [

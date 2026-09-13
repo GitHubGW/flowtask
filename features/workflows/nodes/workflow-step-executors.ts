@@ -1,14 +1,15 @@
 import type { Stagehand } from "@browserbasehq/stagehand";
+
+import { act } from "@/features/workflows/nodes/act";
+import { agent } from "@/features/workflows/nodes/agent";
+import { extract } from "@/features/workflows/nodes/extract";
+import { observe } from "@/features/workflows/nodes/observe";
+import { openUrl } from "@/features/workflows/nodes/open-url";
+import { sendEmail } from "@/features/workflows/nodes/send-email";
 import type {
   WorkflowActionStepType,
   WorkflowStepType,
 } from "@/features/workflows/types";
-import { openUrl } from "@/features/workflows/nodes/open-url";
-import { act } from "@/features/workflows/nodes/act";
-import { extract } from "@/features/workflows/nodes/extract";
-import { observe } from "@/features/workflows/nodes/observe";
-import { agent } from "@/features/workflows/nodes/agent";
-import { sendEmail } from "@/features/workflows/nodes/send-email";
 
 export interface WorkflowStepExecutorContext {
   inputValues: Record<string, string>;

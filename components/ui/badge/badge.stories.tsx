@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Check, Sparkles } from "lucide-react";
+
 import { Badge } from "./badge";
 
 const variants = [

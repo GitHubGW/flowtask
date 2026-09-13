@@ -1,8 +1,9 @@
+import { useMemo } from "react";
+
 import {
   useWorkflowRunsContext,
   type WorkflowRun,
 } from "@/features/workflows/components/providers/workflow-runs-provider";
-import { useMemo } from "react";
 import { getWorkflowRunSteps } from "@/features/workflows/components/providers/workflow-runs-provider";
 
 /**

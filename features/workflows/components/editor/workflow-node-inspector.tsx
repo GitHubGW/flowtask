@@ -1,12 +1,13 @@
-import { Button } from "@/components/ui/button";
+import { useReactFlow } from "@xyflow/react";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { WorkflowPanelSection } from "@/features/workflows/components/editor/workflow-panel-section";
-import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 import { WorkflowStepInputControl } from "@/features/workflows/components/editor/workflow-step-input-control";
+import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type { WorkflowStepNode } from "@/features/workflows/types";
-import { useReactFlow } from "@xyflow/react";
 
 interface WorkflowNodeInspectorProps {
   selectedNode: WorkflowStepNode | undefined;

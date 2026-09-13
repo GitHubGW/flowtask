@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { SignInButton, useAuth } from "@clerk/nextjs";
 import { CheckoutButton } from "@clerk/nextjs/experimental";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { BILLING_PLANS } from "@/constants/billing";
 import { ROUTES } from "@/constants/routes";

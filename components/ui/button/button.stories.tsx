@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { ArrowRight, Plus, Trash2 } from "lucide-react";
+
 import { Button } from "./button";
 
 const variants = [

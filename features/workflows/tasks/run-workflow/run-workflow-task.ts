@@ -1,3 +1,6 @@
+import { logger, task } from "@trigger.dev/sdk";
+import toposort from "toposort";
+
 import { WORKFLOW_ERROR_MESSAGES } from "@/features/workflows/constants/workflow-error-messages";
 import { WORKFLOW_LOG_EVENTS } from "@/features/workflows/constants/workflow-log-events";
 import { WORKFLOW_TASK_ID } from "@/features/workflows/constants/workflow-trigger";
@@ -10,8 +13,6 @@ import type {
   WorkflowGraph,
   WorkflowNodeOutputs,
 } from "@/features/workflows/types";
-import { logger, task } from "@trigger.dev/sdk";
-import toposort from "toposort";
 
 interface RunWorkflowTaskPayload {
   workflowId: string;

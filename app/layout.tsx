@@ -1,15 +1,17 @@
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+
 import { koKR } from "@clerk/localizations/ko-KR";
+import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { cn } from "@/libs/utils";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
-import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { cn } from "@/libs/utils";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",

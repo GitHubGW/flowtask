@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
-import type { WorkflowStepNode } from "@/features/workflows/types";
 import { type Edge, useEdges, useNodes, useReactFlow } from "@xyflow/react";
-import { useUpstreamOutputOptions } from "@/features/workflows/hooks/use-upstream-output-options";
-import { WorkflowNodeInspector } from "@/features/workflows/components/editor/workflow-node-inspector";
-import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
-import { WorkflowRunToggleButton } from "@/features/workflows/components/editor/workflow-run-toggle-button";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import { AddWorkflowNodeButton } from "@/features/workflows/components/editor/add-workflow-node-button";
 import { WorkflowEdgeInspector } from "@/features/workflows/components/editor/workflow-edge-inspector";
+import { WorkflowNodeInspector } from "@/features/workflows/components/editor/workflow-node-inspector";
+import { WorkflowRunToggleButton } from "@/features/workflows/components/editor/workflow-run-toggle-button";
+import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
+import { useUpstreamOutputOptions } from "@/features/workflows/hooks/use-upstream-output-options";
+import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
+import type { WorkflowStepNode } from "@/features/workflows/types";
 
 export const WorkflowEditorSidebar = () => {
   const [lastFocusedInput, setLastFocusedInput] = useState<

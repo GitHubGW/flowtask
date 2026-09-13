@@ -1,5 +1,6 @@
-import { ASSETS } from "@/constants/assets";
 import type { User } from "@clerk/nextjs/server";
+
+import { ASSETS } from "@/constants/assets";
 
 export const getClerkDisplayName = (user: User) => {
   const fullName = [user.lastName, user.firstName].filter(Boolean).join(" ");

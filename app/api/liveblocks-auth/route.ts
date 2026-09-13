@@ -1,7 +1,8 @@
+import { auth, currentUser } from "@clerk/nextjs/server";
+
 import { ERROR_MESSAGES } from "@/constants/error-messages";
 import { getClerkAvatar, getClerkDisplayName } from "@/libs/clerk/user";
 import { liveblocks } from "@/libs/liveblocks";
-import { auth, currentUser } from "@clerk/nextjs/server";
 
 export const POST = async () => {
   const { isAuthenticated, userId, orgId } = await auth();

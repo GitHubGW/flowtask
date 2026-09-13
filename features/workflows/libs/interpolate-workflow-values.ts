@@ -1,5 +1,6 @@
-import type { WorkflowNodeOutputs } from "@/features/workflows/types";
 import { getProperty } from "dot-prop";
+
+import type { WorkflowNodeOutputs } from "@/features/workflows/types";
 
 const INTERPOLATION_PATTERN = /{{\s*([^{}]+?)\s*}}/g;
 

@@ -1,3 +1,6 @@
+import type { Stagehand } from "@browserbasehq/stagehand";
+import { metadata } from "@trigger.dev/sdk";
+
 import { WORKFLOW_ERROR_MESSAGES } from "@/features/workflows/constants/workflow-error-messages";
 import { interpolateWorkflowValues } from "@/features/workflows/libs/interpolate-workflow-values";
 import { workflowStepExecutors } from "@/features/workflows/nodes/workflow-step-executors";
@@ -6,8 +9,6 @@ import type {
   WorkflowNodeOutputs,
   WorkflowStepNode,
 } from "@/features/workflows/types";
-import type { Stagehand } from "@browserbasehq/stagehand";
-import { metadata } from "@trigger.dev/sdk";
 
 interface ExecuteWorkflowStepParams {
   node: WorkflowStepNode;

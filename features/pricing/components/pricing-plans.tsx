@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { PlanFeatures } from "@/features/pricing/components/plan-features";
 import {
-  ProPlanButton,
   type BillingPeriod,
+  ProPlanButton,
 } from "@/features/pricing/components/pro-plan-button";
 import { planFeatures, pricingPlans } from "@/features/pricing/data";
 import { cn } from "@/libs/utils";

@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
+
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { SessionReplay } from "@/features/workflows/components/console/session-replay";
 import { WorkflowConsoleRunList } from "@/features/workflows/components/console/workflow-console-run-list";
 import { WorkflowConsoleStepDetail } from "@/features/workflows/components/console/workflow-console-step-detail";
-import type { WorkflowConsoleSelection } from "@/features/workflows/types";
-import { SessionReplay } from "@/features/workflows/components/console/session-replay";
 import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
+import type { WorkflowConsoleSelection } from "@/features/workflows/types";
 
 const isSameConsoleSelection = (
   currentSelection: WorkflowConsoleSelection | null,

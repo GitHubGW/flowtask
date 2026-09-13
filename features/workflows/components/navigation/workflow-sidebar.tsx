@@ -1,4 +1,8 @@
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import Image from "next/image";
+import Link from "next/link";
+
 import {
   Sidebar,
   SidebarContent,
@@ -6,13 +10,10 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { auth } from "@clerk/nextjs/server";
-import { getWorkflows } from "@/features/workflows/queries";
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 import { WorkflowSidebarSection } from "@/features/workflows/components/navigation/workflow-sidebar-section";
-import Link from "next/link";
-import Image from "next/image";
+import { getWorkflows } from "@/features/workflows/queries";
 
 export const WorkflowSidebar = async () => {
   const { orgId } = await auth();

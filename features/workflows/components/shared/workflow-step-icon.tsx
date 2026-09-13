@@ -1,6 +1,6 @@
-import { cn } from "@/libs/utils";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type { WorkflowStepType } from "@/features/workflows/types";
+import { cn } from "@/libs/utils";
 
 interface WorkflowStepIconProps {
   stepType: WorkflowStepType;

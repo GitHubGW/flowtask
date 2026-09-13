@@ -1,6 +1,7 @@
-import { cn } from "@/libs/utils";
 import { Check, Play } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/libs/utils";
 
 interface WorkflowFeaturePreviewProps {
   type: "run" | "form" | "automation" | "collaboration" | "history" | "replay";

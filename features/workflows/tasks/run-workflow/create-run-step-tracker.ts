@@ -1,5 +1,6 @@
-import type { RunStep, WorkflowStepNode } from "@/features/workflows/types";
 import { metadata, type RunMetadata } from "@trigger.dev/sdk";
+
+import type { RunStep, WorkflowStepNode } from "@/features/workflows/types";
 
 type RunStepUpdate = Pick<RunStep, "status"> &
   Partial<Pick<RunStep, "input" | "durationMs" | "output" | "error">>;
