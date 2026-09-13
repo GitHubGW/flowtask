@@ -1,6 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 import { WorkflowConsoleStepRow } from "@/features/workflows/components/console/workflow-console-step-row";
 import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
 import type { WorkflowConsoleSelection } from "@/features/workflows/types";
@@ -39,9 +40,9 @@ export const WorkflowConsoleRunList = ({
                     locale: ko,
                   })}
                 </time>
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 font-medium text-slate-600 lowercase">
+                <Badge variant="secondary" size="medium" className="lowercase">
                   {run.status}
-                </span>
+                </Badge>
               </div>
 
               {run.steps.length > 0 ? (

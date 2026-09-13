@@ -227,10 +227,10 @@ function SidebarTrigger({
 
   return (
     <Button
+      variant="ghost"
+      size="icon-small"
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
-      variant="ghost"
-      size="icon-sm"
       className={cn(className)}
       onClick={(event) => {
         onClick?.(event);

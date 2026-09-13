@@ -88,10 +88,10 @@ export const WorkflowEditorSidebar = () => {
             <div className="flex max-h-80 flex-wrap gap-2 overflow-y-auto px-4 pb-4">
               {upstreamOutputOptions.map(({ stepType, label, token }) => (
                 <Button
+                  variant="secondary"
+                  size="small"
                   key={token}
                   type="button"
-                  variant="outline"
-                  size="sm"
                   title={token}
                   onClick={() => handleInsertOutputToken(token)}
                   className="h-auto max-w-full justify-start py-1"

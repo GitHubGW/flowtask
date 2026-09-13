@@ -19,13 +19,14 @@ export const WorkflowStepInputControl = ({
 
   return (
     <Control
+      variant="filled"
+      size="medium"
       required={input.required}
       id={input.key}
       value={value}
       placeholder={input.placeholder}
       onChange={(event) => onChange(event.target.value)}
       onFocus={onFocus}
-      className="border-slate-200 bg-slate-50/70 shadow-none focus-visible:border-violet-400 focus-visible:ring-violet-100"
     />
   );
 };

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { PlanFeatures } from "@/features/pricing/components/plan-features";
 import {
@@ -83,8 +84,11 @@ export const PricingPlans = () => {
           <div className="mt-7">
             <Button
               asChild
-              variant="outline"
-              className="h-11 w-full rounded-full border-slate-300 bg-slate-50"
+              fullWidth
+              variant="secondary"
+              size="large"
+              shape="pill"
+              className="bg-slate-50"
             >
               <Link href={ROUTES.WORKFLOWS.INDEX}>무료로 시작</Link>
             </Button>
@@ -95,9 +99,13 @@ export const PricingPlans = () => {
         </article>
 
         <article className="relative flex min-h-132 flex-col rounded-3xl border border-slate-200 bg-slate-50 p-8 shadow-[0_18px_45px_rgba(15,23,42,0.10)]">
-          <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-slate-950 px-4 py-1.5 text-xs font-bold text-white">
+          <Badge
+            variant="primary"
+            size="large"
+            className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4"
+          >
             추천
-          </span>
+          </Badge>
           <header>
             <h2 className="text-2xl font-extrabold tracking-tight">
               {pro.name}
@@ -132,9 +140,13 @@ export const PricingPlans = () => {
         </article>
 
         <article className="relative flex min-h-132 flex-col rounded-3xl border border-slate-200 bg-white p-8">
-          <span className="absolute top-6 right-6 rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">
+          <Badge
+            variant="warning"
+            size="large"
+            className="absolute top-6 right-6"
+          >
             준비 중
-          </span>
+          </Badge>
           <header>
             <h2 className="text-2xl font-extrabold tracking-tight">
               {ultimate.name}
@@ -155,10 +167,13 @@ export const PricingPlans = () => {
 
           <div className="mt-7">
             <Button
-              type="button"
               disabled
-              variant="outline"
-              className="h-11 w-full rounded-full border-slate-300 bg-slate-50"
+              fullWidth
+              variant="secondary"
+              size="large"
+              shape="pill"
+              type="button"
+              className="bg-slate-50"
             >
               문의하기
             </Button>

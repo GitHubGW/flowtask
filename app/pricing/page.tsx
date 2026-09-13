@@ -66,9 +66,10 @@ const PricingPage = () => {
 
                 <Button
                   asChild
-                  size="lg"
-                  variant="outline"
-                  className="h-11 self-start rounded-full border-slate-300 bg-white/90 px-6 sm:self-center"
+                  variant="secondary"
+                  size="large"
+                  shape="pill"
+                  className="self-start bg-white/90 sm:self-center"
                 >
                   <Link href={ROUTES.WORKFLOWS.INDEX}>워크플로우 살펴보기</Link>
                 </Button>

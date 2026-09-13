@@ -1,6 +1,7 @@
 "use client";
 
 import type { RunStepSelection } from "@/features/workflows/types";
+import { Badge } from "@/components/ui/badge";
 import { WorkflowConsoleStepInput } from "@/features/workflows/components/console/workflow-console-step-input";
 import { WorkflowConsoleStepOutput } from "@/features/workflows/components/console/workflow-console-step-output";
 import { WorkflowConsoleStepMetadata } from "@/features/workflows/components/console/workflow-console-step-metadata";
@@ -42,9 +43,9 @@ export const WorkflowConsoleStepDetail = ({
           className="size-10 rounded-xl [&_svg]:size-5"
         />
         <div className="min-w-0 flex-1">
-          <span className="inline-flex rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
+          <Badge variant="secondary" size="small">
             {stepKindLabel}
-          </span>
+          </Badge>
           <h2 className="mt-1 truncate text-sm font-semibold text-slate-950">
             {selectedStep.title}
           </h2>

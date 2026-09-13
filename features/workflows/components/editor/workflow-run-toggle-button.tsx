@@ -79,9 +79,9 @@ export const WorkflowRunToggleButton = () => {
   if (isRunActive) {
     return (
       <Button
-        disabled={isPending}
-        size="sm"
         variant="destructive"
+        size="small"
+        disabled={isPending}
         onClick={handleCancelWorkflow}
         className="h-8 rounded-lg px-3"
       >
@@ -94,7 +94,7 @@ export const WorkflowRunToggleButton = () => {
   return (
     <Button
       disabled={isPending || !isLoaded}
-      size="sm"
+      size="small"
       onClick={handleRunWorkflow}
       className="h-8 rounded-lg bg-violet-500 px-3 text-white shadow-sm hover:bg-violet-600"
     >

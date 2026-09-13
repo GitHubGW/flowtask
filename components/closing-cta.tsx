@@ -55,18 +55,15 @@ export const ClosingCta = ({ page }: ClosingCtaProps) => {
             {description}
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Button
-              asChild
-              size="lg"
-              className="h-12 rounded-full bg-sky-700 px-7 text-white hover:bg-sky-800"
-            >
+            <Button asChild variant="brand" size="large" shape="pill">
               <Link href={primaryHref}>시작하기</Link>
             </Button>
             <Button
               asChild
-              size="lg"
-              variant="outline"
-              className="h-12 rounded-full border-slate-300 bg-white/90 px-7 hover:bg-white"
+              variant="secondary"
+              size="large"
+              shape="pill"
+              className="bg-white/90 hover:bg-white"
             >
               <Link href={secondaryHref}>요금제 보기</Link>
             </Button>

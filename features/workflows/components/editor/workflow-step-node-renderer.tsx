@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import { Spinner } from "@/components/ui/spinner";
+import { Badge } from "@/components/ui/badge";
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type { WorkflowStepNode } from "@/features/workflows/types";
 import { cn } from "@/libs/utils";
@@ -38,31 +39,47 @@ const WorkflowStepNodeRendererComponent = ({
       )}
     >
       {isTrigger && (
-        <span className="absolute -top-7 left-0 flex items-center gap-1 rounded-lg bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-600">
+        <Badge
+          variant="warning"
+          size="medium"
+          className="absolute -top-7 left-0 rounded-lg"
+        >
           <Zap className="size-3" aria-hidden />
           Trigger
-        </span>
+        </Badge>
       )}
 
       {isRunning && (
-        <span className="absolute -top-7 right-0 flex items-center gap-1 rounded-lg bg-violet-50 px-2 py-0.5 text-[11px] font-medium text-violet-600">
+        <Badge
+          variant="brand"
+          size="medium"
+          className="absolute -top-7 right-0 rounded-lg"
+        >
           <Spinner className="size-3" />
-          실행중
-        </span>
+          실행 중
+        </Badge>
       )}
 
       {isDone && (
-        <span className="absolute -top-7 right-0 flex items-center gap-1 rounded-lg bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-600">
+        <Badge
+          variant="success"
+          size="medium"
+          className="absolute -top-7 right-0 rounded-lg"
+        >
           <span aria-hidden>✓</span>
           완료
-        </span>
+        </Badge>
       )}
 
       {isFailed && (
-        <span className="absolute -top-7 right-0 flex items-center gap-1 rounded-lg bg-red-50 px-2 py-0.5 text-[11px] font-medium text-red-600">
+        <Badge
+          variant="destructive"
+          size="medium"
+          className="absolute -top-7 right-0 rounded-lg"
+        >
           <span aria-hidden>×</span>
           실패
-        </span>
+        </Badge>
       )}
 
       {showsTargetHandle && (

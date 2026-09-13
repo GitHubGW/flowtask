@@ -37,19 +37,10 @@ const HomePage = () => {
                 확인할 수 있어요.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button
-                  asChild
-                  size="lg"
-                  className="h-11 rounded-full bg-slate-950 px-5 text-white hover:bg-slate-800"
-                >
+                <Button asChild size="large" shape="pill">
                   <Link href={ROUTES.WORKFLOWS.INDEX}>워크플로우 시작하기</Link>
                 </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="h-11 rounded-full px-5"
-                >
+                <Button asChild variant="secondary" size="large" shape="pill">
                   <Link href="#features">기능 살펴보기</Link>
                 </Button>
               </div>

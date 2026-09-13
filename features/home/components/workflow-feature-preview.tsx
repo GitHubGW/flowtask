@@ -1,5 +1,6 @@
 import { cn } from "@/libs/utils";
 import { Check, Play } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface WorkflowFeaturePreviewProps {
   type: "run" | "form" | "automation" | "collaboration" | "history" | "replay";
@@ -13,9 +14,9 @@ export const WorkflowFeaturePreview = ({
       <div className="mx-auto mt-8 w-[88%] rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
           워크플로우 실행
-          <span className="rounded-full bg-emerald-100 px-2 py-1 text-emerald-700">
+          <Badge variant="success" size="large">
             완료
-          </span>
+          </Badge>
         </div>
         <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
           <div className="h-full w-full rounded-full bg-emerald-500" />

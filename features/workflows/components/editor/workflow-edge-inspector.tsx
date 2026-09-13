@@ -2,6 +2,7 @@ import { Waypoints } from "lucide-react";
 import { type Edge, useReactFlow } from "@xyflow/react";
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import type { WorkflowStepNode } from "@/features/workflows/types";
 
 interface WorkflowEdgeInspectorProps {
@@ -32,17 +33,17 @@ export const WorkflowEdgeInspector = ({
           <Waypoints className="size-5" aria-hidden />
         </div>
         <div className="min-w-0 flex-1">
-          <span className="inline-flex rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
+          <Badge variant="secondary" size="small">
             Connection
-          </span>
+          </Badge>
           <h2 className="mt-1 truncate text-sm font-semibold text-slate-950">
             엣지
           </h2>
         </div>
         <Button
+          variant="secondary"
+          size="small"
           type="button"
-          size="sm"
-          variant="outline"
           onClick={handleDeleteEdge}
           className="border-slate-200 bg-white text-slate-900 shadow-xs hover:bg-slate-50 hover:text-slate-900"
         >

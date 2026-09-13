@@ -1,18 +1,46 @@
 import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/libs/utils";
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
+const textareaVariants = cva(
+  "field-sizing-content w-full rounded-lg border border-input text-foreground transition-colors outline-none placeholder:text-muted-foreground focus-visible:ring-3 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+  {
+    variants: {
+      variant: {
+        default:
+          "bg-background shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30",
+        filled:
+          "bg-muted/70 shadow-none focus-visible:border-brand focus-visible:ring-brand/15 dark:bg-muted/50",
+      },
+      size: {
+        small: "min-h-16 px-2.5 py-2 text-sm",
+        medium: "min-h-24 px-3 py-2.5 text-sm",
+        large: "min-h-32 px-3.5 py-3 text-base",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "medium",
+    },
+  }
+);
+
+function Textarea({
+  className,
+  variant = "default",
+  size = "medium",
+  ...props
+}: React.ComponentProps<"textarea"> & VariantProps<typeof textareaVariants>) {
   return (
     <textarea
       data-slot="textarea"
-      className={cn(
-        "flex field-sizing-content min-h-16 w-full rounded-lg border border-input bg-transparent px-2.5 py-2 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
-        className
-      )}
+      data-variant={variant}
+      data-size={size}
+      className={cn(textareaVariants({ variant, size, className }))}
       {...props}
     />
   );
 }
 
-export { Textarea };
+export { Textarea, textareaVariants };

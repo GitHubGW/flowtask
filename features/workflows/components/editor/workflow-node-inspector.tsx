@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { WorkflowPanelSection } from "@/features/workflows/components/editor/workflow-panel-section";
 import { WorkflowStepIcon } from "@/features/workflows/components/shared/workflow-step-icon";
@@ -50,9 +51,9 @@ export const WorkflowNodeInspector = ({
           className="size-10 rounded-xl [&_svg]:size-5"
         />
         <div className="min-w-0 flex-1">
-          <span className="inline-flex rounded-full bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
+          <Badge variant="secondary" size="small">
             {nodeKindLabel}
-          </span>
+          </Badge>
           <h2 className="mt-1 truncate text-sm font-semibold text-slate-950">
             {title}
           </h2>
@@ -60,9 +61,9 @@ export const WorkflowNodeInspector = ({
 
         {isDeletableNode && (
           <Button
+            variant="secondary"
+            size="small"
             type="button"
-            size="sm"
-            variant="outline"
             onClick={handleDeleteNode}
             className="border-slate-200 bg-white text-slate-900 shadow-xs hover:bg-slate-50 hover:text-slate-900"
           >

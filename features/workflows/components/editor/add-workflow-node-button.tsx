@@ -81,9 +81,9 @@ export const AddWorkflowNodeButton = () => {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
+          variant="secondary"
+          size="small"
           type="button"
-          size="sm"
-          variant="outline"
           className="h-8 rounded-lg border-transparent bg-slate-100 px-3 text-slate-700 shadow-none hover:bg-slate-200 hover:text-slate-900"
         >
           <Plus aria-hidden />
@@ -94,9 +94,9 @@ export const AddWorkflowNodeButton = () => {
         <PopoverHeader className="flex-row items-center justify-between">
           <PopoverTitle>Action 노드</PopoverTitle>
           <Button
-            type="button"
-            size="icon-sm"
             variant="ghost"
+            size="icon-small"
+            type="button"
             aria-label="닫기"
             onClick={handleClose}
             className="absolute top-2 right-2 text-slate-500 hover:text-slate-950"
@@ -112,9 +112,9 @@ export const AddWorkflowNodeButton = () => {
 
             return (
               <Button
+                variant="ghost"
                 key={type}
                 type="button"
-                variant="ghost"
                 disabled={isDisabled}
                 onClick={() => addNodeToCanvas(type)}
                 className="h-auto min-h-14 justify-start gap-3 rounded-lg px-2 py-2 text-left whitespace-normal text-slate-700 hover:bg-slate-100 hover:text-slate-950"

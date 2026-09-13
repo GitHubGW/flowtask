@@ -20,7 +20,7 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
 
   if (!isLoaded) {
     return (
-      <Button disabled className="h-11 w-full rounded-full">
+      <Button disabled fullWidth variant="brand" size="large" shape="pill">
         불러오는 중...
       </Button>
     );
@@ -29,7 +29,7 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
   if (!userId) {
     return (
       <SignInButton mode="modal">
-        <Button className="h-11 w-full rounded-full bg-sky-700 text-white hover:bg-sky-800">
+        <Button fullWidth variant="brand" size="large" shape="pill">
           Pro 시작하기
         </Button>
       </SignInButton>
@@ -38,10 +38,7 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
 
   if (!orgId) {
     return (
-      <Button
-        asChild
-        className="h-11 w-full rounded-full bg-sky-700 text-white hover:bg-sky-800"
-      >
+      <Button asChild fullWidth variant="brand" size="large" shape="pill">
         <Link href={ROUTES.CHOOSE_ORGANIZATION}>조직 선택하기</Link>
       </Button>
     );
@@ -49,10 +46,7 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
 
   if (has?.({ plan: BILLING_PLANS.PRO })) {
     return (
-      <Button
-        asChild
-        className="h-11 w-full rounded-full bg-sky-700 text-white hover:bg-sky-800"
-      >
+      <Button asChild fullWidth variant="brand" size="large" shape="pill">
         <Link href={ROUTES.WORKFLOWS.INDEX}>워크플로우로 이동</Link>
       </Button>
     );
@@ -60,7 +54,7 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
 
   if (!CLERK_PRO_PLAN_ID) {
     return (
-      <Button disabled className="h-11 w-full rounded-full">
+      <Button disabled fullWidth variant="brand" size="large" shape="pill">
         Pro 시작하기
       </Button>
     );
@@ -73,7 +67,7 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
       for="organization"
       newSubscriptionRedirectUrl={ROUTES.WORKFLOWS.INDEX}
     >
-      <Button className="h-11 w-full rounded-full bg-sky-700 text-white hover:bg-sky-800">
+      <Button fullWidth variant="brand" size="large" shape="pill">
         Pro 시작하기
       </Button>
     </CheckoutButton>

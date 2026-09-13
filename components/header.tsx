@@ -47,16 +47,15 @@ export const Header = () => {
           <Show when="signed-out">
             <Button
               asChild
-              variant="outline"
-              className="hidden rounded-full px-4 sm:inline-flex"
+              variant="secondary"
+              size="small"
+              shape="pill"
+              className="hidden sm:inline-flex"
             >
               <Link href={ROUTES.SIGN_IN}>로그인</Link>
             </Button>
           </Show>
-          <Button
-            asChild
-            className="rounded-full bg-slate-950 px-4 text-white hover:bg-slate-800"
-          >
+          <Button asChild size="small" shape="pill">
             <Link href={ROUTES.WORKFLOWS.INDEX}>시작하기</Link>
           </Button>
           <Show when="signed-in">

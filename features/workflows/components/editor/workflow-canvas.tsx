@@ -144,6 +144,10 @@ export const WorkflowCanvas = () => {
     [getEdges, getNodes]
   );
 
+  const handleMiniMapToggle = () => {
+    setIsMiniMapOpen((isOpen) => !isOpen);
+  };
+
   return (
     <div className="size-full min-h-0 bg-slate-50/60">
       <ReactFlow
@@ -193,10 +197,10 @@ export const WorkflowCanvas = () => {
         <Panel position="bottom-right">
           <Button
             type="button"
-            size="icon"
+            size="icon-medium"
             aria-label={isMiniMapOpen ? "미니맵 닫기" : "미니맵 열기"}
             aria-pressed={isMiniMapOpen}
-            onClick={() => setIsMiniMapOpen((isOpen) => !isOpen)}
+            onClick={handleMiniMapToggle}
             className="size-10 rounded-xl bg-violet-500 text-white shadow-sm hover:bg-violet-600"
           >
             <MapIcon className="size-4" aria-hidden />
