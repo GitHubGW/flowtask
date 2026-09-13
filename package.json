@@ -7,6 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
@@ -66,6 +68,8 @@
   },
   "devDependencies": {
     "@sentry/esbuild-plugin": "^5.4.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/nextjs-vite": "^10.6.0",
     "@tailwindcss/postcss": "^4",
     "@trigger.dev/build": "^4.5.14",
     "@types/node": "^20",
@@ -78,6 +82,7 @@
     "eslint-config-next": "16.2.6",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "storybook": "^10.6.0",
     "tailwindcss": "^4",
     "trigger.dev": "^4.5.14",
     "typescript": "^5"
