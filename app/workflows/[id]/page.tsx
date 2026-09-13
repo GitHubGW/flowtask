@@ -9,6 +9,8 @@ import { WorkflowEditorLayout } from "@/features/workflows/components/editor/wor
 import { WorkflowRunsProvider } from "@/features/workflows/components/providers/workflow-runs-provider";
 import { WORKFLOW_RUN_TAGS } from "@/features/workflows/constants/workflow-trigger";
 
+const UUID_PATTERN = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+
 interface WorkflowDetailPageProps {
   params: Promise<{ id: string }>;
 }
@@ -23,6 +25,10 @@ const WorkflowDetailPage = async ({ params }: WorkflowDetailPageProps) => {
 
   if (!orgId) {
     redirect(ROUTES.CHOOSE_ORGANIZATION);
+  }
+
+  if (!UUID_PATTERN.test(id)) {
+    notFound();
   }
 
   const workflow = await getWorkflow(id, orgId);
