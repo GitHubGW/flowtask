@@ -1,6 +1,5 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/libs/utils";
 
 const textareaVariants = cva(
@@ -26,12 +25,13 @@ const textareaVariants = cva(
   }
 );
 
-function Textarea({
+const Textarea = ({
   className,
   variant = "default",
   size = "medium",
   ...props
-}: React.ComponentProps<"textarea"> & VariantProps<typeof textareaVariants>) {
+}: React.ComponentProps<"textarea"> &
+  VariantProps<typeof textareaVariants>) => {
   return (
     <textarea
       data-slot="textarea"
@@ -41,6 +41,6 @@ function Textarea({
       {...props}
     />
   );
-}
+};
 
 export { Textarea, textareaVariants };
