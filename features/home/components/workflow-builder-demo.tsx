@@ -93,7 +93,7 @@ export const WorkflowBuilderDemo = () => {
           executionStep={3}
           icon={Bot}
           iconClassName="bg-fuchsia-500 text-white"
-          input="현재 페이지에 모든 도서 제목, 가격, 별점 찾아줘"
+          input="화면에 보이는 책 중에 가장 비싼 책 페이지 열어주세요"
           kind="action"
           label="AI 에이전트"
         />

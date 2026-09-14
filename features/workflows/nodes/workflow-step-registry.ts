@@ -42,7 +42,7 @@ export const workflowStepRegistry = {
       {
         key: "url",
         label: "URL",
-        placeholder: "https://naver.com",
+        placeholder: "https://books.toscrape.com",
         required: true,
       },
     ],
@@ -62,7 +62,7 @@ export const workflowStepRegistry = {
       {
         key: "instruction",
         label: "실행할 동작",
-        placeholder: "로그인 버튼을 찾으세요.",
+        placeholder: "책 상세 페이지로 이동하는 링크를 찾아 주세요.",
         multiline: true,
         required: true,
       },
@@ -84,7 +84,7 @@ export const workflowStepRegistry = {
       {
         key: "instruction",
         label: "실행할 동작",
-        placeholder: "상품 가격을 추출하세요.",
+        placeholder: "책의 제목과 가격을 추출해 주세요.",
         multiline: true,
         required: true,
       },
@@ -102,7 +102,7 @@ export const workflowStepRegistry = {
       {
         key: "instruction",
         label: "실행할 동작",
-        placeholder: "시작하기 버튼을 클릭하세요.",
+        placeholder: "다음 페이지 버튼을 클릭해 주세요.",
         multiline: true,
         required: true,
       },
@@ -124,19 +124,19 @@ export const workflowStepRegistry = {
       {
         key: "to",
         label: "받는 사람",
-        placeholder: "test@gmail.com",
+        placeholder: "name@example.com",
         required: true,
       },
       {
         key: "subject",
         label: "제목",
-        placeholder: "안녕하세요!",
+        placeholder: "도서 검색 결과",
         required: true,
       },
       {
         key: "html",
         label: "내용",
-        placeholder: "메시지를 작성하세요.",
+        placeholder: "검색 결과를 입력해 주세요.",
         required: true,
         multiline: true,
       },
@@ -154,7 +154,8 @@ export const workflowStepRegistry = {
       {
         key: "instruction",
         label: "실행할 동작",
-        placeholder: "회원가입 폼을 작성하고 제출하세요.",
+        placeholder:
+          "화면에 보이는 책 중 가장 비싼 책의 상세 페이지를 열어 주세요.",
         multiline: true,
         required: true,
       },

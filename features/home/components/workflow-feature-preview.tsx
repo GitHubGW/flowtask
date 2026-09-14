@@ -110,7 +110,7 @@ export const WorkflowFeaturePreview = ({
             <div className="min-w-0">
               <p className="text-xs font-medium text-slate-900">요소 찾기</p>
               <p className="mt-1 truncate text-[9px] text-slate-400">
-                로그인 버튼을 찾아줘
+                로그인 버튼을 찾아주세요
               </p>
             </div>
           </div>
@@ -130,7 +130,7 @@ export const WorkflowFeaturePreview = ({
             <div className="min-w-0">
               <p className="text-xs font-medium text-slate-900">동작 실행</p>
               <p className="mt-1 truncate text-[9px] text-slate-400">
-                찾은 버튼을 클릭해줘
+                로그인 버튼을 클릭해주세요
               </p>
             </div>
           </div>
