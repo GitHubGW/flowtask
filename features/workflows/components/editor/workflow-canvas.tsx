@@ -18,7 +18,6 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import { CircleAlert, Map as MapIcon } from "lucide-react";
-import { useTheme } from "next-themes";
 import { useCallback, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -56,12 +55,10 @@ const WORKFLOW_CANVAS_OPTIONS: ReactFlowProps<WorkflowStepNode, Edge> = {
 };
 
 export const WorkflowCanvas = () => {
-  const { resolvedTheme } = useTheme();
   const [isMiniMapOpen, setIsMiniMapOpen] = useState(false);
   const { steps } = useLatestRunSteps();
   const { error: runsError } = useWorkflowRunsContext();
   const { getNodes, getEdges } = useReactFlow<WorkflowStepNode, Edge>();
-  const colorMode = resolvedTheme === "dark" ? "dark" : "light";
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, onDelete } =
     useLiveblocksFlow({
       suspense: true,
@@ -161,7 +158,6 @@ export const WorkflowCanvas = () => {
         onDelete={onDelete}
         isValidConnection={isValidConnection}
         deleteKeyCode={["Backspace", "Delete"]}
-        colorMode={colorMode}
       >
         <Cursors />
         {runsError && (

@@ -4,14 +4,14 @@ import * as React from "react";
 import { cn } from "@/libs/utils";
 
 const inputVariants = cva(
-  "w-full min-w-0 rounded-lg border border-input text-foreground transition-colors outline-none file:inline-flex file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-3 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+  "w-full min-w-0 rounded-lg border border-input text-foreground transition-colors outline-none file:inline-flex file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-3 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20",
   {
     variants: {
       variant: {
         default:
-          "bg-background shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30",
+          "bg-background shadow-xs focus-visible:border-ring focus-visible:ring-ring/50",
         filled:
-          "bg-muted/70 shadow-none focus-visible:border-brand focus-visible:ring-brand/15 dark:bg-muted/50",
+          "bg-muted/70 shadow-none focus-visible:border-brand focus-visible:ring-brand/15",
       },
       size: {
         small: "h-8 px-2.5 py-1 text-sm file:h-6",

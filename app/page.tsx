@@ -85,7 +85,7 @@ const HomePage = () => {
                 ({ title, description, icon: Icon, type }) => (
                   <article
                     key={title}
-                    className="min-h-80 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                    className="flex min-h-80 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
                   >
                     <div className="p-6 pb-4">
                       <div className="flex items-center gap-3">
@@ -98,7 +98,7 @@ const HomePage = () => {
                         {description}
                       </p>
                     </div>
-                    <div className="min-h-48 border-t border-sky-100 bg-[linear-gradient(145deg,#e3f7ff,#f1f9dc_55%,#fff0d9)] px-5 py-4">
+                    <div className="min-h-48 flex-1 border-t border-sky-100 bg-[linear-gradient(145deg,#e3f7ff,#f1f9dc_55%,#fff0d9)] px-5 py-4">
                       <WorkflowFeaturePreview type={type} />
                     </div>
                   </article>

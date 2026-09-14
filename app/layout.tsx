@@ -6,7 +6,6 @@ import { shadcn } from "@clerk/ui/themes";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ROUTES } from "@/constants/routes";
@@ -36,7 +35,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html
       lang="ko"
-      suppressHydrationWarning
       className={cn("antialiased", pretendard.variable)}
     >
       <body>
@@ -45,10 +43,8 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           localization={koKR}
           taskUrls={{ "choose-organization": ROUTES.CHOOSE_ORGANIZATION }}
         >
-          <ThemeProvider>
-            <TooltipProvider>{children}</TooltipProvider>
-            <Toaster />
-          </ThemeProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+          <Toaster />
         </ClerkProvider>
       </body>
     </html>
