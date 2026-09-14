@@ -27,38 +27,41 @@ export const homeHighlights = [
 
 export const homeCapabilities = [
   {
-    title: "간단한 실행 시작",
-    description: "원하는 시점에 워크플로우를 실행하고 중지할 수 있어요.",
+    title: "간편한 실행과 중지",
+    description:
+      "원하는 시점에 워크플로우를 실행하고, 필요할 때 바로 중지할 수 있어요.",
     icon: CirclePlay,
     type: "run",
   },
   {
     title: "단계별 입력 설정",
-    description: "각 자동화 단계에 필요한 값을 명확하게 입력할 수 있어요.",
+    description: "각 단계에 필요한 입력값을 간편하게 설정할 수 있어요.",
     icon: MousePointerClick,
     type: "form",
   },
   {
     title: "브라우저 자동화",
-    description: "페이지 이동, 관찰, 동작, 정보 추출을 노드로 구성해요.",
+    description:
+      "URL 열기, 요소 찾기, 동작 실행, 정보 추출 등의 작업을 노드로 연결해요.",
     icon: Bot,
     type: "automation",
   },
   {
     title: "실시간 공동 편집",
-    description: "같은 조직의 구성원과 하나의 워크플로우를 함께 편집해요.",
+    description: "같은 조직의 구성원과 워크플로우를 실시간으로 함께 편집해요.",
     icon: Users,
     type: "collaboration",
   },
   {
     title: "실행 기록과 상세 정보",
-    description: "이전 실행을 시간순으로 살펴보고 단계별 결과를 확인해요.",
+    description:
+      "이전 실행 기록을 시간순으로 살펴보고 각 단계의 결과를 확인해요.",
     icon: History,
     type: "history",
   },
   {
     title: "브라우저 세션 리플레이",
-    description: "자동화가 브라우저에서 수행한 과정을 영상으로 다시 확인해요.",
+    description: "자동화가 브라우저에서 실행된 과정을 영상으로 다시 확인해요.",
     icon: Radio,
     type: "replay",
   },
