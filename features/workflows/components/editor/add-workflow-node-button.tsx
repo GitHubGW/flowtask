@@ -57,7 +57,7 @@ export const AddWorkflowNodeButton = () => {
       undefined
     );
     const newNodePosition = bottomNode
-      ? { x: bottomNode.position.x, y: bottomNode.position.y + 160 }
+      ? { x: bottomNode.position.x, y: bottomNode.position.y + 120 }
       : {
           x: (width / 2 - x) / zoom,
           y: (height / 2 - y) / zoom,
