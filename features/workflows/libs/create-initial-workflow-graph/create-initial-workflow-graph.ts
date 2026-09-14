@@ -12,8 +12,5 @@ export const createInitialWorkflowGraph = (): WorkflowGraph => {
     data: { type: "start", kind: "trigger", title: "시작", inputValues: {} },
   };
 
-  return {
-    nodes: [startNode],
-    edges: [],
-  };
+  return { nodes: [startNode], edges: [] };
 };

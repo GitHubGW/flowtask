@@ -10,7 +10,7 @@ const formatOutputValue = (value: unknown) => {
   }
 
   if (typeof value === "object") {
-    return JSON.stringify(value) ?? "";
+    return JSON.stringify(value);
   }
 
   return String(value);
