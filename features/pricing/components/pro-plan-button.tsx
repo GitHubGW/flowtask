@@ -1,6 +1,6 @@
 "use client";
 
-import { SignInButton, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { CheckoutButton } from "@clerk/nextjs/experimental";
 import Link from "next/link";
 
@@ -29,11 +29,9 @@ export const ProPlanButton = ({ planPeriod }: ProPlanButtonProps) => {
 
   if (!userId) {
     return (
-      <SignInButton mode="modal">
-        <Button fullWidth variant="brand" size="large" shape="pill">
-          Pro 시작하기
-        </Button>
-      </SignInButton>
+      <Button fullWidth variant="brand" size="large" shape="pill">
+        <Link href={ROUTES.WORKFLOWS.INDEX}>Pro 시작하기</Link>
+      </Button>
     );
   }
 
