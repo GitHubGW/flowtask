@@ -82,7 +82,7 @@ export const PricingPlans = () => {
             </p>
           </div>
 
-          <div className="mt-7">
+          <div className="mt-7 md:min-h-20">
             <Button
               asChild
               fullWidth
@@ -119,17 +119,22 @@ export const PricingPlans = () => {
           <div className="mt-6">
             <div className="flex items-end gap-1.5">
               <strong className="text-5xl font-black tracking-[-0.04em]">
-                {pro.price}
+                {isAnnual ? pro.annualMonthlyPrice : pro.monthlyPrice}
               </strong>
               <span className="pb-1 text-sm text-slate-500">/월</span>
             </div>
             <p className="mt-3 text-sm text-slate-600">
-              {isAnnual ? "월 고정 요금, 연 단위 청구" : "월 고정 요금"}
+              {isAnnual
+                ? `연 ${pro.annualPrice} 청구 · 월간 대비 20% 할인`
+                : `매월 청구`}
             </p>
           </div>
 
-          <div className="mt-7">
+          <div className="mt-7 md:min-h-20">
             <ProPlanButton planPeriod={billingPeriod} />
+            <p className="mt-3 text-center text-xs leading-5 text-slate-500">
+              결제 과정은 테스트 모드로 진행되며 실제 금액 청구되지 않아요.
+            </p>
           </div>
 
           <div className="my-7 border-t border-slate-200" />
@@ -166,7 +171,7 @@ export const PricingPlans = () => {
             </p>
           </div>
 
-          <div className="mt-7">
+          <div className="mt-7 md:min-h-20">
             <Button
               disabled
               fullWidth

@@ -55,7 +55,9 @@ export const pricingPlans = {
   pro: {
     name: "Pro",
     description: "워크플로우의 모든 기능을 사용할 수 있는 플랜",
-    price: "$1",
+    monthlyPrice: "$10",
+    annualMonthlyPrice: "$8",
+    annualPrice: "$96",
   },
   ultimate: {
     name: "Ultimate",
