@@ -1,4 +1,5 @@
 import { Workflow } from "lucide-react";
+import type { Metadata } from "next";
 
 import {
   Empty,
@@ -9,6 +10,10 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { CreateWorkflowButton } from "@/features/workflows/components/navigation/create-workflow-button";
+
+export const metadata: Metadata = {
+  title: "워크스페이스",
+};
 
 const WorkflowsPage = () => {
   return (
