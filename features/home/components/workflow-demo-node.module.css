@@ -1,0 +1,224 @@
+@keyframes stepTwoNodeStatus {
+  0%,
+  17% {
+    border-color: rgb(167 139 250);
+    box-shadow: 0 0 0 2px rgb(237 233 254);
+  }
+
+  18%,
+  94% {
+    border-color: rgb(16 185 129);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+
+  95%,
+  100% {
+    border-color: rgb(226 232 240);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+}
+
+@keyframes stepThreeNodeStatus {
+  0%,
+  27%,
+  95%,
+  100% {
+    border-color: rgb(226 232 240);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+
+  28%,
+  42% {
+    border-color: rgb(167 139 250);
+    box-shadow: 0 0 0 2px rgb(237 233 254);
+  }
+
+  43%,
+  94% {
+    border-color: rgb(16 185 129);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+}
+
+@keyframes stepFourNodeStatus {
+  0%,
+  52%,
+  95%,
+  100% {
+    border-color: rgb(226 232 240);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+
+  53%,
+  67% {
+    border-color: rgb(167 139 250);
+    box-shadow: 0 0 0 2px rgb(237 233 254);
+  }
+
+  68%,
+  94% {
+    border-color: rgb(16 185 129);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+}
+
+@keyframes stepTwoRunningBadge {
+  0%,
+  17% {
+    opacity: 1;
+  }
+
+  18%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes stepThreeRunningBadge {
+  0%,
+  27%,
+  43%,
+  100% {
+    opacity: 0;
+  }
+
+  28%,
+  42% {
+    opacity: 1;
+  }
+}
+
+@keyframes stepFourRunningBadge {
+  0%,
+  52%,
+  68%,
+  100% {
+    opacity: 0;
+  }
+
+  53%,
+  67% {
+    opacity: 1;
+  }
+}
+
+@keyframes stepTwoDoneBadge {
+  0%,
+  17%,
+  95%,
+  100% {
+    opacity: 0;
+  }
+
+  18%,
+  94% {
+    opacity: 1;
+  }
+}
+
+@keyframes stepThreeDoneBadge {
+  0%,
+  42%,
+  95%,
+  100% {
+    opacity: 0;
+  }
+
+  43%,
+  94% {
+    opacity: 1;
+  }
+}
+
+@keyframes stepFourDoneBadge {
+  0%,
+  67%,
+  95%,
+  100% {
+    opacity: 0;
+  }
+
+  68%,
+  94% {
+    opacity: 1;
+  }
+}
+
+.stepTwoNode,
+.stepThreeNode,
+.stepFourNode,
+.runningBadge,
+.doneBadge {
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.stepTwoNode {
+  animation-name: stepTwoNodeStatus;
+}
+
+.stepThreeNode {
+  animation-name: stepThreeNodeStatus;
+}
+
+.stepFourNode {
+  animation-name: stepFourNodeStatus;
+}
+
+.stepOneNode {
+  border-color: rgb(16 185 129);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+}
+
+.stepOneNode .runningBadge {
+  display: none;
+}
+
+.stepOneNode .doneBadge {
+  opacity: 1;
+}
+
+.stepTwoNode .runningBadge {
+  animation-name: stepTwoRunningBadge;
+}
+
+.stepThreeNode .runningBadge {
+  animation-name: stepThreeRunningBadge;
+}
+
+.stepFourNode .runningBadge {
+  animation-name: stepFourRunningBadge;
+}
+
+.stepTwoNode .doneBadge {
+  animation-name: stepTwoDoneBadge;
+}
+
+.stepThreeNode .doneBadge {
+  animation-name: stepThreeDoneBadge;
+}
+
+.stepFourNode .doneBadge {
+  animation-name: stepFourDoneBadge;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stepOneNode,
+  .stepTwoNode,
+  .stepThreeNode,
+  .stepFourNode {
+    border-color: rgb(16 185 129);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+    animation: none;
+  }
+
+  .runningBadge {
+    display: none;
+  }
+
+  .doneBadge {
+    opacity: 1;
+    animation: none;
+  }
+}
