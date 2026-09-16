@@ -7,7 +7,7 @@ interface SendEmailParams {
   html: string;
 }
 
-const FROM_EMAIL = "onboarding@resend.dev";
+const FROM_EMAIL = "Flowtask <noreply@mail.flowtask.kr>";
 
 export const sendEmail = async ({ to, subject, html }: SendEmailParams) => {
   const { data, error } = await resend.emails.send({
