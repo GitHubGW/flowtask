@@ -25,7 +25,7 @@ export const WorkflowFeaturePreview = ({
     return (
       <div
         aria-hidden
-        className="mx-auto w-[94%] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+        className="mx-auto w-[85%] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
       >
         <div className="flex h-11 items-center justify-between border-b border-slate-200 px-3">
           <span className="flex h-7 items-center gap-1 rounded-lg bg-slate-100 px-2.5 text-[10px] font-medium text-slate-700">
@@ -39,7 +39,7 @@ export const WorkflowFeaturePreview = ({
         </div>
 
         <div className="relative h-29 bg-slate-50/60 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[12px_12px]">
-          <div className="absolute top-9 left-1/2 w-[82%] -translate-x-1/2 rounded-lg border border-slate-200 bg-white px-3 py-2 shadow-sm">
+          <div className="absolute top-9 left-1/2 w-[60%] -translate-x-1/2 rounded-lg border border-slate-200 bg-white px-3 py-2 shadow-sm">
             <Badge
               variant="warning"
               size="small"
@@ -63,7 +63,7 @@ export const WorkflowFeaturePreview = ({
 
   if (type === "form") {
     return (
-      <div className="mx-auto w-[94%] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="mx-auto w-[85%] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="flex items-center gap-3 px-4 py-3">
           <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-500 text-white">
             <Globe className="size-5" aria-hidden />
@@ -97,9 +97,9 @@ export const WorkflowFeaturePreview = ({
     return (
       <div
         aria-hidden
-        className="relative mx-auto h-42 w-[94%] bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[12px_12px]"
+        className="relative mx-auto h-42 w-[85%] bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[12px_12px]"
       >
-        <div className="absolute inset-x-[8%] top-4 h-14 rounded-xl border border-cyan-400 bg-white px-3 shadow-sm">
+        <div className="absolute top-4 left-1/2 h-14 w-[60%] -translate-x-1/2 rounded-xl border border-cyan-400 bg-white px-3 shadow-sm">
           <span className="absolute -top-4 right-0 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[7px] font-medium text-emerald-600">
             ✓ 완료
           </span>
@@ -119,7 +119,7 @@ export const WorkflowFeaturePreview = ({
 
         <span className="absolute top-18 left-1/2 h-6 -translate-x-1/2 border-l border-violet-300 after:absolute after:bottom-0 after:-left-1 after:border-x-4 after:border-t-4 after:border-x-transparent after:border-t-violet-300" />
 
-        <div className="absolute inset-x-[8%] top-25 h-14 rounded-xl border border-violet-400 bg-white px-3 shadow-sm">
+        <div className="absolute top-25 left-1/2 h-14 w-[60%] -translate-x-1/2 rounded-xl border border-violet-400 bg-white px-3 shadow-sm">
           <span className="absolute -top-4 right-0 rounded-md bg-violet-50 px-1.5 py-0.5 text-[7px] font-medium text-violet-600">
             ◌ 실행 중
           </span>
@@ -222,7 +222,7 @@ export const WorkflowFeaturePreview = ({
     ] as const;
 
     return (
-      <div className="mx-auto w-[94%] space-y-1 rounded-xl border border-slate-200 bg-white p-2 shadow-sm">
+      <div className="mx-auto w-[85%] space-y-1 rounded-xl border border-slate-200 bg-white p-2 shadow-sm">
         {history.map(
           ({ label, icon: Icon, iconClassName, duration, completed }) => (
             <div
@@ -259,7 +259,7 @@ export const WorkflowFeaturePreview = ({
 
   if (type === "replay") {
     return (
-      <div className="relative mx-auto aspect-video w-[88%] overflow-hidden rounded-xl bg-slate-100 shadow-lg">
+      <div className="relative mx-auto aspect-video w-[90%] overflow-hidden rounded-xl bg-slate-100 shadow-lg">
         <div className="absolute inset-0" aria-hidden>
           <div className="flex h-5 items-center gap-1.5 border-b border-slate-200 bg-white px-2">
             <span className="size-1.5 rounded-full bg-rose-300" />
