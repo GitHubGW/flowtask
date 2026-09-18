@@ -9,6 +9,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CreateWorkflowButton } from "@/features/workflows/components/navigation/create-workflow-button";
 
 export const metadata: Metadata = {
@@ -18,11 +19,12 @@ export const metadata: Metadata = {
 const WorkflowsPage = () => {
   return (
     <section className="flex min-h-svh flex-col bg-slate-50/70">
-      <header className="flex h-16 shrink-0 items-center border-b border-slate-200 bg-white px-6">
+      <header className="flex h-16 shrink-0 items-center gap-2 border-b border-slate-200 bg-white px-4 md:px-6">
+        <SidebarTrigger className="md:hidden" />
         <h1 className="text-sm font-medium text-slate-950">워크스페이스</h1>
       </header>
-      <div className="flex flex-1 items-center justify-center p-6">
-        <Empty className="max-w-md rounded-2xl border border-slate-200 bg-white px-8 py-12 shadow-sm">
+      <div className="flex flex-1 items-center justify-center p-4 md:p-6">
+        <Empty className="w-full max-w-md rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm md:px-8 md:py-12">
           <EmptyHeader>
             <EmptyMedia
               variant="icon"

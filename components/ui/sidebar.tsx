@@ -76,8 +76,12 @@ const SidebarProvider = ({
   );
 
   const toggleSidebar = React.useCallback(() => {
+    if (isMobile) {
+      return setOpenMobile((open) => !open);
+    }
+
     return setOpen((open) => !open);
-  }, [setOpen]);
+  }, [isMobile, setOpen]);
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

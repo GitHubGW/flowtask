@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import {
-  Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
@@ -13,6 +12,7 @@ import {
 import { ROUTES } from "@/constants/routes";
 import { SITE } from "@/constants/site";
 import { WorkflowSidebarSection } from "@/features/workflows/components/navigation/workflow-sidebar-section";
+import { WorkflowSidebarShell } from "@/features/workflows/components/navigation/workflow-sidebar-shell";
 import { getWorkflows } from "@/features/workflows/queries";
 
 export const WorkflowSidebar = async () => {
@@ -20,7 +20,7 @@ export const WorkflowSidebar = async () => {
   const workflows = orgId ? await getWorkflows(orgId) : [];
 
   return (
-    <Sidebar
+    <WorkflowSidebarShell
       collapsible="icon"
       className="border-r border-slate-200 bg-slate-50"
     >
@@ -78,6 +78,6 @@ export const WorkflowSidebar = async () => {
           }}
         />
       </SidebarFooter>
-    </Sidebar>
+    </WorkflowSidebarShell>
   );
 };

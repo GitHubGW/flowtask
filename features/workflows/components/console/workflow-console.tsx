@@ -12,6 +12,7 @@ import { WorkflowConsoleRunList } from "@/features/workflows/components/console/
 import { WorkflowConsoleStepDetail } from "@/features/workflows/components/console/workflow-console-step-detail";
 import { useWorkflowConsoleRuns } from "@/features/workflows/hooks/use-workflow-console-runs";
 import type { WorkflowConsoleSelection } from "@/features/workflows/types";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const isSameConsoleSelection = (
   currentSelection: WorkflowConsoleSelection | null,
@@ -32,6 +33,7 @@ const isSameConsoleSelection = (
 };
 
 export const WorkflowConsole = () => {
+  const isMobile = useIsMobile();
   const [selection, setSelection] = useState<WorkflowConsoleSelection | null>(
     null
   );
@@ -52,7 +54,10 @@ export const WorkflowConsole = () => {
   };
 
   return (
-    <ResizablePanelGroup orientation="horizontal" className="size-full">
+    <ResizablePanelGroup
+      orientation={isMobile ? "vertical" : "horizontal"}
+      className="size-full"
+    >
       <ResizablePanel minSize="12rem" className="min-h-0">
         <WorkflowConsoleRunList selection={selection} onSelect={handleSelect} />
       </ResizablePanel>

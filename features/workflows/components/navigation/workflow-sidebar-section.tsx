@@ -50,7 +50,7 @@ export const WorkflowSidebarSection = ({
   workflows,
 }: WorkflowSidebarSectionProps) => {
   const pathname = usePathname();
-  const { state } = useSidebar();
+  const { state, isMobile, setOpenMobile } = useSidebar();
   const [workflowToDeleteId, setWorkflowToDeleteId] = useState<string | null>(
     null
   );
@@ -65,11 +65,18 @@ export const WorkflowSidebarSection = ({
     return pathname === ROUTES.WORKFLOWS.DETAIL(workflowId);
   };
 
+  const handleWorkflowSelect = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   const handleCreateWorkflow = () => {
     startCreating(async () => {
       try {
         const { workflowId } = await createWorkflowAction();
         toast.success(WORKFLOW_MESSAGES.CREATE_SUCCESS);
+        setOpenMobile(false);
         router.push(ROUTES.WORKFLOWS.DETAIL(workflowId));
       } catch {
         toast.error(WORKFLOW_MESSAGES.CREATE_ERROR);
@@ -136,6 +143,7 @@ export const WorkflowSidebarSection = ({
                       <li key={workflow.id}>
                         <Link
                           href={ROUTES.WORKFLOWS.DETAIL(workflow.id)}
+                          onClick={handleWorkflowSelect}
                           className={cn(
                             "flex w-full items-center truncate rounded-md px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
                             isWorkflowActive(workflow.id) &&
@@ -188,6 +196,7 @@ export const WorkflowSidebarSection = ({
                 >
                   <Link
                     href={ROUTES.WORKFLOWS.DETAIL(workflow.id)}
+                    onClick={handleWorkflowSelect}
                     aria-current={isActive ? "page" : undefined}
                   >
                     <Workflow className="size-4 text-slate-400" aria-hidden />

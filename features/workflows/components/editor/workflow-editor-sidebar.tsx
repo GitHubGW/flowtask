@@ -13,7 +13,13 @@ import { useUpstreamOutputOptions } from "@/features/workflows/hooks/use-upstrea
 import { workflowStepRegistry } from "@/features/workflows/nodes/workflow-step-registry";
 import type { WorkflowStepNode } from "@/features/workflows/types";
 
-export const WorkflowEditorSidebar = () => {
+interface WorkflowEditorSidebarProps {
+  showToolbar?: boolean;
+}
+
+export const WorkflowEditorSidebar = ({
+  showToolbar = true,
+}: WorkflowEditorSidebarProps) => {
   const [lastFocusedInput, setLastFocusedInput] = useState<
     Record<string, string>
   >({});
@@ -64,11 +70,13 @@ export const WorkflowEditorSidebar = () => {
   };
 
   return (
-    <aside className="flex size-full min-h-0 flex-col border-l border-slate-200 bg-white">
-      <div className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 px-3">
-        <AddWorkflowNodeButton />
-        <WorkflowRunToggleButton />
-      </div>
+    <aside className="flex size-full min-h-0 flex-col bg-white md:border-l md:border-slate-200">
+      {showToolbar && (
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 px-3">
+          <AddWorkflowNodeButton />
+          <WorkflowRunToggleButton />
+        </div>
+      )}
       <div className="flex min-h-0 flex-1 flex-col">
         {selectedEdge ? (
           <WorkflowEdgeInspector
