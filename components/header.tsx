@@ -9,7 +9,7 @@ import { SITE } from "@/constants/site";
 export const Header = () => {
   return (
     <header className="border-b border-slate-200/80 bg-white/90 backdrop-blur">
-      <div className="relative mx-auto flex h-16 max-w-6xl items-center">
+      <div className="relative mx-auto flex h-16 max-w-6xl items-center px-5 sm:px-0">
         <Link
           href={ROUTES.HOME}
           className="flex items-center gap-2 text-xl font-bold"
@@ -51,7 +51,6 @@ export const Header = () => {
               variant="secondary"
               size="small"
               shape="pill"
-              className="hidden sm:inline-flex"
             >
               <Link href={ROUTES.SIGN_IN}>로그인</Link>
             </Button>
