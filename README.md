@@ -2,9 +2,6 @@
   <img src="./public/images/logo.svg" width="80" alt="Flowtask 로고" />
   <h2>Flowtask</h2>
   <p>노드 기반 브라우저 자동화 워크플로우 서비스</p>
-  <p>
-    <a href="https://flowtask.kr"><strong>사이트 →</strong></a>
-  </p>
 </div>
 
 ## 프로젝트 소개
